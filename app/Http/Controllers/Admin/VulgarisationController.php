@@ -24,7 +24,7 @@ class VulgarisationController extends Controller
         $request->validate([
             'titre'         => 'required|string|max:255',
             'resume'        => 'nullable|string',
-            'niveau_public' => 'required|in:grand_public,lyceen,collegien',
+            'niveau_public' => 'required|in:grand_public,chercheurs',
             'pdf'           => 'required|mimes:pdf|max:20480',
         ]);
 
