@@ -1,4 +1,4 @@
-// app/Http/Controllers/Admin/VulgarisationController.php
+
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
