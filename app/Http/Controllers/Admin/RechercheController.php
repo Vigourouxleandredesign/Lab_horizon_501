@@ -1,4 +1,4 @@
-
+<?php
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
@@ -83,3 +83,4 @@ class RechercheController extends Controller
                          ->with('success', 'Recherche supprimée.');
     }
 }
+
