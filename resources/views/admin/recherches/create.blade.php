@@ -1,4 +1,4 @@
-@extends('layouts.admin')
+@extends('admin.layouts.app')
 @section('content')
 <div class="container" style="max-width:700px">
     <h1>Ajouter une recherche</h1>
