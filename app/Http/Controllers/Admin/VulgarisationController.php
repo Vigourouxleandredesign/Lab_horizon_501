@@ -14,6 +14,11 @@ class VulgarisationController extends Controller
         return view('admin.vulgarisations.create', compact('recherche'));
     }
 
+    public function show(Recherche $recherche, Vulgarisation $vulgarisation)
+    {
+        return view('admin.vulgarisations.show', compact('vulgarisation'));
+    }
+
     public function store(Request $request, Recherche $recherche)
     {
         $request->validate([
