@@ -10,22 +10,21 @@ class HalImportService
     const BASE_URL = 'https://api.archives-ouvertes.fr/search/';
 
     const DOMAINES = [
-        'Tous (M-1)'              => null,
-        'Humanities and Social Sciences' => 'Humanities and Social Sciences',
-        'Life Sciences'           => 'Life Sciences',
-        'Engineering Sciences'    => 'Engineering Sciences',
-        'Physics'                 => 'Physics',
-        'Mathematics'             => 'Mathematics',
-        'Computer Science'        => 'Computer Science',
-        'Earth Sciences'          => 'Earth Sciences',
-        'Environmental Sciences'  => 'Environmental Sciences',
-        'Chemical Sciences'       => 'Chemical Sciences',
-        'Cognitive Sciences'      => 'Cognitive Sciences',
-        'Medical Sciences'        => 'Medical Sciences',
-        'Agricultural Sciences'   => 'Agricultural Sciences',
-        'Astrophysics'            => 'Astrophysics',
-        'Ecology'                 => 'Ecology',
-        'Neurons and Cognition'   => 'Neurons and Cognition',
+        'Tous (M-1)'                        => null,
+        'Sciences Humaines et Sociales'     => '0.shs',
+        'Sciences du Vivant'                => '0.sdv',
+        'Sciences de l\'Ingénieur'          => '0.spi',
+        'Physique'                          => '0.phys',
+        'Mathématiques'                     => '0.math',
+        'Informatique'                      => '0.info',
+        'Sciences de la Terre'              => '0.sde',
+        'Chimie'                            => '0.chim',
+        'Sciences Cognitives'               => '0.scco',
+        'Neurosciences'                     => '1.scco.neur',
+        'Sciences Médicales'                => '1.sdv.mhep',
+        'Sciences Agricoles'                => '1.sdv.sa',
+        'Astrophysique'                     => '1.phys.astr',
+        'Écologie'                          => '1.sdv.ee',
     ];
 
     public function fetchByDomaine(?string $domaine = null, int $rows = 500): array
@@ -44,7 +43,7 @@ class HalImportService
             $params['fq']   = 'submittedDate_tdate:[NOW-1MONTH TO NOW]';
             $params['rows'] = 1000;
         } else {
-            $params['fq'] = 'domain_s:"' . $domaine . '"';
+            $params['fq'] = 'domain_s:"' . $domaine . '"';  // guillemets obligatoires
         }
 
         $response = Http::timeout(30)->get(self::BASE_URL, $params);
@@ -83,7 +82,7 @@ class HalImportService
                 'structure'      => implode(', ', (array)($doc['structName_s'] ?? [])),
                 'domaine'        => implode(', ', (array)($doc['domain_s'] ?? [])),
                 'date_production'=> isset($doc['submittedDate_tdate'])
-                                    ? substr($doc['submittedDate_tdate'], 0, 10)
+                                    ? substr($doc['submittedDate_tdatex'], 0, 10)
                                     : null,
                 'source'         => 'hal',
                 'hal_id'         => $halId,
