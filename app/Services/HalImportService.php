@@ -30,28 +30,30 @@ class HalImportService
 
     public function fetchByDomaine(?string $domaine = null, int $rows = 500): array
     {
+        // Paramètres communs
+        $params = [
+            'q'    => '*:*',
+            'rows' => $rows,
+            'sort' => 'submittedDate_tdate desc',
+            'fl'   => 'halId_s,title_s,authFullName_s,structName_s,domain_s,submittedDate_tdate,abstract_s',
+            'wt'   => 'json',
+        ];
+
+        // Filtre global M-1
         if ($domaine === null) {
-            $query = 'producedDate_tdate:[* TO NOW-1MONTH]';
-            $rows  = 1000;
+            $params['fq']   = 'submittedDate_tdate:[NOW-1MONTH TO NOW]';
+            $params['rows'] = 1000;
         } else {
-            $query = 'domain_s:"' . $domaine . '"';
+            $params['fq'] = 'domain_s:"' . $domaine . '"';
         }
 
-        $response = Http::timeout(30)->get(self::BASE_URL, [
-            'q'    => $query,
-            'rows' => $rows,
-            'sort' => 'producedDate_tdate desc',
-            'fl'   => 'title_s,authFullName_s,structName_s,domain_s,producedDate_tdate,abstract_s',
-            'wt'   => 'json',
-        ]);
+        $response = Http::timeout(30)->get(self::BASE_URL, $params);
 
         if ($response->failed()) {
             return ['error' => 'Erreur lors de la connexion à l\'API HAL.'];
         }
 
-        $docs = $response->json('response.docs') ?? [];
-
-        return $docs;
+        return $response->json('response.docs') ?? [];
     }
 
     public function importDocs(array $docs): array
@@ -80,8 +82,8 @@ class HalImportService
                 'auteur'         => implode(', ', (array)($doc['authFullName_s'] ?? [])),
                 'structure'      => implode(', ', (array)($doc['structName_s'] ?? [])),
                 'domaine'        => implode(', ', (array)($doc['domain_s'] ?? [])),
-                'date_production'=> isset($doc['producedDate_tdate'])
-                                    ? substr($doc['producedDate_tdate'], 0, 10)
+                'date_production'=> isset($doc['submittedDate_tdate'])
+                                    ? substr($doc['submittedDate_tdate'], 0, 10)
                                     : null,
                 'source'         => 'hal',
                 'hal_id'         => $halId,
