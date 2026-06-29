@@ -12,9 +12,14 @@ return new class extends Migration
             $table->id();
             $table->string('titre');
             $table->text('description')->nullable();
+            $table->text('abstract')->nullable();        // ← résumé HAL
             $table->string('auteur')->nullable();
-            $table->string('pdf_path');
+            $table->string('structure')->nullable();     // ← structName_s
+            $table->string('pdf_path')->nullable();      // ← nullable car HAL n'a pas de PDF
             $table->string('domaine')->nullable();
+            $table->date('date_production')->nullable(); // ← producedDate_tdate
+            $table->string('source')->default('manuel'); // ← 'manuel' ou 'hal'
+            $table->string('hal_id')->nullable()->unique(); // ← évite les doublons
             $table->timestamps();
         });
     }

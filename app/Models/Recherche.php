@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Recherche extends Model
 {
-    protected $fillable = ['titre', 'description', 'auteur', 'pdf_path', 'domaine'];
+    protected $fillable = ['titre', 'description', 'abstract', 'auteur', 'structure', 'pdf_path', 'domaine', 'date_production', 'source', 'hal_id'];
 
     public function vulgarisations()
     {
