@@ -24,11 +24,8 @@
                 <option value="grand_public" {{ old('niveau_public') == 'grand_public' ? 'selected' : '' }}>
                     Grand public
                 </option>
-                <option value="lyceen" {{ old('niveau_public') == 'lyceen' ? 'selected' : '' }}>
-                    Lycéen
-                </option>
-                <option value="collegien" {{ old('niveau_public') == 'collegien' ? 'selected' : '' }}>
-                    Collégien
+                <option value="lyceen" {{ old('niveau_public') == 'chercheurs' ? 'selected' : '' }}>
+                    Chercheurs
                 </option>
             </select>
             @error('niveau_public')<div class="invalid-feedback">{{ $message }}</div>@enderror
