@@ -378,4 +378,22 @@ public function importDocs(array $docs, bool $downloadPdf = true): array
 
     return ['imported' => $imported, 'skipped' => $skipped, 'failed' => $failed];
     }
+
+    public function fetchByOrcid(string $orcid, int $rows = 100): array
+    {
+        $response = Http::timeout(30)->get(self::BASE_URL, [
+            'q'    => '*:*',
+            'fq'   => 'authOrcidIdExt_s:"' . $orcid . '"',
+            'rows' => $rows,
+            'sort' => 'submittedDate_tdate desc',
+            'fl'   => 'halId_s,title_s,authFullName_s,structName_s,domain_s,submittedDate_tdate,abstract_s,fileMain_s,uri_s',
+            'wt'   => 'json',
+        ]);
+
+        if ($response->failed()) {
+            return ['error' => 'Erreur lors de la connexion à l\'API HAL.'];
+        }
+
+        return $response->json('response.docs') ?? [];
+    }
 }
