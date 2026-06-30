@@ -65,7 +65,7 @@
                             <small>{{ implode(', ', (array)($doc['authFullName_s'] ?? [])) ?: '—' }}</small>
                         </td>
                         <td>
-                            <small>{{ implode(', ', (array)($doc['domain_s'] ?? [])) ?: '—' }}</small>
+                            <small>{{ \App\Services\HalImportService::traduireDomaines((array)($doc['domain_s'] ?? [])) ?: '—' }}</small>
                         </td>
                         <td>
                             <small>{{ isset($doc['producedDate_tdate']) ? substr($doc['producedDate_tdate'], 0, 10) : '—' }}</small>
