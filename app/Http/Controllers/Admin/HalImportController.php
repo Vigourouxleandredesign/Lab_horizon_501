@@ -35,12 +35,11 @@ class HalImportController extends Controller
 
     public function import(Request $request)
     {
-        $request->validate([
-            'domaine' => 'nullable|string',
-        ]);
+        $request->validate(['domaine' => 'nullable|string']);
 
         $domaine = $request->domaine ?: null;
-        $docs    = $this->hal->fetchByDomaine($domaine);
+        $rows    = (int) $request->input('rows', 500);
+        $docs    = $this->hal->fetchByDomaine($domaine, $rows);
 
         if (isset($docs['error'])) {
             return back()->with('error', $docs['error']);
@@ -50,6 +49,6 @@ class HalImportController extends Controller
 
         return redirect()->route('admin.recherches.index')
                          ->with('success',
-                             "{$result['imported']} recherche(s) importée(s), {$result['skipped']} doublon(s) ignoré(s).");
+                             "{$result['imported']} importée(s), {$result['skipped']} doublon(s), {$result['failed']} PDF non disponible(s).");
     }
 }
