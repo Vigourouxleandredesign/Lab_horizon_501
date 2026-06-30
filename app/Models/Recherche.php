@@ -21,4 +21,9 @@ class Recherche extends Model
         }
         return asset('storage/' . $this->pdf_path);
     }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
