@@ -33,6 +33,7 @@ class RechercheController extends Controller
         $path = $request->file('pdf')->store('recherches', 'public');
 
         Recherche::create([
+            'user_id' => auth()->id(),
             'titre'       => $request->titre,
             'description' => $request->description,
             'auteur'      => $request->auteur,
