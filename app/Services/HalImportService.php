@@ -311,7 +311,7 @@ public static function traduireDomaines(array $codes): string
         ->implode(', ');
 }
 
-public function importDocs(array $docs, bool $downloadPdf = true): array
+public function importDocs(array $docs, bool $downloadPdf = true, ?int $userId = null): array
 {
     $imported = 0;
     $skipped  = 0;
@@ -324,7 +324,13 @@ public function importDocs(array $docs, bool $downloadPdf = true): array
 
         $halId = $doc['halId_s'] ?? md5($titre . ($doc['submittedDate_tdate'] ?? ''));
 
-        if (Recherche::where('hal_id', $halId)->exists()) {
+        // Vérifie doublon pour cet utilisateur spécifiquement
+        $query = Recherche::where('hal_id', $halId);
+        if ($userId) {
+            $query->where('user_id', $userId);
+        }
+
+        if ($query->exists()) {
             $skipped++;
             continue;
         }
@@ -340,17 +346,15 @@ public function importDocs(array $docs, bool $downloadPdf = true): array
                         $filename = 'recherches/hal_' . $halId . '.pdf';
                         file_put_contents(public_path('files/' . $filename), $response->body());
                         $pdfPath = $filename;
-                    } else {
-                        \Log::warning('PDF HAL non téléchargeable : ' . $pdfUrl . ' status: ' . $response->status());
                     }
                 } catch (\Exception $e) {
-                    \Log::error('PDF HAL erreur : ' . $e->getMessage());
                     $failed++;
                 }
             }
         }
 
         Recherche::create([
+            'user_id'         => $userId,
             'titre'           => $titre,
             'abstract'        => is_array($doc['abstract_s'] ?? null)
                                  ? $doc['abstract_s'][0]
@@ -377,7 +381,7 @@ public function importDocs(array $docs, bool $downloadPdf = true): array
     }
 
     return ['imported' => $imported, 'skipped' => $skipped, 'failed' => $failed];
-    }
+}
 
     public function fetchByOrcid(string $orcid, int $rows = 100): array
     {
