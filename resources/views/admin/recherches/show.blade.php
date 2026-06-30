@@ -4,9 +4,19 @@
     <h1>{{ $recherche->titre }}</h1>
     <p><strong>Auteur :</strong> {{ $recherche->auteur ?? '—' }} | <strong>Domaine :</strong> {{ $recherche->domaine ?? '—' }}</p>
     <p>{{ $recherche->description }}</p>
-    <a href="{{ $recherche->pdf_url }}" target="_blank" class="btn btn-outline-primary mb-4">
-        📄 Voir le PDF de la recherche
-    </a>
+
+    {{-- Bouton PDF de la recherche --}}
+    @if($recherche->pdf_path)
+        <a href="{{ $recherche->pdf_url }}" target="_blank" class="btn btn-outline-primary mb-4">
+            📄 Voir le PDF de la recherche
+        </a>
+    @elseif($recherche->hal_url)
+        <a href="{{ $recherche->hal_url }}" target="_blank" class="btn btn-outline-secondary mb-4">
+            🔗 Voir sur HAL
+        </a>
+    @else
+        <span class="badge bg-warning text-dark mb-4 d-inline-block">PDF non disponible</span>
+    @endif
 
     <hr>
     <div class="d-flex justify-content-between align-items-center mb-3">
@@ -25,26 +35,15 @@
                 <p class="mt-2 mb-0">{{ $v->resume }}</p>
             </div>
             <div class="d-flex gap-2">
-                <a href="{{ $v->pdf_url }}" target="_blank" class="btn btn-sm btn-outline-info">📄 PDF</a>
+                {{-- Bouton PDF de la vulgarisation --}}
+                @if($v->pdf_path)
+                    <a href="{{ $v->pdf_url }}" target="_blank" class="btn btn-sm btn-outline-info">📄 PDF</a>
+                @endif
                 <form action="{{ route('admin.vulgarisations.destroy', [$recherche, $v]) }}" method="POST">
                     @csrf @method('DELETE')
                     <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')">✕</button>
                 </form>
             </div>
-
-            @if($recherche->hal_url)
-                <a href="{{ $recherche->hal_url }}" target="_blank" class="btn btn-outline-secondary mb-4">
-                    🔗 Voir sur HAL
-                </a>
-            @endif
-
-            @if($recherche->pdf_path)
-                <a href="{{ $recherche->pdf_url }}" target="_blank" class="btn btn-outline-primary mb-4">
-                    📄 Voir le PDF
-                </a>
-            @else
-                <span class="badge bg-warning text-dark">PDF non disponible</span>
-            @endif
         </div>
     </div>
     @empty

@@ -338,10 +338,13 @@ public function importDocs(array $docs, bool $downloadPdf = true): array
                     $response = Http::timeout(30)->get($pdfUrl);
                     if ($response->ok()) {
                         $filename = 'recherches/hal_' . $halId . '.pdf';
-                        Storage::disk('public')->put($filename, $response->body());
+                        file_put_contents(public_path('files/' . $filename), $response->body());
                         $pdfPath = $filename;
+                    } else {
+                        \Log::warning('PDF HAL non téléchargeable : ' . $pdfUrl . ' status: ' . $response->status());
                     }
                 } catch (\Exception $e) {
+                    \Log::error('PDF HAL erreur : ' . $e->getMessage());
                     $failed++;
                 }
             }
