@@ -11,6 +11,15 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::resource('recherches', RechercheController::class)
          ->parameters(['recherches' => 'recherche']);
 
+    // Profil
+    Route::get('/profile',  [ProfileController::class, 'edit'])->name('profile.edit')->middleware('auth');
+    Route::post('/profile', [ProfileController::class, 'update'])->name('profile.update')->middleware('auth');
+
+    // Import ORCID
+    Route::post('admin/hal/import-orcid', [HalImportController::class, 'importOrcid'])
+         ->name('admin.hal.import.orcid')
+         ->middleware('auth');
+
     // Import HAL
     Route::get('hal/import',         [HalImportController::class, 'index'])->name('hal.import');
     Route::post('hal/preview',       [HalImportController::class, 'preview'])->name('hal.preview');
