@@ -22,6 +22,8 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'orcid',
+        'orcid_verified'
     ];
 
     /**
@@ -45,5 +47,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function recherches()
+    {
+        return $this->hasMany(Recherche::class);
     }
 }
