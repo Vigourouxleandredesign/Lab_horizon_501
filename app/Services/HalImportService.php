@@ -340,7 +340,7 @@ public static function traduireDomaines(array $codes): string
                 'structure'      => implode(', ', (array)($doc['structName_s'] ?? [])),
                 'domaine'        => implode(', ', (array)($doc['domain_s'] ?? [])),
                 'date_production'=> isset($doc['submittedDate_tdate'])
-                                    ? substr($doc['submittedDate_tdatex'], 0, 10)
+                                    ? substr($doc['submittedDate_tdate'], 0, 10)
                                     : null,
                 'source'         => 'hal',
                 'hal_id'         => $halId,
