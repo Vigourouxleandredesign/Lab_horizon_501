@@ -40,6 +40,7 @@ class HalImportController extends Controller
         $domaine = $request->domaine ?: null;
         $rows    = (int) $request->input('rows', 500);
         $docs    = $this->hal->fetchByDomaine($domaine, $rows);
+        $result = $this->hal->importDocs($docs, true); // ← PDF activé pour import en masse
 
         if (isset($docs['error'])) {
             return back()->with('error', $docs['error']);
@@ -57,15 +58,18 @@ class HalImportController extends Controller
         $doc = $request->input('doc');
 
         if (!$doc) {
-            return back()->with('error', 'Données manquantes.');
+            return redirect()->route('admin.hal.import')
+                             ->with('error', 'Données manquantes.');
         }
 
-        $result = $this->hal->importDocs([$doc]);
+        $result = $this->hal->importDocs([$doc], false);
 
         if ($result['skipped'] > 0) {
-            return back()->with('warning', 'Cette recherche est déjà importée.');
+            return redirect()->route('admin.hal.import')
+                             ->with('warning', 'Cette recherche est déjà importée.');
         }
 
-        return back()->with('success', 'Recherche importée avec succès.');
+        return redirect()->route('admin.hal.import')
+                         ->with('success', 'Recherche importée avec succès.');
     }
 }

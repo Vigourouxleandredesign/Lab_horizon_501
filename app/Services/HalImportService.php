@@ -311,7 +311,7 @@ public static function traduireDomaines(array $codes): string
         ->implode(', ');
 }
 
-public function importDocs(array $docs): array
+public function importDocs(array $docs, bool $downloadPdf = true): array
 {
     $imported = 0;
     $skipped  = 0;
@@ -329,20 +329,21 @@ public function importDocs(array $docs): array
             continue;
         }
 
-        // Téléchargement PDF
         $pdfPath = null;
-        $pdfUrl  = $doc['fileMain_s'] ?? null;
 
-        if ($pdfUrl) {
-            try {
-                $response = Http::timeout(60)->get($pdfUrl);
-                if ($response->ok()) {
-                    $filename = 'recherches/hal_' . $halId . '.pdf';
-                    Storage::disk('public')->put($filename, $response->body());
-                    $pdfPath = $filename;
+        if ($downloadPdf) {
+            $pdfUrl = $doc['fileMain_s'] ?? null;
+            if ($pdfUrl) {
+                try {
+                    $response = Http::timeout(30)->get($pdfUrl);
+                    if ($response->ok()) {
+                        $filename = 'recherches/hal_' . $halId . '.pdf';
+                        Storage::disk('public')->put($filename, $response->body());
+                        $pdfPath = $filename;
+                    }
+                } catch (\Exception $e) {
+                    $failed++;
                 }
-            } catch (\Exception $e) {
-                $failed++;
             }
         }
 
