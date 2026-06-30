@@ -31,6 +31,20 @@
                     <button class="btn btn-sm btn-outline-danger" onclick="return confirm('Supprimer ?')">✕</button>
                 </form>
             </div>
+
+            @if($recherche->hal_url)
+                <a href="{{ $recherche->hal_url }}" target="_blank" class="btn btn-outline-secondary mb-4">
+                    🔗 Voir sur HAL
+                </a>
+            @endif
+
+            @if($recherche->pdf_path)
+                <a href="{{ $recherche->pdf_url }}" target="_blank" class="btn btn-outline-primary mb-4">
+                    📄 Voir le PDF
+                </a>
+            @else
+                <span class="badge bg-warning text-dark">PDF non disponible</span>
+            @endif
         </div>
     </div>
     @empty
