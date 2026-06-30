@@ -34,42 +34,62 @@ class HalImportController extends Controller
     }
 
     public function import(Request $request)
-    {
-        $request->validate(['domaine' => 'nullable|string']);
+{
+    $request->validate(['domaine' => 'nullable|string']);
 
-        $domaine = $request->domaine ?: null;
-        $rows    = (int) $request->input('rows', 500);
-        $docs    = $this->hal->fetchByDomaine($domaine, $rows);
-        $result = $this->hal->importDocs($docs, true); // ← PDF activé pour import en masse
+    $domaine = $request->domaine ?: null;
+    $rows    = (int) $request->input('rows', 500);
+    $docs    = $this->hal->fetchByDomaine($domaine, $rows);
 
-        if (isset($docs['error'])) {
-            return back()->with('error', $docs['error']);
-        }
-
-        $result = $this->hal->importDocs($docs);
-
-        return redirect()->route('admin.recherches.index')
-                         ->with('success',
-                             "{$result['imported']} importée(s), {$result['skipped']} doublon(s), {$result['failed']} PDF non disponible(s).");
+    if (isset($docs['error'])) {
+        return back()->with('error', $docs['error']);
     }
 
-    public function importOne(Request $request)
-    {
-        $doc = $request->input('doc');
+    $result = $this->hal->importDocs($docs, true, auth()->id());
 
-        if (!$doc) {
-            return redirect()->route('admin.hal.import')
-                             ->with('error', 'Données manquantes.');
-        }
+    return redirect()->route('admin.recherches.index')
+                     ->with('success',
+                         "{$result['imported']} importée(s), {$result['skipped']} doublon(s), {$result['failed']} PDF non disponible(s).");
+}
 
-        $result = $this->hal->importDocs([$doc], false);
+public function importOne(Request $request)
+{
+    $doc = $request->input('doc');
 
-        if ($result['skipped'] > 0) {
-            return redirect()->route('admin.hal.import')
-                             ->with('warning', 'Cette recherche est déjà importée.');
-        }
-
-        return redirect()->route('admin.hal.import')
-                         ->with('success', 'Recherche importée avec succès.');
+    if (!$doc) {
+        return redirect()->route('admin.hal.import')->with('error', 'Données manquantes.');
     }
+
+    $result = $this->hal->importDocs([$doc], false, auth()->id());
+
+    if ($result['skipped'] > 0) {
+        return redirect()->route('admin.hal.import')->with('warning', 'Cette recherche est déjà importée.');
+    }
+
+    return redirect()->route('admin.hal.import')->with('success', 'Recherche importée avec succès.');
+}
+
+// Nouvel import via ORCID
+public function importOrcid(Request $request)
+{
+    $user = auth()->user();
+
+    if (!$user->orcid) {
+        return redirect()->route('profile.edit')
+                         ->with('error', 'Veuillez d\'abord lier votre ORCID dans votre profil.');
+    }
+
+    $docs = $this->hal->fetchByOrcid($user->orcid);
+
+    if (isset($docs['error'])) {
+        return back()->with('error', $docs['error']);
+    }
+
+    $result = $this->hal->importDocs($docs, false, $user->id);
+
+    return redirect()->route('admin.recherches.index')
+                     ->with('success',
+                         "{$result['imported']} de vos recherches importée(s), {$result['skipped']} déjà présente(s).");
+}
+
 }
