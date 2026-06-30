@@ -29,21 +29,19 @@ class HalImportService
 
     public function fetchByDomaine(?string $domaine = null, int $rows = 500): array
     {
-        // Paramètres communs
         $params = [
             'q'    => '*:*',
             'rows' => $rows,
             'sort' => 'submittedDate_tdate desc',
-            'fl'   => 'halId_s,title_s,authFullName_s,structName_s,domain_s,submittedDate_tdate,abstract_s',
+            'fl'   => 'halId_s,title_s,authFullName_s,structName_s,domain_s,submittedDate_tdate,abstract_s,fileMain_s,uri_s',
             'wt'   => 'json',
         ];
 
-        // Filtre global M-1
         if ($domaine === null) {
             $params['fq']   = 'submittedDate_tdate:[NOW-1MONTH TO NOW]';
             $params['rows'] = 1000;
         } else {
-            $params['fq'] = 'domain_s:"' . $domaine . '"';  // guillemets obligatoires
+            $params['fq'] = 'domain_s:"' . $domaine . '"';
         }
 
         $response = Http::timeout(30)->get(self::BASE_URL, $params);
@@ -317,18 +315,37 @@ public static function traduireDomaines(array $codes): string
     {
         $imported = 0;
         $skipped  = 0;
+        $failed   = 0;
 
         foreach ($docs as $doc) {
             $titre = is_array($doc['title_s'] ?? null)
                 ? $doc['title_s'][0]
                 : ($doc['title_s'] ?? 'Sans titre');
 
-            // Génère un ID unique basé sur titre + date
-            $halId = md5($titre . ($doc['producedDate_tdate'] ?? ''));
+            $halId = $doc['halId_s'] ?? md5($titre . ($doc['submittedDate_tdate'] ?? ''));
 
             if (Recherche::where('hal_id', $halId)->exists()) {
                 $skipped++;
                 continue;
+            }
+
+            // Téléchargement du PDF si disponible
+            $pdfPath = null;
+            $pdfUrl  = $doc['fileMain_s'] ?? null;
+
+            if ($pdfUrl) {
+                try {
+                    $response = Http::timeout(60)->get($pdfUrl);
+
+                    if ($response->ok()) {
+                        $filename = 'recherches/hal_' . $halId . '.pdf';
+                        Storage::disk('public')->put($filename, $response->body());
+                        $pdfPath = $filename;
+                    }
+                } catch (\Exception $e) {
+                    // PDF non accessible, on continue sans
+                    $failed++;
+                }
             }
 
             Recherche::create([
@@ -344,11 +361,17 @@ public static function traduireDomaines(array $codes): string
                                     : null,
                 'source'         => 'hal',
                 'hal_id'         => $halId,
+                'hal_url'        => $doc['uri_s'] ?? null,
+                'pdf_path'       => $pdfPath,
             ]);
 
             $imported++;
         }
 
-        return ['imported' => $imported, 'skipped' => $skipped];
+        return [
+            'imported' => $imported,
+            'skipped'  => $skipped,
+            'failed'   => $failed,  // PDF non téléchargeables
+        ];
     }
 }

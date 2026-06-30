@@ -20,6 +20,7 @@ return new class extends Migration
             $table->date('date_production')->nullable(); // ← producedDate_tdate
             $table->string('source')->default('manuel'); // ← 'manuel' ou 'hal'
             $table->string('hal_id')->nullable()->unique(); // ← évite les doublons
+            $table->string('hal_url')->nullable();
             $table->timestamps();
         });
     }
