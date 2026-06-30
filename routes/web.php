@@ -5,6 +5,12 @@ use App\Http\Controllers\Admin\RechercheController;
 use App\Http\Controllers\Admin\VulgarisationController;
 
 use App\Http\Controllers\Admin\HalImportController;
+use App\Http\Controllers\ProfileController;
+
+Route::middleware('auth')->group(function () {
+    Route::post('/profile/orcid',        [ProfileController::class, 'updateOrcid'])->name('profile.orcid.update');
+    Route::post('/profile/orcid/import', [ProfileController::class, 'importOrcid'])->name('profile.orcid.import');
+});
 
 Route::prefix('admin')->name('admin.')->group(function () {
 
