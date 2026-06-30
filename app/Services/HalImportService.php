@@ -39,7 +39,7 @@ class HalImportService
 
         if ($domaine === null) {
             $params['fq']   = 'submittedDate_tdate:[NOW-1MONTH TO NOW]';
-            $params['rows'] = 100;
+            $params['rows'] = 1000;
         } else {
             $params['fq'] = 'domain_s:"' . $domaine . '"';
         }
