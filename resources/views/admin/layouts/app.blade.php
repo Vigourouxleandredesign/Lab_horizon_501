@@ -10,7 +10,6 @@
     <nav class="navbar navbar-dark bg-dark px-4">
         <a class="navbar-brand" href="{{ route('admin.recherches.index') }}">LabHorizon</a>
         <a class="navbar-brand" href="{{ route('admin.recherches.index')}}">Rechecherches</a>
-
         <a class="navbar-brand" href="{{ route('admin.hal.import')}}">Import Hal</a>
     </nav>
 
