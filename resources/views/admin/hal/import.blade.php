@@ -53,6 +53,7 @@
                         <th>Auteur(s)</th>
                         <th>Domaine</th>
                         <th>Date</th>
+                        <th>PDF</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,6 +70,19 @@
                         </td>
                         <td>
                             <small>{{ isset($doc['producedDate_tdate']) ? substr($doc['producedDate_tdate'], 0, 10) : '—' }}</small>
+                        </td>
+                        <td>
+                            @if(!empty($doc['fileMain_s']))
+                                <a href="{{ $doc['fileMain_s'] }}" target="_blank" class="badge bg-success">
+                                    📄 Disponible
+                                </a>
+                            @elseif(!empty($doc['uri_s']))
+                                <a href="{{ $doc['uri_s'] }}" target="_blank" class="badge bg-secondary">
+                                    🔗 Fiche HAL
+                                </a>
+                            @else
+                                <span class="badge bg-danger">Non disponible</span>
+                            @endif
                         </td>
                     </tr>
                     @endforeach
