@@ -51,4 +51,21 @@ class HalImportController extends Controller
                          ->with('success',
                              "{$result['imported']} importée(s), {$result['skipped']} doublon(s), {$result['failed']} PDF non disponible(s).");
     }
+
+    public function importOne(Request $request)
+    {
+        $doc = $request->input('doc');
+
+        if (!$doc) {
+            return back()->with('error', 'Données manquantes.');
+        }
+
+        $result = $this->hal->importDocs([$doc]);
+
+        if ($result['skipped'] > 0) {
+            return back()->with('warning', 'Cette recherche est déjà importée.');
+        }
+
+        return back()->with('success', 'Recherche importée avec succès.');
+    }
 }

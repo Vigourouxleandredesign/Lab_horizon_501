@@ -311,67 +311,67 @@ public static function traduireDomaines(array $codes): string
         ->implode(', ');
 }
 
-    public function importDocs(array $docs): array
-    {
-        $imported = 0;
-        $skipped  = 0;
-        $failed   = 0;
+public function importDocs(array $docs): array
+{
+    $imported = 0;
+    $skipped  = 0;
+    $failed   = 0;
 
-        foreach ($docs as $doc) {
-            $titre = is_array($doc['title_s'] ?? null)
-                ? $doc['title_s'][0]
-                : ($doc['title_s'] ?? 'Sans titre');
+    foreach ($docs as $doc) {
+        $titre = is_array($doc['title_s'] ?? null)
+            ? $doc['title_s'][0]
+            : ($doc['title_s'] ?? 'Sans titre');
 
-            $halId = $doc['halId_s'] ?? md5($titre . ($doc['submittedDate_tdate'] ?? ''));
+        $halId = $doc['halId_s'] ?? md5($titre . ($doc['submittedDate_tdate'] ?? ''));
 
-            if (Recherche::where('hal_id', $halId)->exists()) {
-                $skipped++;
-                continue;
-            }
-
-            // Téléchargement du PDF si disponible
-            $pdfPath = null;
-            $pdfUrl  = $doc['fileMain_s'] ?? null;
-
-            if ($pdfUrl) {
-                try {
-                    $response = Http::timeout(60)->get($pdfUrl);
-
-                    if ($response->ok()) {
-                        $filename = 'recherches/hal_' . $halId . '.pdf';
-                        Storage::disk('public')->put($filename, $response->body());
-                        $pdfPath = $filename;
-                    }
-                } catch (\Exception $e) {
-                    // PDF non accessible, on continue sans
-                    $failed++;
-                }
-            }
-
-            Recherche::create([
-                'titre'          => $titre,
-                'abstract'       => is_array($doc['abstract_s'] ?? null)
-                                    ? $doc['abstract_s'][0]
-                                    : ($doc['abstract_s'] ?? null),
-                'auteur'         => implode(', ', (array)($doc['authFullName_s'] ?? [])),
-                'structure'      => implode(', ', (array)($doc['structName_s'] ?? [])),
-                'domaine'        => implode(', ', (array)($doc['domain_s'] ?? [])),
-                'date_production'=> isset($doc['submittedDate_tdate'])
-                                    ? substr($doc['submittedDate_tdate'], 0, 10)
-                                    : null,
-                'source'         => 'hal',
-                'hal_id'         => $halId,
-                'hal_url'        => $doc['uri_s'] ?? null,
-                'pdf_path'       => $pdfPath,
-            ]);
-
-            $imported++;
+        if (Recherche::where('hal_id', $halId)->exists()) {
+            $skipped++;
+            continue;
         }
 
-        return [
-            'imported' => $imported,
-            'skipped'  => $skipped,
-            'failed'   => $failed,  // PDF non téléchargeables
-        ];
+        // Téléchargement PDF
+        $pdfPath = null;
+        $pdfUrl  = $doc['fileMain_s'] ?? null;
+
+        if ($pdfUrl) {
+            try {
+                $response = Http::timeout(60)->get($pdfUrl);
+                if ($response->ok()) {
+                    $filename = 'recherches/hal_' . $halId . '.pdf';
+                    Storage::disk('public')->put($filename, $response->body());
+                    $pdfPath = $filename;
+                }
+            } catch (\Exception $e) {
+                $failed++;
+            }
+        }
+
+        Recherche::create([
+            'titre'           => $titre,
+            'abstract'        => is_array($doc['abstract_s'] ?? null)
+                                 ? $doc['abstract_s'][0]
+                                 : ($doc['abstract_s'] ?? null),
+            'auteur'          => is_array($doc['authFullName_s'] ?? null)
+                                 ? implode(', ', $doc['authFullName_s'])
+                                 : ($doc['authFullName_s'] ?? null),
+            'structure'       => is_array($doc['structName_s'] ?? null)
+                                 ? implode(', ', $doc['structName_s'])
+                                 : ($doc['structName_s'] ?? null),
+            'domaine'         => is_array($doc['domain_s'] ?? null)
+                                 ? implode(', ', $doc['domain_s'])
+                                 : ($doc['domain_s'] ?? null),
+            'date_production' => isset($doc['submittedDate_tdate'])
+                                 ? substr($doc['submittedDate_tdate'], 0, 10)
+                                 : null,
+            'source'          => 'hal',
+            'hal_id'          => $halId,
+            'hal_url'         => $doc['uri_s'] ?? null,
+            'pdf_path'        => $pdfPath,
+        ]);
+
+        $imported++;
+    }
+
+    return ['imported' => $imported, 'skipped' => $skipped, 'failed' => $failed];
     }
 }

@@ -15,6 +15,7 @@ Route::prefix('admin')->name('admin.')->group(function () {
     Route::get('hal/import',         [HalImportController::class, 'index'])->name('hal.import');
     Route::post('hal/preview',       [HalImportController::class, 'preview'])->name('hal.preview');
     Route::post('hal/import',        [HalImportController::class, 'import'])->name('hal.import.store');
+    Route::post('hal/import-one', [HalImportController::class, 'importOne'])->name('hal.import.one');
 
     Route::prefix('recherches/{recherche}/vulgarisations')->name('vulgarisations.')->group(function () {
         Route::get('create',              [VulgarisationController::class, 'create'])->name('create');
