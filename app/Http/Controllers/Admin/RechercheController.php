@@ -11,7 +11,11 @@ class RechercheController extends Controller
 {
     public function index()
     {
-        $recherches = Recherche::withCount('vulgarisations')->latest()->paginate(15);
+        $recherches = Recherche::where('user_id', auth()->id())
+                               ->withCount('vulgarisations')
+                               ->latest()
+                               ->paginate(15);
+
         return view('admin.recherches.index', compact('recherches'));
     }
 
@@ -32,17 +36,19 @@ class RechercheController extends Controller
 
         $path = $request->file('pdf')->store('recherches', 'public');
 
-        Recherche::create([
-            'user_id' => auth()->id(),
-            'titre'       => $request->titre,
-            'description' => $request->description,
-            'auteur'      => $request->auteur,
-            'domaine'     => $request->domaine,
-            'pdf_path'    => $path,
-        ]);
+        $path = $request->file('pdf')->store('recherches', 'public');
 
-        return redirect()->route('admin.recherches.index')
-                         ->with('success', 'Recherche ajoutée avec succès.');
+    Recherche::create([
+        'user_id'     => auth()->id(),  // ← ajouter
+        'titre'       => $request->titre,
+        'description' => $request->description,
+        'auteur'      => $request->auteur,
+        'domaine'     => $request->domaine,
+        'pdf_path'    => $path,
+    ]);
+
+    return redirect()->route('admin.recherches.index')
+                     ->with('success', 'Recherche ajoutée avec succès.');
     }
 
     public function show(Recherche $recherche)
