@@ -91,7 +91,11 @@ class RechercheController extends Controller
     {
         abort_if($recherche->user_id !== auth()->id(), 403);
 
-        Storage::disk('public')->delete($recherche->pdf_path);
+        // Vérifier que pdf_path existe avant de supprimer
+        if ($recherche->pdf_path) {
+            Storage::disk('public')->delete($recherche->pdf_path);
+        }
+
         $recherche->delete();
 
         return redirect()->route('admin.recherches.index')

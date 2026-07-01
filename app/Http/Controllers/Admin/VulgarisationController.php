@@ -46,7 +46,12 @@ class VulgarisationController extends Controller
     public function destroy(Recherche $recherche, Vulgarisation $vulgarisation)
     {
         abort_if($recherche->user_id !== auth()->id(), 403);
-        Storage::disk('public')->delete($vulgarisation->pdf_path);
+
+        // Vérifier que pdf_path existe avant de supprimer
+        if ($vulgarisation->pdf_path) {
+            Storage::disk('public')->delete($vulgarisation->pdf_path);
+        }
+
         $vulgarisation->delete();
 
         return redirect()->route('admin.recherches.show', $recherche)
