@@ -53,17 +53,22 @@ class RechercheController extends Controller
 
     public function show(Recherche $recherche)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
+
         $recherche->load('vulgarisations');
         return view('admin.recherches.show', compact('recherche'));
     }
 
     public function edit(Recherche $recherche)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
+
         return view('admin.recherches.edit', compact('recherche'));
     }
 
     public function update(Request $request, Recherche $recherche)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
         $request->validate([
             'titre'  => 'required|string|max:255',
             'pdf'    => 'nullable|mimes:pdf|max:20480',
@@ -84,6 +89,8 @@ class RechercheController extends Controller
 
     public function destroy(Recherche $recherche)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
+
         Storage::disk('public')->delete($recherche->pdf_path);
         $recherche->delete();
 
