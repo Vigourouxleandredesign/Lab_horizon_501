@@ -11,6 +11,10 @@
         <a class="navbar-brand" href="{{ route('admin.recherches.index') }}">LabHorizon</a>
         <a class="navbar-brand" href="{{ route('admin.recherches.index')}}">Rechecherches</a>
         <a class="navbar-brand" href="{{ route('admin.hal.import')}}">Import Hal</a>
+        <form action="{{ route('logout') }}" method="POST" class="d-inline">
+            @csrf
+            <button type="submit" class="btn btn-outline-danger btn-sm">Déconnexion</button>
+        </form>
     </nav>
 
     <div class="container mt-4">
