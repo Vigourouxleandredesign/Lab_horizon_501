@@ -53,7 +53,7 @@ class RechercheController extends Controller
 
     public function show(Recherche $recherche)
     {
-        abort_if($recherche->user_id !== auth()->id(), 403);
+        $this->authorize('view', $recherche);
 
         $recherche->load('vulgarisations');
         return view('admin.recherches.show', compact('recherche'));
@@ -61,7 +61,7 @@ class RechercheController extends Controller
 
     public function edit(Recherche $recherche)
     {
-        abort_if($recherche->user_id !== auth()->id(), 403);
+        $this->authorize('update', $recherche);
 
         return view('admin.recherches.edit', compact('recherche'));
     }
@@ -89,7 +89,7 @@ class RechercheController extends Controller
 
     public function destroy(Recherche $recherche)
     {
-        abort_if($recherche->user_id !== auth()->id(), 403);
+        $this->authorize('delete', $recherche);
 
         Storage::disk('public')->delete($recherche->pdf_path);
         $recherche->delete();

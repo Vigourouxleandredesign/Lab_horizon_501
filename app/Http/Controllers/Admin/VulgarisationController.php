@@ -11,11 +11,13 @@ class VulgarisationController extends Controller
 {
     public function create(Recherche $recherche)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
         return view('admin.vulgarisations.create', compact('recherche'));
     }
 
     public function show(Recherche $recherche, Vulgarisation $vulgarisation)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
         return view('admin.vulgarisations.show', compact('vulgarisation'));
     }
 
@@ -43,6 +45,7 @@ class VulgarisationController extends Controller
 
     public function destroy(Recherche $recherche, Vulgarisation $vulgarisation)
     {
+        abort_if($recherche->user_id !== auth()->id(), 403);
         Storage::disk('public')->delete($vulgarisation->pdf_path);
         $vulgarisation->delete();
 
