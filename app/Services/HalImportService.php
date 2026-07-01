@@ -387,7 +387,7 @@ public function importDocs(array $docs, bool $downloadPdf = true, ?int $userId =
     {
         $response = Http::timeout(30)->get(self::BASE_URL, [
             'q'    => '*:*',
-            'fq'   => 'authOrcidIdExt_s:"' . $orcid . '"',
+            'fq'   => 'authORCIDIdExt_s:"' . $orcid . '"',
             'rows' => $rows,
             'sort' => 'submittedDate_tdate desc',
             'fl'   => 'halId_s,title_s,authFullName_s,structName_s,domain_s,submittedDate_tdate,abstract_s,fileMain_s,uri_s',
