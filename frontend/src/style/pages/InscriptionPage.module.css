@@ -1,0 +1,216 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 16px calc(120px + env(safe-area-inset-bottom));
+}
+
+.layout {
+  display: grid;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .layout {
+    grid-template-columns: minmax(0, 1.1fr) minmax(320px, 0.9fr);
+    align-items: start;
+    gap: 40px;
+  }
+}
+
+.whyBlock {
+  display: grid;
+  gap: 20px;
+}
+
+.title {
+  margin: 0;
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+  color: var(--lh-heading);
+  letter-spacing: -0.02em;
+  line-height: 1.1;
+}
+
+.whyTitle {
+  margin: 0;
+  font-size: 1.1rem;
+  color: var(--lh-navy);
+}
+
+.lead {
+  margin: 0;
+  color: var(--lh-body-gray);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.benefits {
+  display: grid;
+  gap: 12px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.benefitCard {
+  padding: 16px 18px;
+  border-radius: 16px;
+  border: 1px solid var(--lh-border-light);
+  background: var(--lh-bg);
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.benefitTitle {
+  margin: 0 0 6px;
+  font-size: 0.92rem;
+  font-weight: 700;
+  color: var(--lh-navy);
+}
+
+.benefitBody {
+  margin: 0;
+  font-size: 0.84rem;
+  line-height: 1.6;
+  color: var(--lh-body-gray);
+}
+
+.freeBanner {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  gap: 6px;
+  padding: 16px 18px;
+  border-radius: 16px;
+  background: linear-gradient(
+    135deg,
+    var(--lh-src-gold-022) 0%,
+    var(--lh-src-beige-100) 100%
+  );
+  border: 1px solid var(--lh-src-beige-border);
+}
+
+.freeText {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--lh-hint-brown);
+}
+
+.freeHighlight {
+  font-size: 1.35rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  color: var(--lh-src-gold);
+}
+
+.formPanel {
+  padding: 22px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--lh-border-light);
+  background: var(--lh-bg);
+  box-shadow: 0 8px 28px var(--lh-src-card-hover-shadow);
+}
+
+.formTitle {
+  margin: 0 0 6px;
+  font-size: 1.15rem;
+  color: var(--lh-heading);
+}
+
+.formLead {
+  margin: 0 0 18px;
+  font-size: 0.82rem;
+  line-height: 1.5;
+  color: var(--lh-src-placeholder);
+}
+
+.form {
+  display: grid;
+  gap: 12px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--lh-body-gray);
+}
+
+.form input {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+}
+
+.form input:focus-visible {
+  outline: 2px solid var(--lh-link);
+  outline-offset: 1px;
+}
+
+.submitBtn {
+  margin-top: 4px;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 0.9rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.submitBtn:hover {
+  background: var(--lh-link);
+}
+
+.formError {
+  color: var(--lh-src-gold);
+  font-size: 0.85rem;
+  margin: 0;
+}
+
+.demoNote {
+  margin-top: 16px;
+  padding: 12px 14px;
+  border-radius: 10px;
+  background: var(--lh-src-hint-cream);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.84rem;
+  line-height: 1.5;
+}
+
+.demoNote a {
+  color: var(--lh-link);
+  font-weight: 600;
+}
+
+.footerLinks {
+  margin-top: 16px;
+  font-size: 0.84rem;
+  color: var(--lh-body-gray);
+}
+
+.footerLinks a {
+  color: var(--lh-link);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.footerLinks a:hover {
+  text-decoration: underline;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 20px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

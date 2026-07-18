@@ -1,0 +1,110 @@
+Lab Horizon — Questions & réponses (cadrage UX)
+Document généré à partir de l’échange concepteur UI/UX — questions posées mot pour mot, avec les réponses associées.
+
+================================================================================
+1. Chercheurs (priorité 1)
+================================================================================
+
+Question 1
+Un chercheur "réussit" sa journée sur Lab Horizon quand il a fait quoi en premier ? (publier une actu, lire sa veille, mettre à jour son profil, répondre à une sollicitation ?)
+
+Réponse
+Un chercheur va reussir sa journée lorsqu'il aura Publié ses travaux / mis à jour son travail ou ses avancées.
+
+--------------------------------------------------------------------------------
+
+Question 2
+La veille : est-ce surtout des articles externes, des travaux d'autres chercheurs NC, ou les deux ? Faut-il des alertes / résumés, ou une simple liste à parcourir ?
+
+Réponse
+Pour l'instant la veille se compose de suivre d'autres chercheurs de son domaine qu'il souhaite suivre. A voir pour la suite si on étend mais les chercheurs savent déjà où chercher et qui donc mettre en place une zone de veille centralisé voir si on mets aussi des alertes pour d'autres platform qui les interesses. Il FAUT absolument des alertes/ Push d'où pourquoi nous partons sur une PWA.
+
+--------------------------------------------------------------------------------
+
+Question 3
+Vulgarisation IA : le chercheur valide-t-il toujours avant publication ? Y a-t-il plusieurs niveaux (résumé court / article grand public) ?
+
+Réponse
+Le chercheur valide systématiquement (en tout cas au lancement de l'appli)
+
+--------------------------------------------------------------------------------
+
+Question 4
+Profil chercheur : qu'est-ce qui est obligatoire au minimum viable (labo, thématiques, mots-clés, photo, disponibilité) pour que entreprises + public trouvent vite sans que le chercheur abandonne le formulaire ?
+
+Réponse
+Tout ce que tu viens de citer. Toutefois, la disponibilité ne sera visible que si le chercheur le souhaite et l'autorise. On ajoutera potentiellement CV en zone dropdown pour upload plus tard.
+
+================================================================================
+2. Public / étudiants
+================================================================================
+
+Question 5
+Besoin principal : comprendre un sujet (type Wikipedia / vulgarisation) ou trouver un interlocuteur (orientation, stage) ? Ça change beaucoup la page d'accueil et la recherche.
+
+Réponse
+Pour l'instant la maquette est faite comme ceci, dans l'ordre est-vous chercheur ? Puis barre de recherche et carrousel attractif de cards sur la catégorie (biologie, droit, chimie, etc..) Puis Les chercheurs et enfin qui sommes-nous ?
+
+--------------------------------------------------------------------------------
+
+Question 6
+Niveau de confiance : comment indiquer clairement qui a écrit quoi, quand, et dans quel cadre scientifique sans noyer l'interface ?
+
+Réponse
+Les chercheurs publient dans des revues scientifiques et numériquement sur des platform type HAL on pourra donc récupérer toutes ces informations qui figureront soit en haut à droite soit en bas à droite du papier ainsi : Quoi sera le titre, puis Qui, quand, le labo ou l'organisme qui encadre. Pas besoin de plus si intéressé ils verront directement avec le chercheur en question.
+
+================================================================================
+3. Entreprises (découverte rapide)
+================================================================================
+
+Question 7
+Critère de recherche n°1 : domaine / mot-clé, institution, compétence, disponibilité, ou type de collaboration ?
+
+Réponse
+Le mode de recherche numéro 1 pour les entreprises serait les mots-clés en barre de recherche avec possibilité de filtrer par disponibilité, catégorie ou institution. A voir si on fait une interface entreprise avec des droits plus élevé que le client lambda qui n'aura pas de compte pour, comme pour les chercheurs, pouvoir passer une annonce de recherche.
+
+--------------------------------------------------------------------------------
+
+Question 8
+Contact : objectif = email affiché, formulaire avec filet anti-spam, prise de rendez-vous, ou mise en relation par un intermédiaire (ex. structure de recherche) ?
+
+Réponse
+messagerie directe dans l'appli entre un compte professionnel et un compte chercheur par exemple ou entre chercheurs.
+
+--------------------------------------------------------------------------------
+
+Question 9
+Y a-t-il des chercheurs ou sujets "sensibles" (données, contrats, confidentialité) qui imposent des règles d'affichage différentes ?
+
+Réponse
+oui il y a des données non pas sensibles mais confidentielles tel que numéro de téléphone et mail par exemple (dans le cas où la features message directe n'est pas déployable à la V1)
+
+================================================================================
+4. Produit transversal (arbo & zoning)
+================================================================================
+
+Question 10
+Une seule app avec rôles (chercheur / public / entreprise) ou entrées distinctes (URLs ou sections) avec une identité visuelle qui rassure chaque public ?
+
+Réponse
+2 entrées une entrée grand public, professionnels et chercheurs et 1 entrée admin pour la sécurité. Il est important que les chercheurs voient comment les gens peuvent accéder à leur travail.
+
+--------------------------------------------------------------------------------
+
+Question 11
+Contenu sans compte vs actions réservées : que peut-on voir sans inscription pour ne pas freiner la découverte tout en protégeant les chercheurs ?
+
+Réponse
+On peut voir tout ce qui est publié, qui l'a publié quand etc.. les catégories. On n'accède juste pas aux features de veille, de contact et de publication. Ils ont toutefois accès à un chatbot (LLM) pour aider dans leur recherche de publications.
+
+--------------------------------------------------------------------------------
+
+Question 12
+Langue et contexte NC : français uniquement au MVP, ou besoins kanak / anglais dès le départ pour certains écrans ?
+
+Réponse
+On a un besoin dès la V1 d'une version en français et une en anglais.
+
+================================================================================
+Fin du document
+================================================================================

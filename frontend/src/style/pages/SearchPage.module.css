@@ -1,0 +1,162 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 4px 16px 120px;
+}
+
+.searchSection {
+  margin-bottom: 14px;
+}
+
+.searchRow {
+  display: grid;
+  gap: 10px;
+}
+
+.searchInput {
+  width: 100%;
+  border: 1px solid var(--lh-input-border);
+  border-radius: 999px;
+  padding: 10px 14px;
+  background: var(--lh-bg);
+  font-size: 0.84rem;
+}
+
+.filtersRow {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.filterField {
+  display: grid;
+  gap: 4px;
+  min-width: 150px;
+  flex: 1;
+  max-width: 260px;
+}
+
+.filterLabel {
+  font-size: 0.68rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: var(--lh-src-placeholder);
+}
+
+.filterSelect {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 9px 12px;
+  background: var(--lh-bg);
+  color: var(--lh-body-gray);
+  font-size: 0.8rem;
+  cursor: pointer;
+}
+
+.hint {
+  margin: 0 0 12px;
+  font-size: 0.74rem;
+  color: var(--lh-src-placeholder);
+}
+
+.tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 14px;
+}
+
+.tab,
+.tabActive {
+  border: 1px solid var(--lh-border-light);
+  border-radius: 999px;
+  padding: 9px 14px;
+  background: var(--lh-bg);
+  cursor: pointer;
+  font-size: 0.75rem;
+}
+
+.tabActive {
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+}
+
+.list,
+.grid {
+  display: grid;
+  gap: 10px;
+}
+
+.grid {
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+}
+
+.card {
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--lh-card-title);
+  line-height: 1.4;
+}
+
+.cardAuthor,
+.card small {
+  margin: 3px 0 0;
+  color: var(--lh-src-placeholder);
+  font-size: 0.7rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.68rem;
+  margin-top: 8px;
+  color: var(--lh-src-placeholder);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--lh-link);
+  color: var(--lh-on-navy);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.institution {
+  color: var(--lh-src-placeholder);
+}
+
+.researcherCard {
+  display: block;
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.researcherCard:hover {
+  border-color: var(--lh-link);
+  box-shadow: 0 8px 20px var(--lh-src-card-hover-shadow);
+}
+
+.avatar {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  margin-bottom: 8px;
+}

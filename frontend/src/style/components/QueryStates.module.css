@@ -1,0 +1,24 @@
+.loading,
+.empty,
+.error {
+  margin: 24px 0;
+  padding: 14px 16px;
+  border-radius: 12px;
+  font-size: 0.85rem;
+}
+
+.loading {
+  color: var(--lh-muted);
+  background: var(--lh-surface);
+}
+
+.empty {
+  color: var(--lh-muted);
+  background: var(--lh-surface);
+}
+
+.error {
+  color: var(--lh-src-hint-brown);
+  background: var(--lh-src-hint-cream);
+  border: 1px solid var(--lh-src-gold-030);
+}

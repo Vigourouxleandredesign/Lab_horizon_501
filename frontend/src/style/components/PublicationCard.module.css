@@ -1,0 +1,62 @@
+.card {
+  display: block;
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.card:hover {
+  border-color: var(--lh-link);
+  box-shadow: 0 8px 20px var(--lh-src-card-hover-shadow);
+}
+
+.title {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--lh-card-title);
+  line-height: 1.4;
+}
+
+.author {
+  margin: 3px 0 0;
+  color: var(--lh-src-placeholder);
+  font-size: 0.7rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.68rem;
+  margin-top: 8px;
+  color: var(--lh-src-placeholder);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--lh-link);
+  color: var(--lh-on-navy);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.institution {
+  color: var(--lh-src-placeholder);
+}
+
+.sourceTag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--lh-src-teal-020);
+  background: var(--lh-src-teal-010);
+  color: var(--lh-teal);
+  font-size: 0.62rem;
+  font-weight: 700;
+}

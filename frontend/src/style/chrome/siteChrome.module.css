@@ -1,0 +1,452 @@
+/**
+ * =============================================================================
+ * Lab Horizon — chrome du site (coque commune à toutes les pages)
+ * =============================================================================
+ *
+ * Ce fichier regroupe les blocs visuels réutilisables :
+ *   • En-tête : onglet « dossier » chercheur, barre nav principale, logo,
+ *     liens centraux, sélecteur de langue, zone compte / connexion.
+ *   • Pied de page : marque, liens légaux, copyright.
+ *   • Barre de navigation basse (mobile / complément desktop).
+ *   • Bouton flottant assistant (chat FAB).
+ *
+ * Les couleurs viennent des variables définies dans `style/global.css`.
+ * Pour ajuster uniquement les mesures / rayon / z-index du chrome, modifie ICI.
+ *
+ * Import typique dans une page :
+ *   import chrome from '../style/chrome/siteChrome.module.css'
+ *   <header className={chrome.headerBar}>…</header>
+ * =============================================================================
+ */
+
+/* -----------------------------------------------------------------------------
+   En-tête — conteneur extérieur (centrage max-width, padding haut)
+   ----------------------------------------------------------------------------- */
+.headerZone {
+  position: relative;
+  z-index: 30;
+  padding: 28px 16px 8px;
+  max-width: 1180px;
+  margin: 0 auto;
+}
+
+/* Pages domaine (/categories/:slug) — héro sous le header flottant */
+.frameCategoryDomain {
+  position: relative;
+}
+
+.headerZoneOverHero {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 30;
+  padding: 28px 16px 0;
+  pointer-events: none;
+}
+
+.headerZoneOverHero .headerBar,
+.headerZoneOverHero .folderTab {
+  pointer-events: auto;
+}
+
+/* Pile onglet chercheur + barre pill */
+.headerStack {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  width: 100%;
+}
+
+/* Onglet beige — derrière la barre pill ; au-dessus (desktop) ou en dessous (mobile) */
+.folderTab {
+  display: inline-flex;
+  align-items: center;
+  align-self: flex-start;
+  gap: 8px;
+  margin-left: 12px;
+  position: relative;
+  z-index: 1;
+  background: var(--lh-beige);
+  color: var(--lh-navy);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  box-shadow: var(--lh-shadow-folder-tab);
+}
+
+.folderTab:hover {
+  filter: brightness(1.03);
+}
+
+/* Mobile : onglet sous le header, collé en bas, derrière la pill */
+@media (max-width: 899px) {
+  .headerBar {
+    order: 1;
+  }
+
+  .folderTab {
+    order: 2;
+    margin-top: -12px;
+    padding: 14px 16px 10px;
+    border-radius: 0 0 12px 12px;
+  }
+}
+
+/* Desktop : onglet au-dessus, derrière la pill */
+@media (min-width: 900px) {
+  .folderTab {
+    order: 1;
+    margin-top: 0;
+    padding: 10px 18px 16px;
+    border-radius: 12px 12px 0 0;
+    font-size: 0.8125rem;
+  }
+
+  .headerBar {
+    order: 2;
+    margin-top: -12px;
+  }
+}
+
+/* Barre pill bleu marine : logo | nav | actions */
+.headerBar {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  border-radius: 40px;
+  border: 0.8px solid var(--lh-src-white-010);
+  box-shadow: var(--lh-shadow-header-bar);
+  background: linear-gradient(
+    176.95deg,
+    var(--lh-src-navy-900) 0%,
+    var(--lh-src-navy-800) 60%,
+    var(--lh-src-navy-700) 100%
+  );
+}
+
+.headerInner {
+  display: grid;
+  grid-template-columns: 1fr auto;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px 12px 20px;
+}
+
+@media (min-width: 900px) {
+  .headerInner {
+    grid-template-columns: 1fr auto 1fr;
+  }
+}
+
+/* Logo + titre texte */
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 12px;
+  color: var(--lh-src-white);
+  text-decoration: none;
+}
+
+.logoImg {
+  width: auto;
+  height: 42px;
+  max-width: 140px;
+  flex-shrink: 0;
+  object-fit: contain;
+}
+
+.logoText {
+  display: none;
+  font-size: 1rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--lh-src-white);
+}
+
+@media (min-width: 900px) {
+  .logoText {
+    display: inline;
+  }
+}
+
+/* Liens centraux (desktop ≥900px) */
+.navCenter {
+  display: none;
+  align-items: center;
+  gap: 28px;
+}
+
+@media (min-width: 900px) {
+  .navCenter {
+    display: flex;
+    justify-content: center;
+  }
+}
+
+.navCenter a {
+  color: var(--lh-src-white-060);
+  text-decoration: none;
+  font-size: 0.875rem;
+  font-weight: 400;
+}
+
+.navCenter a:hover {
+  color: var(--lh-src-white-090);
+}
+
+.navCenterLinkActive {
+  color: var(--lh-src-white) !important;
+  font-weight: 500;
+}
+
+/* Colonne droite : langue (desktop) + connexion */
+.headerActions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-left: auto;
+}
+
+.langBtn {
+  display: none;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: none;
+  background: none;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--lh-src-white-050);
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.langBtn:hover {
+  color: var(--lh-src-white-085);
+}
+
+@media (min-width: 900px) {
+  .langBtn {
+    display: inline-flex;
+  }
+}
+
+.loginBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: var(--lh-src-white-070);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+}
+
+.loginAvatar {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: var(--lh-src-white-008);
+  border: 0.8px solid var(--lh-src-white-015);
+}
+
+.loginBtn:hover {
+  color: var(--lh-src-white);
+}
+
+/* -----------------------------------------------------------------------------
+   Pied de page
+   ----------------------------------------------------------------------------- */
+.footer {
+  margin-top: 48px;
+  padding: 28px 16px calc(88px + env(safe-area-inset-bottom));
+  border-top: 0.8px solid var(--lh-src-white-005);
+  background: linear-gradient(
+    174.7deg,
+    var(--lh-src-navy-900) 0%,
+    var(--lh-src-navy-800) 100%
+  );
+  color: var(--lh-src-white-072);
+}
+
+@media (min-width: 900px) {
+  .footer {
+    padding-bottom: 32px;
+  }
+}
+
+.footerInner {
+  max-width: 1120px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+
+@media (min-width: 768px) {
+  .footerInner {
+    flex-direction: row;
+    justify-content: space-between;
+    text-align: left;
+  }
+}
+
+.footerBrand {
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
+  color: var(--lh-src-white-070);
+  font-weight: 400;
+  font-size: 0.875rem;
+}
+
+.footerLogo {
+  width: auto;
+  height: 42px;
+  max-width: 140px;
+  object-fit: contain;
+}
+
+.footerLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px 16px;
+  align-items: center;
+  justify-content: center;
+}
+
+.footerSep {
+  color: var(--lh-src-white-020);
+  font-size: 0.75rem;
+  user-select: none;
+}
+
+.footerLinks a {
+  color: var(--lh-src-white-040);
+  font-size: 0.75rem;
+  text-decoration: none;
+}
+
+.footerLinks a:hover {
+  color: var(--lh-src-white);
+}
+
+.footerCopy {
+  margin: 0;
+  font-size: 0.75rem;
+  color: var(--lh-src-white-025);
+}
+
+/* -----------------------------------------------------------------------------
+   Navigation basse fixe — mobile uniquement
+   ----------------------------------------------------------------------------- */
+.bottomNav {
+  position: fixed;
+  z-index: 45;
+  left: 10vw;
+  right: 10vw;
+  width: auto;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2px;
+  padding: 6px 6px;
+  border-radius: 32px;
+  border: 0.8px solid var(--lh-src-white-010);
+  background: linear-gradient(
+    180deg,
+    var(--lh-src-navy-bar-t) 0%,
+    var(--lh-src-navy-bar-b) 100%
+  );
+  box-shadow:
+    var(--lh-shadow-bottom-nav),
+    inset 0 1px 0 var(--lh-src-white-006);
+  box-sizing: border-box;
+}
+
+@media (min-width: 900px) {
+  .bottomNav {
+    display: none;
+  }
+}
+
+.bottomNavItem {
+  display: flex;
+  flex: 1;
+  min-width: 0;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 8px 6px;
+  border-radius: 16px;
+  font-size: 0.625rem;
+  font-weight: 500;
+  color: var(--lh-src-white-030);
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
+.bottomNavItem img {
+  opacity: 0.85;
+}
+
+.bottomNavActive {
+  color: var(--lh-src-gold);
+  background: linear-gradient(
+    148.64deg,
+    var(--lh-src-gold-022) 0%,
+    var(--lh-src-gold-010) 100%
+  );
+}
+
+.bottomNavActive img {
+  opacity: 1;
+}
+
+/* -----------------------------------------------------------------------------
+   FAB assistant (coin bas-droit)
+   ----------------------------------------------------------------------------- */
+.chatFab {
+  position: fixed;
+  z-index: 50;
+  right: calc(16px + env(safe-area-inset-right));
+  bottom: calc(92px + env(safe-area-inset-bottom));
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  border: none;
+  cursor: pointer;
+  background: var(--lh-src-navy-900);
+  box-shadow: var(--lh-shadow-chat-fab);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease;
+}
+
+.chatFab:hover {
+  transform: scale(1.06);
+}
+
+.chatFab:focus-visible {
+  outline: 3px solid var(--lh-src-gold);
+  outline-offset: 3px;
+}
+
+@media (min-width: 900px) {
+  .chatFab {
+    bottom: calc(24px + env(safe-area-inset-bottom));
+    right: calc(32px + env(safe-area-inset-right));
+  }
+}

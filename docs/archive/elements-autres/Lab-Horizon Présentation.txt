@@ -1,0 +1,93 @@
+Lab Horizon 
+Connecter la recherche à la société en Nouvelle-Calédonie 
+
+Valoriser la recherche locale 
+
+Lab Horizon est une plateforme innovante qui met en valeur le travail des chercheurs de Nouvelle-Calédonie et facilite l'accès au savoir pour tous. 
+Cette initiative vise à créer des ponts entre la communauté de chercheurs locaux, des étudiants en quête de connaissances, et des entreprises à la recherche d'expertise. 
+
+Une plateforme pour tous 
+
+L'objectif de cette app sera de faire un outil centraliser afin de faire gagner du temps et de l’énergie aux chercheurs. On veut simplifier et centraliser la veille. Rendre plus claire et accessible l'information aux chercheurs tout en leur permettant d'être plus visible par le grand public comme par les potentiels professionnels intéressés.
+
+Publier 
+Partagez vos recherches et publications 
+
+Vulgariser 
+L'IA rend plus accessible votre contenu scientifique 
+Recherche 
+Accéder à un outil centralisé de veille sur votre domaine 
+
+L'objectif de cette app sera de faire un outil centraliser afin de faire gagner du temps et de l’énergie aux chercheurs. On veut simplifier et centraliser la veille. Rendre plus claire et accessible l'information aux chercheurs tout en leur permettant d'être plus visible par le grand public comme par les potentiels professionnels intéressés.
+
+Interface Étudiants 
+Recherche simplifiée 
+Une barre de recherche alimentée par l'IA vous permet de trouver facilement des articles vulgarisés sur les sujets qui vous intéressent. 
+Accédez à la recherche de manière intuitive, sans trop de jargon technique complexe. 
+
+
+
+Interface entreprise 
+01 02 
+Explorer  Identifier  
+Parcourez le profil des chercheurs  Recherchez des expertises  
+disponibles en Nouvelle-Calédonie  correspondant à vos besoins  
+03  
+
+Connecter 
+Prenez contact avec les chercheurs pour collaborer 
+Pour les entreprises, ce sera un moyen simple, rapide et accessible de trouver des chercheurs disponibles dans le domaine qui les intéresses. L'objectif serait de rendre les chercheurs et leurs recherches attractifs pour les entreprises, afin de combler le manque de visibilité sur Linkedin.
+
+Pour les entreprises, ce sera un moyen simple, rapide et accessible de trouver des chercheurs disponibles dans le domaine qui les intéresses. L'objectif serait de rendre les chercheurs et leurs recherches attractifs pour les entreprises, afin de combler le manque de visibilité sur Linkedin.
+
+
+Les bénéfices de Lab Horizon 
+
+Valorisation 
+Mettre en lumière le travail des chercheurs calédoniens et augmentez leurs visibilité 
+
+
+Accessibilité 
+Rendre la science compréhensible pour tous grâce à la vulgarisation assistée par l'IA 
+
+Connexion 
+Créer des opportunités de collaboration entre recherche et entreprises locales 
+
+
+Les chercheurs calédoniens au cSur du projet 
+Lab Horizon se construit avec vous. Vos besoins en matière de visibilité, d'outils et de données façonnent directement la plateforme que nous développons ensemble. 
+Comment pouvez-vous nous aider ? 
+Lors du développement de la plateforme, nous avons besoin que vous : 
+
+Nous
+ partager vos besoins réels (fonctionnalité manquante, réglage) 
+
+
+Tester
+ l'application pour améliorer sa prise en main / Identifier des bugs 
+
+
+Nous
+ partager quelques recherches pour entrainer la vulgarisation de vos document. 
+
+
+
+
+En développant nos échanges, la plateforme se rapprochera de vos besoins et pourrait devenir une référence dans la recherche locale. 
+
+
+Prochaines étapes 
+
+Charte graphique et logo  Stratégie de com  Maquette d'appli finie  
+Identité graphique définie et  Persona clairement identifiés et  Maquette complète avec parcours  
+travaillée pour optimiser  stratégie définis clairement afin de  utilisateur adapté pour optimiser  
+l'engagement des utilisateurs  créer une communication qui fera  l'UX et l'ergonomie.  
+mouche.  
+
+
+
+Lab Horizon 
+Connecter la recherche à la société 
+Une plateforme innovante pour valoriser la recherche en Nouvelle-Calédonie 
+
+

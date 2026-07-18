@@ -1,0 +1,155 @@
+/**
+ * =============================================================================
+ * Lab Horizon — Feuille de tokens (source unique)
+ * =============================================================================
+ * Charte : couleurs_Lorenzo / Maquette SAE 501
+ *
+ * Modifier UNIQUEMENT ce fichier pour ajuster couleurs et constantes d’UI.
+ * `styles.css` consomme ces variables ; ne pas dupliquer de valeurs hex ailleurs.
+ * =============================================================================
+ */
+
+:root {
+  /* -------------------------------------------------------------------------
+   * PALETTE MARQUE — gris / noir (identité sobre, titres, boutons sombres)
+   * ------------------------------------------------------------------------- */
+
+  /* Charbon : texte fort, logo, titres, bouton plein “neutre” si besoin */
+  --lh-color-primary: #2b2b2b;
+
+  /* Gris moyen : sous-titres, légendes, texte atténué (jamais pour texte long faible contraste sur gris clair sans vérifier le ratio) */
+  --lh-color-primary-light: #4f4f4f;
+
+  /* Noir pur : titres maximum contraste, états “dark” des boutons */
+  --lh-color-primary-dark: #000000;
+
+  /* -------------------------------------------------------------------------
+   * PALETTE MARQUE — bleus (liens institutionnels, CTAs principaux, header)
+   * ------------------------------------------------------------------------- */
+
+  /* Bleu marine : boutons primaires, liens importants, skip link, navigation active */
+  --lh-color-secondary: #032f58;
+
+  /* Bleu acier clair : icônes secondaires, dégradés légers, tags wireframe zone */
+  --lh-color-secondary-light: #5b8eb8;
+
+  /* Bleu nuit : survol / pressed des éléments secondary (boutons, liens) */
+  --lh-color-secondary-dark: #02223f;
+
+  /* -------------------------------------------------------------------------
+   * SURFACES — fonds de page et de cartes (hiérarchie sans surcharge)
+   * ------------------------------------------------------------------------- */
+
+  /* Fond principal de l’application : blanc, lecture longue */
+  --lh-color-background: #ffffff;
+
+  /* Fond de cartes, bandes, filtres : gris très léger pour détacher du blanc */
+  --lh-color-surface: #ececec;
+
+  /* Ambre / or : un seul CTA fort par écran (ex. “Êtes-vous chercheur ?”) — usage rare */
+  --lh-color-accent: #e8a135;
+
+  /* -------------------------------------------------------------------------
+   * TEXTE — corps et métadonnées
+   * ------------------------------------------------------------------------- */
+
+  /* Texte courant : paragraphes, listes (contraste maximal sur fond blanc) */
+  --lh-color-text: #000000;
+
+  /* Texte et icônes sur fonds foncés (secondary, FAB chatbot, skip link) */
+  --lh-color-on-dark: #ffffff;
+
+  /* Texte secondaire : liens discrets, métadonnées, fil d’Ariane — teinte bleu-vert */
+  --lh-color-text-secondary: #007a8c;
+
+  /* -------------------------------------------------------------------------
+   * BORDURES — séparation et états interactifs
+   * ------------------------------------------------------------------------- */
+
+  /* Bordure par défaut : cartes, champs, séparateurs */
+  --lh-color-border: #eaeaea;
+
+  /* Bordure au survol : champs, cartes cliquables, focus léger */
+  --lh-color-border-hover: #22275f;
+
+  /* Bordure / fond “doux” : survols alternatifs, zones moins contrastées */
+  --lh-color-border-hover-light: #f5e6c8;
+
+  /* -------------------------------------------------------------------------
+   * FEEDBACK — formulaires, bannières, badges d’état
+   * ------------------------------------------------------------------------- */
+
+  /* Erreur : message validation, champs invalides */
+  --lh-color-ui-error: #c0392b;
+
+  /* Succès : confirmation, disponibilité positive */
+  --lh-color-ui-success: #5d8a3c;
+
+  /* Avertissement : même teinte que l’accent ; à réserver aux alertes non bloquantes */
+  --lh-color-ui-warning: #e8a135;
+
+  /* -------------------------------------------------------------------------
+   * MODULE CHATBOT — distinct du reste de l’UI recherche
+   * ------------------------------------------------------------------------- */
+
+  /* Fond des bulles assistant / panneau entête : crème, chaleureux */
+  --lh-color-chatbot-surface: #f5e6c8;
+
+  /* Texte dans les bulles : même lecture que le gris foncé marque */
+  --lh-color-chatbot-text: #2b2b2b;
+
+  /* Bouton flottant et accents : turquoise pour repérage immédiat du widget */
+  --lh-color-chatbot-accent: #00b4cc;
+
+  /* -------------------------------------------------------------------------
+   * ALIAS SÉMANTIQUES — raccourcis utilisés par le wireframe (optionnel à migrer)
+   * Tout pointe vers les tokens ci-dessus pour ne pas dupliquer la signification.
+   * ------------------------------------------------------------------------- */
+
+  --color-primary: var(--lh-color-primary);
+  --color-primary-light: var(--lh-color-primary-light);
+  --color-primary-dark: var(--lh-color-primary-dark);
+  --color-secondary: var(--lh-color-secondary);
+  --color-secondary-light: var(--lh-color-secondary-light);
+  --color-secondary-dark: var(--lh-color-secondary-dark);
+  --color-bg: var(--lh-color-background);
+  --color-surface: var(--lh-color-surface);
+  --color-accent: var(--lh-color-accent);
+  --color-text: var(--lh-color-text);
+  --color-text-secondary: var(--lh-color-text-secondary);
+  --color-border: var(--lh-color-border);
+  --color-border-hover: var(--lh-color-border-hover);
+  --color-border-hover-light: var(--lh-color-border-hover-light);
+  --color-error: var(--lh-color-ui-error);
+  --color-success: var(--lh-color-ui-success);
+  --color-warning: var(--lh-color-ui-warning);
+  --color-on-dark: var(--lh-color-on-dark);
+  --color-chatbot-bg: var(--lh-color-chatbot-surface);
+  --color-chatbot-text: var(--lh-color-chatbot-text);
+  --color-chatbot-accent: var(--lh-color-chatbot-accent);
+
+  /* Compat wireframe : texte atténué = gris marque ; zones doc = bleu clair */
+  --color-ink: var(--lh-color-text);
+  --color-ink-muted: var(--lh-color-primary-light);
+  --color-zone: var(--lh-color-secondary-light);
+  --color-zone-bg: rgba(91, 142, 184, 0.12);
+
+  /* -------------------------------------------------------------------------
+   * TYPOGRAPHIE — familles (changer ici pour toute l’app)
+   * ------------------------------------------------------------------------- */
+
+  --font-sans: "DM Sans", system-ui, -apple-system, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+  /* -------------------------------------------------------------------------
+   * RAYONS, OMBRES, MISE EN PAGE — non couleur mais même fichier de référence
+   * ------------------------------------------------------------------------- */
+
+  --radius: 12px;
+  --radius-sm: 8px;
+  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 20px rgba(3, 47, 88, 0.08);
+  --shell-max: 1120px;
+  --header-h: 56px;
+  --touch-min: 44px;
+}

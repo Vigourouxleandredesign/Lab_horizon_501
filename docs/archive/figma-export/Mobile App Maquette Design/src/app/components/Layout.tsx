@@ -1,0 +1,233 @@
+import { Outlet, useNavigate, useLocation, Link } from "react-router";
+import { motion } from "motion/react";
+import { Home, Search, Users, User, Globe } from "lucide-react";
+import ChatbotFAB from "./ChatbotFAB";
+import { ChercheurFolderDrawer } from "./ChercheurFolderDrawer";
+import svgPaths from "../../imports/svg-lobuut7rx9";
+
+function LabHorizonLogo() {
+  return (
+    <div className="relative shrink-0 w-[42px] h-[42px]">
+      <svg
+        id="Calque_2"
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 354.03 458.33"
+        className="w-full h-full"
+      >
+        <defs>
+          <style>{`
+            .lv3-1 { fill: #577084; }
+            .lv3-1,.lv3-2,.lv3-3,.lv3-4,.lv3-5,.lv3-6,.lv3-7 { stroke: #00021e; stroke-width: 2.5px; }
+            .lv3-1,.lv3-3,.lv3-4,.lv3-6,.lv3-7 { stroke-miterlimit: 10; }
+            .lv3-2 { stroke-miterlimit: 10; }
+            .lv3-2,.lv3-5,.lv3-6 { fill: #c19c52; }
+            .lv3-3 { fill: #b8c2cc; }
+            .lv3-4 { fill: #305472; }
+            .lv3-5 { stroke-miterlimit: 10; }
+            .lv3-7 { fill: #00121e; }
+          `}</style>
+        </defs>
+        <g>
+          <g>
+            <g>
+              <path className="lv3-2" d="M233.78,456.82c-3.39,1.96-12.48-7.45-20.31-21.01-3.91-6.78-6.77-13.31-8.23-18.39l7.42-6.28c3.95,3.72,8.72,10,13.09,17.58,7.83,13.56,11.43,26.14,8.03,28.1Z"/>
+              <path className="lv3-5" d="M148.79,417.42c-1.45,5.08-4.3,11.61-8.22,18.39-7.83,13.56-16.93,22.97-20.32,21.01-3.39-1.96.21-14.54,8.04-28.1,4.37-7.58,9.14-13.86,13.09-17.57l7.41,6.27Z"/>
+              <path className="lv3-3" d="M246.57,141.42v241.01l-33.91,28.71-7.42,6.28-9.38,7.95c-10.87,9.21-26.81,9.21-37.69,0l-9.38-7.95-7.41-6.27-33.94-28.74v-240.95s7.92-17.56,7.92-17.56c1.01,3.1,1.9,6.39,2.71,9.88.4,1.69.77,3.44,1.13,5.23,0,.02.01.03.03.03h8.19l40.28,46.05,9.31,10.64,9.31-10.64,40.29-46.05h8.18s.03-.01.03-.03c.36-1.8.74-3.54,1.13-5.24h0c.82-3.5,1.71-6.79,2.72-9.89v.02s7.9,17.52,7.9,17.52Z"/>
+              <g>
+                <path className="lv3-4" d="M107.44,141.48v265.92c0,2.22-3.08,2.79-3.87.71l-52.82-138.66,5.12-13.43.05-.12h.01l33.88-75.26,17.63-39.16Z"/>
+                <path className="lv3-3" d="M115.36,123.9l-7.91,17.56v.02s-17.64,39.16-17.64,39.16l-33.88,75.26h-.01l-.05.12-4.93,10.95,8.14-137.54c.11-1.92.32-3.83.64-5.71l10.7,10.7h21.69l15.34-15.34v-12.18c1.79,2.7,3.36,5.6,4.76,8.72,1.16,2.6,2.21,5.36,3.15,8.28Z"/>
+              </g>
+              <g>
+                <path className="lv3-4" d="M303.27,269.45l-52.8,138.59c-.8,2.09-3.9,1.52-3.9-.72V141.42v.02s12.67,28.12,12.67,28.12l38.78,86.14.02.04,5.22,13.71h.01Z"/>
+                <path className="lv3-3" d="M303.1,266.97l-5.06-11.23-.02-.04-38.78-86.14-12.66-28.12v-.02s-7.9-17.52-7.9-17.52v-.02c.93-2.92,1.97-5.66,3.13-8.26,1.55-3.46,3.31-6.65,5.35-9.6v13.06l15.34,15.34h21.7l10.21-10.21c.26,1.72.45,3.47.55,5.22l8.14,137.54Z"/>
+              </g>
+              <path className="lv3-3" d="M284.2,82.04h-.28c-5.05,1.55-9.58,3.26-13.64,5.16-10.33,4.86-17.69,10.96-23.12,18.82v13.06l15.34,15.34h21.7l15.34-15.34v-21.7l-15.34-15.34ZM281.59,115.65l-7.67,7.67h-10.84l-7.67-7.67v-10.84l7.67-7.67h10.84l7.67,7.67v10.84Z"/>
+              <polygon className="lv3-7" points="281.59 104.81 281.59 115.65 273.92 123.32 263.08 123.32 255.41 115.65 255.41 104.81 263.08 97.14 273.92 97.14 281.59 104.81"/>
+              <path className="lv3-3" d="M83.75,87.21h-.01c-4-1.88-8.44-3.57-13.4-5.09l-15.26,15.26v21.7l15.34,15.34h21.69l15.34-15.34v-12.18c-5.48-8.28-12.99-14.66-23.7-19.69ZM100.36,115.65l-7.67,7.67h-10.85l-7.67-7.67v-10.84l7.67-7.67h10.85l7.67,7.67v10.84Z"/>
+              <polygon className="lv3-7" points="100.36 104.81 100.36 115.65 92.69 123.32 81.84 123.32 74.17 115.65 74.17 104.81 81.84 97.14 92.69 97.14 100.36 104.81"/>
+              <path className="lv3-6" d="M226.61,139.04l-40.29,46.05-9.31,10.64-9.31-10.64-40.28-46.05h49.55s.01,0,.02-.01h.04s.02.01.02.01h49.56Z"/>
+              <g>
+                <path className="lv3-1" d="M348.84,24.5c-1.04,4.83-2.25,9.63-3.76,14.34l-4.85,15.2c-1.86,5.85-5.49,10.86-9.97,15.05-6.3,5.9-16.61,7.44-27.78,8.4h-.01c-6.87,1.35-13.03,2.85-18.55,4.55-5.05,1.55-9.58,3.26-13.64,5.16-10.33,4.86-17.69,10.96-23.12,18.82-2.04,2.95-3.8,6.14-5.35,9.6-1.16,2.6-2.2,5.34-3.14,8.26-1.01,3.1-1.9,6.39-2.72,9.88h0c-.39,1.71-.77,3.45-1.13,5.25,0,.02-.01.03-.03.03h-8.18.01s-49.59-.01-49.59-.01c0,0-.01-.01-.01-.02V39.6s.01-.03.03-.03c39-1.3,53.56-14.62,70.41-14.32,28.13.49,45.32,5.28,65.36-.89,0,.01,0,.01,0,0l1.68-.34c3.96-.8,7.25-3.29,9.63-6.56,1.84-2.52,20.39-16.48,25.83-16.21,6.01.3.78,14.39-1.13,23.25Z"/>
+                <path className="lv3-1" d="M177,39.6v99.41s-.01.02-.01.02h-49.58.01s-8.19.01-8.19.01c-.02,0-.03-.01-.03-.03-.36-1.79-.73-3.54-1.13-5.23-.81-3.49-1.7-6.78-2.71-9.88-.94-2.92-1.99-5.68-3.15-8.28-1.4-3.12-2.97-6.02-4.76-8.72-5.48-8.28-12.99-14.66-23.7-19.69h-.01c-4-1.88-8.44-3.57-13.4-5.09-5.59-1.74-11.82-3.26-18.79-4.63h-.01c-11.17-.96-21.48-2.5-27.78-8.4-4.48-4.19-8.11-9.2-9.97-15.05l-4.85-15.2c-1.51-4.71-2.72-9.51-3.76-14.34C3.27,15.64-1.96,1.55,4.05,1.25c5.44-.27,23.99,13.69,25.83,16.21,2.38,3.27,5.67,5.76,9.63,6.56l1.68.34s.01.01.01,0c20.04,6.17,37.23,1.38,65.36.89,16.85-.3,31.41,13.02,70.41,14.32.02,0,.03.03.03.03Z"/>
+              </g>
+            </g>
+            <path className="lv3-4" d="M147.72,236.85s-5.79,14.8-13.73,14.8-13.73-14.8-13.73-14.8c0,0,6.48,3.26,13.86,3.26s13.6-3.26,13.6-3.26Z"/>
+            <path className="lv3-4" d="M233,236.85s-5.79,14.8-13.73,14.8-13.73-14.8-13.73-14.8c0,0,6.48,3.26,13.86,3.26s13.6-3.26,13.6-3.26Z"/>
+            <path className="lv3-4" d="M190.75,259.57s-5.79,14.8-13.73,14.8-13.73-14.8-13.73-14.8c0,0,6.48,3.26,13.86,3.26s13.6-3.26,13.6-3.26Z"/>
+          </g>
+        </g>
+      </svg>
+    </div>
+  );
+}
+
+const navItems = [
+  { path: "/", label: "Accueil", Icon: Home },
+  { path: "/recherche", label: "Recherche", Icon: Search },
+  { path: "/chercheurs", label: "Chercheurs", Icon: Users },
+  { path: "/compte", label: "Compte", Icon: User },
+];
+
+export default function Layout() {
+  const navigate = useNavigate();
+  const location = useLocation();
+  const isMessages = location.pathname.startsWith("/compte/messages");
+
+  return (
+    <div className="min-h-screen flex flex-col" style={{ background: "linear-gradient(160deg, #EEF0FA 0%, #E8EBF5 40%, #E4E8F2 100%)" }}>
+
+      {/* Sticky Header */}
+      <motion.header
+        initial={{ y: -80 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.5, ease: "easeOut" }}
+        className="fixed top-0 left-0 right-0 z-[100] px-4 pt-3 pb-2"
+      >
+        <div
+          className="rounded-[40px] px-5 py-2 flex items-center justify-between max-w-screen-xl mx-auto border border-white/10"
+          style={{
+            background: "linear-gradient(135deg, #02223F 0%, #071D38 60%, #0D2550 100%)",
+            boxShadow: "0 4px 32px rgba(2,34,63,0.55), 0 1px 0 rgba(255,255,255,0.06) inset",
+            backdropFilter: "blur(20px)",
+          }}
+        >
+          <Link to="/" className="flex items-center gap-3">
+            <LabHorizonLogo />
+            <span className="text-white hidden sm:block" style={{ fontWeight: 600, fontSize: "1rem", letterSpacing: "-0.02em" }}>
+              Lab Horizon
+            </span>
+          </Link>
+
+          {/* Desktop nav links */}
+          <nav className="hidden md:flex items-center gap-6">
+            {[
+              { to: "/recherche", label: "Publications" },
+              { to: "/chercheurs", label: "Chercheurs" },
+              { to: "/a-propos", label: "À propos" },
+            ].map(({ to, label }) => (
+              <Link
+                key={to}
+                to={to}
+                className={`text-sm transition-all duration-200 ${
+                  location.pathname === to
+                    ? "text-[#E8A135]"
+                    : "text-white/60 hover:text-white"
+                }`}
+              >
+                {label}
+              </Link>
+            ))}
+          </nav>
+
+          <div className="flex items-center gap-3">
+            {/* Language switcher */}
+            <button className="hidden sm:flex items-center gap-1 text-white/50 hover:text-white/80 text-xs transition-colors">
+              <Globe className="w-3.5 h-3.5" />
+              FR
+            </button>
+            {/* Account */}
+            <button
+              onClick={() => navigate("/connexion")}
+              className="flex items-center gap-2 text-white/70 hover:text-white text-sm transition-colors"
+            >
+              <div
+                className="w-8 h-8 rounded-full flex items-center justify-center border border-white/15"
+                style={{ background: "rgba(255,255,255,0.08)" }}
+              >
+                <svg fill="none" viewBox="0 0 30 30" className="w-5 h-5">
+                  <path d={svgPaths.p241c3e00} fill="#ECECEC" />
+                </svg>
+              </div>
+              <span className="hidden sm:block text-xs">Connexion</span>
+            </button>
+          </div>
+        </div>
+      </motion.header>
+
+      {/* Page content */}
+      <main className="flex-1 pb-28 pt-[104px]">
+        <Outlet />
+      </main>
+
+      {/* Footer — hidden on mobile, visible md+ */}
+      <footer
+        className="hidden md:block text-[#ECECEC] px-6 py-8 border-t border-white/5"
+        style={{ background: "linear-gradient(135deg, #02223F 0%, #071D38 100%)" }}
+      >
+        <div className="max-w-screen-xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
+          <div className="flex items-center gap-3">
+            <LabHorizonLogo />
+            <span className="text-white/70 text-sm">Lab Horizon</span>
+          </div>
+          <div className="flex gap-4 text-xs text-white/40">
+            <Link to="/mentions-legales" className="hover:text-white/70 transition-colors">
+              Mentions légales
+            </Link>
+            <span className="text-white/20">|</span>
+            <Link to="/confidentialite" className="hover:text-white/70 transition-colors">
+              Confidentialité
+            </Link>
+            <span className="text-white/20">|</span>
+            <Link to="/cookies" className="hover:text-white/70 transition-colors">
+              Cookies
+            </Link>
+          </div>
+          <p className="text-white/25 text-xs">© 2024 Lab Horizon</p>
+        </div>
+      </footer>
+
+      {/* Bottom navigation (mobile) — floating pill */}
+      <div className="fixed bottom-0 left-0 right-0 z-40 flex justify-center px-4 pb-4 pt-2">
+        <div
+          className="rounded-[32px] border border-white/10 flex items-center px-2 py-1.5 gap-1 w-full max-w-sm"
+          style={{
+            background: "linear-gradient(180deg, rgba(7,29,56,0.97) 0%, rgba(2,22,40,0.99) 100%)",
+            boxShadow: "0 8px 40px rgba(2,34,63,0.55), 0 1px 0 rgba(255,255,255,0.06) inset",
+            backdropFilter: "blur(24px)",
+          }}
+        >
+          {navItems.map(({ path, label, Icon }) => {
+            const active =
+              path === "/"
+                ? location.pathname === "/"
+                : location.pathname.startsWith(path);
+            return (
+              <button
+                key={path}
+                onClick={() => navigate(path)}
+                className="flex flex-col items-center gap-0.5 flex-1 py-2 px-2 relative"
+              >
+                {active && (
+                  <motion.div
+                    layoutId="nav-indicator"
+                    className="absolute inset-0 rounded-2xl"
+                    style={{ background: "linear-gradient(135deg, rgba(232,161,53,0.22) 0%, rgba(232,161,53,0.1) 100%)" }}
+                    transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
+                  />
+                )}
+                <Icon
+                  className={`w-5 h-5 transition-all duration-200 relative z-10 ${
+                    active ? "text-[#E8A135]" : "text-white/40"
+                  }`}
+                />
+                <span
+                  className={`text-xs transition-all duration-200 relative z-10 ${
+                    active ? "text-[#E8A135]" : "text-white/30"
+                  }`}
+                >
+                  {label}
+                </span>
+              </button>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* Chatbot FAB – hide on messages */}
+      {!isMessages && <ChatbotFAB />}
+
+      {/* Researcher folder — always accessible, drags down from top */}
+      <ChercheurFolderDrawer />
+    </div>
+  );
+}

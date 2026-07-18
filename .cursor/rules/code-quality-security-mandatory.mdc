@@ -1,0 +1,50 @@
+---
+description: >-
+  Norme projet non négociable — clarté, maintenabilité, commentaires utiles,
+  sécurité (moindre privilège, AAAT, CIAD). Toujours appliquée.
+alwaysApply: true
+---
+
+# Qualité de code et sécurité (norme projet)
+
+Cette règle est la **référence minimale** pour tout code produit dans ce dépôt. Elle complète les instructions utilisateur et les autres règles sans les remplacer sur des sujets orthogonaux.
+
+## Qualité et maintenabilité (chaque fichier / chaque changement)
+
+- **Clarté et simplicité** : privilégier la solution la plus lisible qui répond au besoin ; éviter la sur-ingénierie et les raccourcis obscurs.
+- **Maintenabilité** : structure prévisible, responsabilités limitées, noms explicites, découpage lorsque le fichier ou la fonction grossit de façon injustifiée.
+- **Commentaires** : commenter le **pourquoi** et les **pièges** (protocoles, sécurité, edge cases, dette assumée), pas l’évident. Aucun commentaire redondant avec un bon nommage.
+- **Bonnes pratiques modernes** du langage et de l’écosystème (lint, typage strict là où il existe, gestion d’erreurs explicite, pas de secrets en dur, dépendances à jour dans la mesure du périmètre touché).
+
+## Sécurité — principes à respecter systématiquement
+
+### Moindre privilège
+
+- Comptes, rôles, tokens, clés API et droits fichiers/DB : **strict minimum** pour la tâche.
+- Par défaut refuser ; n’exposer que ce qui est nécessaire (routes, champs, flags admin).
+
+### A.A.A.T. (périmètre applicatif et infra concerné)
+
+Interprétation **projet** à appliquer selon le contexte (front, API, DB, déploiement) :
+
+- **Authentification** : identifier explicitement l’acteur (session, JWT, etc.) ; pas d’actions sensibles sans contexte d’identité clair.
+- **Autorisation** : vérifier le droit sur **la ressource** visée, pas seulement « connecté ».
+- **Audit / accountability** : journaliser les actions sensibles (qui, quoi, quand) lorsque le produit l’exige (admin, données personnelles, mutations critiques).
+- **Traçabilité** : corrélation des événements (requête, utilisateur, id métier) pour investigation et conformité, sans journaliser de secrets ni de données inutiles.
+
+### C.I.A.D. (objectifs à ne pas dégrader sans décision explicite)
+
+- **Confidentialité** : données protégées en transit et au repos ; exposition minimale ; principe du moindre affichage.
+- **Intégrité** : validation des entrées, contrôles serveur, protection contre tampering (CSRF, signatures, contraintes DB selon cas).
+- **Authenticité** : confiance dans l’origine des données et des acteurs lorsque pertinent (tokens signés, provenance des imports, etc.).
+- **Disponibilité** : éviter les patterns qui fragilisent indûment le service (boucles bloquantes, absence de timeouts sur I/O externes, etc.) dans la mesure du code modifié.
+
+## Refus explicite
+
+- Contourner l’auth ou les contrôles d’accès « pour aller plus vite » en dev sans garde-fou documenté.
+- Secrets, mots de passe ou clés privées dans le code versionné ou les logs.
+- `catch` vides ou erreurs absorbées sans action sur les chemins sensibles.
+
+## Note sur « non overwritable »
+
+`alwaysApply: true` impose cette règle à **chaque session** Cursor sur ce dépôt. Seul un geste manuel dans les paramètres Cursor peut la désactiver ; elle doit être traitée comme **charte projet** pour les revues et les livrables.

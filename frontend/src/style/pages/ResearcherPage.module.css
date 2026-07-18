@@ -1,0 +1,106 @@
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px 16px 120px;
+}
+
+.header {
+  display: flex;
+  align-items: flex-start;
+  gap: 16px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.avatar {
+  width: 84px;
+  height: 84px;
+  border-radius: 16px;
+  object-fit: cover;
+}
+
+.identity {
+  flex: 1;
+  min-width: 200px;
+}
+
+.name {
+  margin: 0 0 4px;
+  font-size: 1.35rem;
+  color: var(--lh-heading);
+}
+
+.domain {
+  margin: 0 0 2px;
+  font-size: 0.88rem;
+  color: var(--lh-body-gray);
+}
+
+.institution {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--lh-src-placeholder);
+}
+
+.available {
+  display: inline-block;
+  margin-top: 6px;
+  padding: 2px 10px;
+  border-radius: 999px;
+  background: var(--lh-src-green-tag-bg);
+  color: var(--lh-src-green-tag-text);
+  font-size: 0.68rem;
+  font-weight: 700;
+}
+
+.followBtn,
+.followBtnActive {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.followBtn {
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+}
+
+.followBtn:hover {
+  background: var(--lh-link);
+}
+
+.followBtnActive {
+  background: var(--lh-src-green-tag-bg);
+  color: var(--lh-src-green-tag-text);
+  cursor: default;
+}
+
+.sectionTitle {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  color: var(--lh-heading);
+}
+
+.publications {
+  margin-bottom: 8px;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

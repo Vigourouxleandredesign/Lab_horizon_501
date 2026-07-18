@@ -1,0 +1,121 @@
+.page {
+  max-width: 780px;
+  margin: 0 auto;
+  padding: 24px 16px 120px;
+}
+
+.header {
+  margin-bottom: 18px;
+}
+
+.eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.72rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--lh-teal);
+}
+
+.title {
+  margin: 0 0 8px;
+  font-size: clamp(1.4rem, 3.4vw, 2rem);
+  line-height: 1.25;
+  color: var(--lh-heading);
+}
+
+.byline {
+  margin: 0;
+  font-size: 0.82rem;
+  color: var(--lh-muted);
+}
+
+.lead {
+  margin: 0 0 20px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--lh-src-teal-010);
+  border: 1px solid var(--lh-src-teal-020);
+  color: var(--lh-body-gray);
+  font-size: 0.88rem;
+  line-height: 1.6;
+}
+
+.body p {
+  margin: 0 0 14px;
+  color: var(--lh-text);
+  font-size: 0.94rem;
+  line-height: 1.75;
+}
+
+.metaGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+  margin: 24px 0;
+}
+
+.metaCell {
+  border: 1px solid var(--lh-border-light);
+  border-radius: 12px;
+  background: var(--lh-bg);
+  padding: 10px 12px;
+  display: grid;
+  gap: 4px;
+}
+
+.metaKey {
+  font-size: 0.66rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lh-src-placeholder);
+}
+
+.metaValue {
+  font-size: 0.8rem;
+  color: var(--lh-card-title);
+  line-height: 1.4;
+}
+
+.sourceLink {
+  display: inline-block;
+  border-radius: 999px;
+  padding: 10px 18px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.sourceLink:hover {
+  background: var(--lh-link);
+}
+
+.related {
+  margin-top: 32px;
+}
+
+.relatedTitle {
+  margin: 0 0 12px;
+  font-size: 1.05rem;
+  color: var(--lh-heading);
+}
+
+.relatedList {
+  display: grid;
+  gap: 10px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 24px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

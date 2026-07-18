@@ -1,0 +1,4 @@
+# Héritage racine — voir ../.gitignore pour la politique complète du monorepo.
+# Entrées locales supplémentaires au frontend uniquement :
+
+*.local

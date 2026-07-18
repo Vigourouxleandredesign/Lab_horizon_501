@@ -1,0 +1,132 @@
+.page {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 4px 16px 120px;
+}
+
+.lead {
+  color: var(--lh-body-gray);
+  line-height: 1.7;
+  margin: 0 0 20px;
+  font-size: 0.92rem;
+}
+
+.grid {
+  display: grid;
+  gap: 12px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+.card {
+  display: block;
+  padding: 16px;
+  border-radius: 16px;
+  border: 1px solid var(--lh-card-border);
+  background: var(--lh-bg);
+  text-decoration: none;
+  color: inherit;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.card:hover {
+  border-color: var(--lh-link);
+  box-shadow: 0 8px 20px var(--lh-src-card-hover-shadow);
+}
+
+.cardHighlighted {
+  border-color: var(--lh-teal);
+  box-shadow: 0 8px 20px var(--lh-src-teal-010);
+}
+
+.cardTitle {
+  margin: 0 0 8px;
+  font-size: 1rem;
+  color: var(--lh-navy);
+}
+
+.cardMeta {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  color: var(--lh-src-placeholder);
+}
+
+.cardLinks {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.8rem;
+}
+
+.cardLinks a {
+  color: var(--lh-teal);
+  text-decoration: none;
+}
+
+.cardLinks a:hover {
+  text-decoration: underline;
+}
+
+.form {
+  max-width: 420px;
+  display: grid;
+  gap: 12px;
+}
+
+.form label {
+  display: grid;
+  gap: 6px;
+  font-size: 0.84rem;
+  color: var(--lh-body-gray);
+}
+
+.form input {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+}
+
+.primaryBtn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-weight: 600;
+  cursor: pointer;
+}
+
+.primaryBtn:hover {
+  background: var(--lh-link);
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 16px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+.highlight {
+  padding: 12px 14px;
+  margin-bottom: 16px;
+  border-radius: 12px;
+  background: var(--lh-src-teal-010);
+  border: 1px solid var(--lh-src-teal-020);
+  font-size: 0.88rem;
+}
+
+.formError {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--lh-src-hint-cream);
+  border: 1px solid var(--lh-src-gold-030);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.82rem;
+}

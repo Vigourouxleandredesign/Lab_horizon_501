@@ -1,0 +1,354 @@
+.page {
+  padding-bottom: 120px;
+}
+
+/* ----- Héro plein écran (parallax + typo référence maquette) ----- */
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: 100dvh;
+  overflow: hidden;
+  margin-bottom: 0;
+}
+
+.heroOverlay {
+  position: absolute;
+  inset: 0;
+  background: var(--lh-domain-hero-overlay);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.heroDistortStack {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.heroFilterSvg {
+  position: absolute;
+  width: 0;
+  height: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* z-index 3 — texte arrière-plan */
+.heroTitlePrimaryWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 3;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.heroTitlePrimary {
+  position: absolute;
+  top: 30%;
+  left: 10%;
+  margin: 0;
+  max-width: min(68vw, 520px);
+  color: var(--lh-domain-hero-text-back);
+  font-size: clamp(1.9rem, 6.2vw, 3.5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: heroTextEnterLeft 0.95s cubic-bezier(0.22, 1, 0.36, 1) both;
+}
+
+.heroTitlePrimaryReveal {
+  animation: none;
+}
+
+/* z-index 2 — calque PNG (hors déformation splash, au-dessus de l'overlay) */
+.heroForegroundLayer {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  will-change: transform;
+  transform-origin: center center;
+}
+
+.heroForegroundLayerInner {
+  width: 100%;
+  height: 100%;
+  animation: heroLayerEnter 1.05s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+.heroForegroundImage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center center;
+  display: block;
+  transform: scale(var(--lh-hero-layer-fine-scale));
+  transform-origin: center center;
+}
+
+/* z-index 5 — texte premier plan */
+.heroTitleGhostWrap {
+  position: absolute;
+  inset: 0;
+  z-index: 5;
+  pointer-events: none;
+  will-change: transform;
+}
+
+.heroTitleGhost {
+  position: absolute;
+  right: 5%;
+  bottom: 35%;
+  margin: 0;
+  max-width: min(72vw, 620px);
+  text-align: right;
+  color: var(--lh-domain-hero-text-front);
+  font-size: clamp(2.6rem, 8.2vw, 5rem);
+  font-weight: 700;
+  line-height: 1.05;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  animation: heroTextEnterRight 1s cubic-bezier(0.22, 1, 0.36, 1) 0.32s both;
+}
+
+.heroTitleGhostReveal {
+  animation: none;
+}
+
+.textReveal {
+  font-kerning: none;
+}
+
+.scrollCtaAnchor {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 7;
+  pointer-events: auto;
+}
+
+.scrollCta {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  border: 1px solid var(--lh-src-white-025);
+  background: var(--lh-src-white-010);
+  backdrop-filter: blur(8px);
+  color: var(--lh-src-white-085);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  font: inherit;
+}
+
+.scrollCtaIcon {
+  display: inline-flex;
+  animation: scrollBounce 1.5s ease-in-out infinite;
+}
+
+@keyframes scrollBounce {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(4px);
+  }
+}
+
+@keyframes heroTextEnterLeft {
+  from {
+    opacity: 0;
+    transform: translate3d(-32px, 28px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes heroTextEnterRight {
+  from {
+    opacity: 0;
+    transform: translate3d(36px, -24px, 0);
+  }
+  to {
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+  }
+}
+
+@keyframes heroLayerEnter {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* ----- Corps de page ----- */
+.body {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 32px 16px 0;
+}
+
+.descriptionBlock {
+  margin-bottom: 28px;
+  padding: 20px 22px;
+  border-radius: 16px;
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+}
+
+.descriptionText {
+  margin: 0;
+  color: var(--lh-body-gray);
+  font-size: 0.92rem;
+  line-height: 1.7;
+}
+
+.publicationsSection {
+  scroll-margin-top: 24px;
+}
+
+.sectionHeader {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.sectionTitle {
+  margin: 0;
+  font-size: 1.25rem;
+  color: var(--lh-heading);
+}
+
+.sectionSubtitle {
+  margin: 0 0 16px;
+  color: var(--lh-src-placeholder);
+  font-size: 0.8rem;
+}
+
+.searchLink {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--lh-link);
+  text-decoration: none;
+}
+
+.searchLink:hover {
+  text-decoration: underline;
+}
+
+.list {
+  display: grid;
+  gap: 10px;
+}
+
+.card {
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 14px;
+  padding: 14px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.cardTitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--lh-card-title);
+  line-height: 1.4;
+}
+
+.cardAuthor {
+  margin: 3px 0 0;
+  color: var(--lh-src-placeholder);
+  font-size: 0.7rem;
+}
+
+.meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  font-size: 0.68rem;
+  margin-top: 8px;
+  color: var(--lh-src-placeholder);
+}
+
+.badge {
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: var(--lh-link);
+  color: var(--lh-on-navy);
+  font-size: 0.62rem;
+  font-weight: 700;
+}
+
+.institution {
+  color: var(--lh-src-placeholder);
+}
+
+.emptyState {
+  margin: 0;
+  padding: 24px;
+  text-align: center;
+  color: var(--lh-src-placeholder);
+  font-size: 0.85rem;
+  border: 1px dashed var(--lh-border-light);
+  border-radius: 14px;
+}
+
+.backLink {
+  display: inline-block;
+  margin-top: 28px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--lh-link);
+  text-decoration: none;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}
+
+@media (max-width: 640px) {
+  .heroTitlePrimary {
+    top: 22%;
+    left: 8%;
+    font-size: clamp(1.55rem, 8vw, 2.2rem);
+    max-width: 78vw;
+  }
+
+  .heroTitleGhost {
+    right: 6%;
+    bottom: 28%;
+    font-size: clamp(2rem, 10vw, 2.8rem);
+    max-width: 84vw;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .heroTitlePrimaryWrap,
+  .heroForegroundLayer,
+  .heroTitleGhostWrap {
+    will-change: auto;
+  }
+
+  .heroTitlePrimary,
+  .heroTitleGhost,
+  .heroForegroundLayerInner {
+    animation: none;
+  }
+}

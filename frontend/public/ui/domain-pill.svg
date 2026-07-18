@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 120 280" fill="none" aria-hidden="true">
+  <defs>
+    <linearGradient id="pill" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#5B8EB8"/>
+      <stop offset="100%" stop-color="#02223F"/>
+    </linearGradient>
+  </defs>
+  <rect x="8" y="8" width="104" height="264" rx="52" fill="url(#pill)" opacity="0.92"/>
+</svg>

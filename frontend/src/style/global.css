@@ -1,0 +1,257 @@
+/**
+ * =============================================================================
+ * Lab Horizon — feuille de style globale unique (parent)
+ * =============================================================================
+ * Couleurs sources (--lh-src-*), alias sémantiques (--lh-*), ombres, typo, reset.
+ * Modifier la palette en priorité dans la section « Sources charte » ci-dessous.
+ * =============================================================================
+ */
+
+/* Text reveal (lignes GSAP — wrappers injectés en JS) */
+.lh-text-reveal-line-wrapper {
+  display: block;
+  overflow: hidden;
+}
+
+.lh-text-reveal-line-wrapper .line {
+  display: block;
+  will-change: transform;
+}
+
+:root {
+  /* ----- Sources charte (couleurs d’origine — ajuster ici la palette) ----- */
+  --lh-src-white: #ffffff;
+  --lh-src-black: #000000;
+  --lh-src-primary-ink: #030213;
+  --lh-src-text-body: #0a192f;
+
+  --lh-src-navy-900: #02223f;
+  --lh-src-navy-800: #071d38;
+  --lh-src-navy-700: #0d2550;
+  --lh-src-navy-bar-a: #071d38;
+  --lh-src-navy-bar-b: #02223f;
+
+  --lh-src-indigo-deep: #1a2680;
+  --lh-src-indigo-600: #29359b;
+  --lh-src-blue-500: #5b8eb8;
+  --lh-src-blue-600: #4278a8;
+
+  --lh-src-page-100: #eef0fa;
+  --lh-src-page-200: #e8ebf5;
+  --lh-src-page-300: #e4e8f2;
+
+  --lh-src-beige-400: #e5d5b0;
+
+  --lh-src-heading: #1a2340;
+  --lh-src-muted: #4a5280;
+  --lh-src-stat-muted: #7b82a8;
+  --lh-src-text-secondary: #717182;
+
+  --lh-src-secondary: #4a5f9c;
+  --lh-src-secondary-light: #5aa7c7;
+
+  --lh-src-accent-yellow: #f0d05a;
+  --lh-src-accent-chat: #6cd4b8;
+
+  --lh-src-border-subtle: #e9ebef;
+
+  --lh-src-surface-100: #f3f3f5;
+  --lh-src-surface-200: #ececf0;
+
+  --lh-src-gold: #e8a135;
+  --lh-src-hint-brown: #6b5530;
+  --lh-src-hint-cream: #f4ead6;
+
+  --lh-src-placeholder: #9586a8;
+  --lh-src-org-muted: #5a607a;
+
+  --lh-src-search-lead-from: #f0f2fa;
+  --lh-src-search-lead-to: #e8ecf5;
+
+  --lh-src-green-dot: #05df72;
+  --lh-src-green-tag-bg: #f0fdf4;
+  --lh-src-green-tag-text: #008236;
+
+  --lh-src-body-gray: #535353;
+  --lh-src-card-title: #2b2b2b;
+  --lh-src-border-light: #eaeaea;
+  --lh-src-input-border: #d9d0e3;
+  --lh-src-card-border: #e5dce9;
+  --lh-src-teal: #007a8c;
+  --lh-src-beige-100: #f3ecda;
+  --lh-src-beige-200: #eee3ca;
+  --lh-src-beige-border: rgba(194, 170, 127, 0.38);
+  --lh-src-unavailable-bg: #f5f5f5;
+
+  /* Canaux RGB (pour rgba(var(--lh-rgb-*), alpha)) */
+  --lh-rgb-ink-deep: 10, 25, 47;
+  --lh-rgb-navy-mid: 7, 10, 27;
+  --lh-rgb-indigo-glow: 41, 53, 155;
+  --lh-rgb-blue-brand: 91, 142, 184;
+  --lh-rgb-gold: 232, 161, 53;
+  --lh-rgb-black: 0, 0, 0;
+  --lh-rgb-teal: 0, 122, 140;
+
+  /* Blanc avec alpha */
+  --lh-src-white-005: rgba(255, 255, 255, 0.05);
+  --lh-src-white-006: rgba(255, 255, 255, 0.06);
+  --lh-src-white-008: rgba(255, 255, 255, 0.08);
+  --lh-src-white-010: rgba(255, 255, 255, 0.1);
+  --lh-src-white-015: rgba(255, 255, 255, 0.15);
+  --lh-src-white-020: rgba(255, 255, 255, 0.2);
+  --lh-src-white-025: rgba(255, 255, 255, 0.25);
+  --lh-src-white-030: rgba(255, 255, 255, 0.3);
+  --lh-src-white-040: rgba(255, 255, 255, 0.4);
+  --lh-src-white-050: rgba(255, 255, 255, 0.5);
+  --lh-src-white-060: rgba(255, 255, 255, 0.6);
+  --lh-src-white-065: rgba(255, 255, 255, 0.65);
+  --lh-src-white-070: rgba(255, 255, 255, 0.7);
+  --lh-src-white-072: rgba(255, 255, 255, 0.72);
+  --lh-src-white-085: rgba(255, 255, 255, 0.85);
+  --lh-src-white-090: rgba(255, 255, 255, 0.9);
+  --lh-src-white-097: rgba(255, 255, 255, 0.97);
+  --lh-src-white-099: rgba(255, 255, 255, 0.99);
+
+  --lh-src-ink-012: rgba(10, 25, 47, 0.12);
+  --lh-src-ink-020: rgba(10, 25, 47, 0.2);
+  --lh-src-ink-038: rgba(10, 25, 47, 0.38);
+  --lh-src-ink-045: rgba(10, 25, 47, 0.45);
+
+  --lh-src-blue-brand-010: rgba(91, 142, 184, 0.1);
+  --lh-src-blue-brand-025: rgba(91, 142, 184, 0.25);
+
+  --lh-src-gold-010: rgba(232, 161, 53, 0.1);
+  --lh-src-gold-022: rgba(232, 161, 53, 0.22);
+  --lh-src-gold-030: rgba(232, 161, 53, 0.3);
+
+  --lh-src-hint-gradient-start: rgba(244, 234, 214, 0.7);
+
+  --lh-src-navy-bar-t: rgba(7, 29, 56, 0.97);
+  --lh-src-navy-bar-b: rgba(2, 22, 40, 0.99);
+
+  --lh-src-mission-cta-shadow: rgba(0, 0, 0, 0.25);
+
+  --lh-src-online-dot-shadow: rgba(0, 0, 0, 0.12);
+
+  --lh-src-teal-010: rgba(var(--lh-rgb-teal), 0.08);
+  --lh-src-teal-020: rgba(var(--lh-rgb-teal), 0.2);
+  --lh-src-card-shadow: rgba(var(--lh-rgb-black), 0.08);
+  --lh-src-card-shadow-strong: rgba(var(--lh-rgb-black), 0.09);
+  --lh-src-beige-hero-shadow: rgba(var(--lh-rgb-navy-mid), 0.14);
+  --lh-src-card-hover-shadow: rgba(var(--lh-rgb-navy-mid), 0.1);
+
+  /* ----- Alias sémantiques (réutilisables dans les modules CSS) ----- */
+  --lh-primary: var(--lh-src-primary-ink);
+  --lh-navy: var(--lh-src-navy-900);
+  --lh-page-top: var(--lh-src-page-100);
+  --lh-page-bottom: var(--lh-src-page-300);
+  --lh-beige: var(--lh-src-beige-400);
+  --lh-link: var(--lh-src-blue-500);
+  --lh-heading: var(--lh-src-heading);
+  --lh-muted: var(--lh-src-muted);
+  --lh-stat-muted: var(--lh-src-stat-muted);
+  --lh-bg: var(--lh-src-white);
+  --lh-text: var(--lh-src-text-body);
+  --lh-surface: var(--lh-src-surface-100);
+  --lh-surface-raised: var(--lh-src-surface-200);
+  --lh-text-primary: var(--lh-src-primary-ink);
+  --lh-text-secondary: var(--lh-src-text-secondary);
+  --lh-secondary: var(--lh-src-secondary);
+  --lh-secondary-light: var(--lh-src-secondary-light);
+  --lh-accent: var(--lh-src-accent-yellow);
+  --lh-accent-chat: var(--lh-src-accent-chat);
+  --lh-border: var(--lh-src-border-subtle);
+  --lh-body-gray: var(--lh-src-body-gray);
+  --lh-card-title: var(--lh-src-card-title);
+  --lh-border-light: var(--lh-src-border-light);
+  --lh-input-border: var(--lh-src-input-border);
+  --lh-card-border: var(--lh-src-card-border);
+  --lh-teal: var(--lh-src-teal);
+  --lh-on-navy: var(--lh-src-white);
+  --lh-unavailable-bg: var(--lh-src-unavailable-bg);
+  --lh-beige-gradient: linear-gradient(
+    180deg,
+    var(--lh-src-beige-100) 0%,
+    var(--lh-src-beige-200) 100%
+  );
+
+  /* Ombres & overlays composés */
+  --lh-shadow-folder-tab: 0 -4px 16px rgba(var(--lh-rgb-ink-deep), 0.06);
+  --lh-shadow-header-bar: 0 4px 32px rgba(var(--lh-rgb-navy-mid), 0.55);
+  --lh-shadow-stat-card: 0 4px 24px rgba(var(--lh-rgb-navy-mid), 0.08);
+  --lh-shadow-search-pill: 0 8px 32px rgba(var(--lh-rgb-navy-mid), 0.12);
+  --lh-shadow-search-submit: 0 4px 16px rgba(var(--lh-rgb-indigo-glow), 0.35);
+  --lh-shadow-researcher-card: 0 4px 20px rgba(var(--lh-rgb-navy-mid), 0.07);
+  --lh-shadow-mission: 0 16px 64px rgba(var(--lh-rgb-indigo-glow), 0.35);
+  --lh-shadow-mission-cta: 0 8px 32px var(--lh-src-mission-cta-shadow);
+  --lh-shadow-bottom-nav: 0 8px 40px rgba(var(--lh-rgb-navy-mid), 0.55);
+  --lh-shadow-chat-fab: 0 4px 20px rgba(var(--lh-rgb-navy-mid), 0.4);
+  --lh-shadow-online-dot: 0 1px 3px var(--lh-src-online-dot-shadow);
+
+  --lh-carousel-pill-drop-center: drop-shadow(0 20px 48px rgba(var(--lh-rgb-navy-mid), 0.32));
+  --lh-carousel-pill-drop-side: drop-shadow(0 4px 14px rgba(var(--lh-rgb-navy-mid), 0.1));
+
+  --lh-domain-hero-overlay: linear-gradient(
+    to bottom,
+    rgba(var(--lh-rgb-navy-mid), 0.2) 0%,
+    transparent 40%,
+    transparent 55%,
+    rgba(var(--lh-rgb-navy-mid), 0.35) 85%,
+    rgba(var(--lh-rgb-navy-mid), 0.55) 100%
+  );
+  --lh-domain-hero-text-back: var(--lh-src-white-050);
+  --lh-domain-hero-text-front: var(--lh-src-white-090);
+  /* Ajustement fin si le calque PNG diverge du fond (1920×1080). */
+  --lh-hero-layer-fine-scale: 1.006;
+  --lh-hero-glass-base: var(--lh-src-white-008);
+  --lh-hero-glass-spot-center: var(--lh-src-white-030);
+  --lh-hero-glass-spot-mid: var(--lh-src-white-015);
+  --lh-hero-glass-edge: var(--lh-src-white-006);
+
+  --lh-inset-glass-top: inset 0 1px 0 var(--lh-src-white-090);
+  --lh-inset-search-top: inset 0 1px 0 var(--lh-src-white);
+
+  /* Typo principale charte : Baloo Chettan (Google Fonts : Baloo Chettan 2) */
+  font-family:
+    'Baloo Chettan 2',
+    'Ubuntu',
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    sans-serif;
+  font-size: 16px;
+  line-height: 1.5;
+  color: var(--lh-text-primary);
+  background: var(--lh-bg);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+}
+
+#root {
+  min-height: 100svh;
+}
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

@@ -1,0 +1,83 @@
+import type { Locale } from './home'
+
+export const accountPageCopy = {
+  fr: {
+    metaTitle: 'Mon espace — Lab Horizon',
+    loading: 'Chargement de votre espace…',
+    error: 'Impossible de charger votre espace.',
+    greeting: (name: string) => `Bonjour, ${name} 👋`,
+    newPublication: 'Nouvelle pub.',
+    drafts: 'Brouillons',
+    watch: 'Veille',
+    stats: { views: 'Vues', publications: 'Publications', watchNew: 'Veille' },
+    tabs: { veille: 'Veille', publications: 'Publications', profil: 'Profil' },
+    watchNew: (n: number) => (n > 0 ? `${n} nouvelles` : 'À jour'),
+    reviewCta: 'Valider la vulgarisation',
+    status: {
+      DRAFT: 'Brouillon',
+      PENDING_AI_VALIDATION: 'À valider',
+      PUBLISHED: 'Publiée',
+    },
+    profileUnavailable: 'Profil — branché sur GET /api/me (à venir).',
+    demoBanner:
+      'Espace de démonstration — les données seront synchronisées avec l’API Laravel dès que le back sera disponible.',
+    logout: 'Déconnexion',
+    nav: { dashboard: 'Tableau de bord', search: 'Recherche', publicSite: 'Site public' },
+  },
+  en: {
+    metaTitle: 'My space — Lab Horizon',
+    loading: 'Loading your space…',
+    error: 'Unable to load your space.',
+    greeting: (name: string) => `Hello, ${name} 👋`,
+    newPublication: 'New pub.',
+    drafts: 'Drafts',
+    watch: 'Watchlist',
+    stats: { views: 'Views', publications: 'Publications', watchNew: 'Watchlist' },
+    tabs: { veille: 'Watchlist', publications: 'Publications', profil: 'Profile' },
+    watchNew: (n: number) => (n > 0 ? `${n} new` : 'Up to date'),
+    reviewCta: 'Review plain-language version',
+    status: {
+      DRAFT: 'Draft',
+      PENDING_AI_VALIDATION: 'To review',
+      PUBLISHED: 'Published',
+    },
+    profileUnavailable: 'Profile — wired to GET /api/me (coming soon).',
+    demoBanner:
+      'Demo space — data will sync with the Laravel API once the backend is available.',
+    logout: 'Sign out',
+    nav: { dashboard: 'Dashboard', search: 'Search', publicSite: 'Public site' },
+  },
+} as const satisfies Record<Locale, Record<string, unknown>>
+
+export const publicationReviewCopy = {
+  fr: {
+    metaTitle: 'Validation vulgarisation — Lab Horizon',
+    loading: 'Chargement…',
+    error: 'Impossible de charger la proposition.',
+    notFound: 'Publication introuvable.',
+    title: 'Regardez si nous avons bien compris votre sujet',
+    lead: 'Nous avons vulgarisé votre travail pour le rendre accessible au plus grand nombre. Relisez, corrigez si besoin, puis validez pour publier.',
+    originalLabel: 'Titre scientifique',
+    vulgarizedLabel: 'Titre vulgarisé',
+    bodyLabel: 'Résumé vulgarisé',
+    accept: 'Valider et publier',
+    back: 'Retour au tableau de bord',
+    success: 'Publication validée — elle sera visible du grand public.',
+    pendingNote: 'Contenu proposé par Lab Horizon (POC vulgarisation hors dépôt — mock en V1).',
+  },
+  en: {
+    metaTitle: 'Plain-language review — Lab Horizon',
+    loading: 'Loading…',
+    error: 'Unable to load the proposal.',
+    notFound: 'Publication not found.',
+    title: 'See if we understood your topic correctly',
+    lead: 'We simplified your work for a broad audience. Review, edit if needed, then publish.',
+    originalLabel: 'Scientific title',
+    vulgarizedLabel: 'Plain-language title',
+    bodyLabel: 'Plain-language summary',
+    accept: 'Approve and publish',
+    back: 'Back to dashboard',
+    success: 'Publication approved — it will be visible to the public.',
+    pendingNote: 'Content proposed by Lab Horizon (POC off-repo — mock in V1).',
+  },
+} as const satisfies Record<Locale, Record<string, unknown>>

@@ -1,0 +1,45 @@
+---
+description: Révélation de texte GSAP sur tous les héros (pages domaine, accueil, etc.)
+alwaysApply: true
+---
+
+# Text reveal sur les héros
+
+## Décision produit
+
+L’effet de **révélation de texte ligne par ligne** (GSAP + SplitType + ScrollTrigger) est la **norme** pour **tous les textes des sections héro**, sur l’ensemble du site Lab Horizon — pas seulement les pages domaine.
+
+Cela inclut notamment :
+- les **7 pages domaine** (`/categories/:slug`) — déjà en place ;
+- la **page d’accueil** et toute future page avec un héro ;
+- titres, sous-titres, accroches et tout bloc typographique dans la zone héro.
+
+## Implémentation de référence
+
+Réutiliser l’existant, ne pas réinventer :
+
+| Fichier | Rôle |
+|--------|------|
+| `frontend/src/hooks/useTextReveal.ts` | Hook React (cleanup, resize, i18n) |
+| `frontend/src/lib/textReveal.ts` | `setupTextReveal` — SplitType lignes + wrappers |
+| `frontend/src/lib/gsapDefaults.ts` | `gsapMotion.textReveal` (ease, stagger, délais) |
+| `frontend/src/components/DomainHero.tsx` | Exemple héro : titres en `playOnMount` |
+| `frontend/src/style/pages/DomainPage.module.css` | Classes `.textReveal`, `.heroTitlePrimaryReveal` |
+
+## Règles d’application
+
+1. **Héro visible au chargement** → `playOnMount: true` (comme les titres `DomainHero`).
+2. **Texte sous la ligne de flottaison** dans le héro ou juste en dessous → ScrollTrigger (`playOnMount: false`).
+3. Désactiver les animations CSS d’entrée conflictuelles (ex. `heroTitlePrimaryReveal` / `animation: none`).
+4. Respecter `prefers-reduced-motion` (déjà géré dans `useTextReveal`).
+5. Pas de Lenis requis ; le scroll natif suffit.
+
+## Nouveau héro (ex. accueil)
+
+- Ajouter la classe `textReveal` sur chaque élément texte du héro.
+- Brancher `useTextReveal(ref, { playOnMount: true, contentKey: text })` ou équivalent.
+- Conserver la même stack (`split-type`, GSAP, paramètres partagés).
+
+## Hors périmètre héro
+
+Les textes hors zone héro (listes, cartes, footer) ne sont pas concernés sauf demande explicite.

@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Lab Horizon — Wireframe (SAE 501)</title>
+  <link rel="stylesheet" href="tokens.css" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Aller au contenu</a>
+
+  <header class="shell-header zone-a" role="banner">
+    <div class="shell-inner header-inner">
+      <a href="#" class="brand" data-nav="home" aria-current="page">
+        <span class="brand-mark" aria-hidden="true"></span>
+        <span class="brand-text">Lab Horizon</span>
+      </a>
+      <nav class="nav-main" aria-label="Navigation principale">
+        <button type="button" class="nav-toggle" id="navToggle" aria-expanded="false" aria-controls="navPanel">Menu</button>
+        <ul id="navPanel" class="nav-links">
+          <li><button type="button" class="nav-link is-active" data-nav="home">Accueil</button></li>
+          <li><button type="button" class="nav-link" data-nav="search">Recherche</button></li>
+          <li><button type="button" class="nav-link" data-nav="article">Publication</button></li>
+          <li><button type="button" class="nav-link" data-nav="profile">Chercheur</button></li>
+          <li><button type="button" class="nav-link" data-nav="dashboard">Espace chercheur</button></li>
+        </ul>
+      </nav>
+      <div class="header-tools">
+        <div class="lang-switch" role="group" aria-label="Langue">
+          <button type="button" class="lang-btn is-active" data-lang="fr">FR</button>
+          <span class="lang-sep" aria-hidden="true">|</span>
+          <button type="button" class="lang-btn" data-lang="en">EN</button>
+        </div>
+        <button type="button" class="btn btn-ghost btn-sm" id="btnLogin">Connexion</button>
+      </div>
+    </div>
+  </header>
+
+  <main id="main" class="shell-main" tabindex="-1">
+    <!-- HOME -->
+    <section id="view-home" class="view view-home" aria-labelledby="home-title">
+      <div class="wire-tag zone-a">Zone A — shell / navigation</div>
+
+      <div class="hero zone-b">
+        <div class="wire-tag zone-b">Zone B — hero</div>
+        <div class="hero-inner shell-inner">
+          <p class="eyebrow" data-i18n="heroEyebrow">Plateforme — Nouvelle-Calédonie</p>
+          <h1 id="home-title" class="hero-title" data-i18n="heroTitle">Connecter la recherche à la société</h1>
+          <p class="hero-lead" data-i18n="heroLead">Valorisez vos travaux, centralisez votre veille et rendez la science accessible.</p>
+          <div class="hero-cta">
+            <button type="button" class="btn btn-accent" id="ctaResearcher" data-i18n="ctaResearcher">Êtes-vous chercheur ?</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="block search-block zone-b">
+        <div class="wire-tag zone-b">Zone B — recherche globale</div>
+        <div class="shell-inner">
+          <label class="search-label" for="q" data-i18n="searchLabel">Recherche par mots-clés</label>
+          <div class="search-row">
+            <input type="search" id="q" class="input search-input" placeholder="Ex. corail, biodiversité, droit coutumier…" autocomplete="off" />
+            <button type="button" class="btn btn-primary" id="btnSearch" data-i18n="searchBtn">Rechercher</button>
+          </div>
+          <p class="search-hint">
+            <button type="button" class="link-faux" id="goFilters" data-i18n="advFilters">Filtres avancés</button>
+            <span class="hint-muted" data-i18n="advFiltersHint"> — disponibilité, catégorie, institution</span>
+          </p>
+        </div>
+      </div>
+
+      <div class="block categories-block zone-b">
+        <div class="wire-tag zone-b">Zone B — carrousel catégories</div>
+        <div class="shell-inner">
+          <h2 class="block-title" data-i18n="catTitle">Explorer par discipline</h2>
+          <div class="carousel" role="region" aria-label="Catégories">
+            <button type="button" class="carousel-btn prev" id="catPrev" aria-label="Précédent">‹</button>
+            <div class="carousel-track" id="catTrack">
+              <article class="cat-card"><span class="cat-name">Biologie</span></article>
+              <article class="cat-card"><span class="cat-name">Droit</span></article>
+              <article class="cat-card"><span class="cat-name">Chimie</span></article>
+              <article class="cat-card"><span class="cat-name">Écologie</span></article>
+              <article class="cat-card"><span class="cat-name">Santé</span></article>
+              <article class="cat-card"><span class="cat-name">Sciences humaines</span></article>
+            </div>
+            <button type="button" class="carousel-btn next" id="catNext" aria-label="Suivant">›</button>
+          </div>
+        </div>
+      </div>
+
+      <div class="block researchers-block zone-b">
+        <div class="wire-tag zone-b">Zone B — aperçu chercheurs</div>
+        <div class="shell-inner">
+          <div class="block-head">
+            <h2 class="block-title" data-i18n="resTitle">Les chercheurs</h2>
+            <button type="button" class="btn btn-outline btn-sm" data-nav="search" data-i18n="resCta">Voir l’annuaire</button>
+          </div>
+          <ul class="researcher-strip">
+            <li class="researcher-pill"><span class="av" aria-hidden="true"></span><span>Dr. A.</span></li>
+            <li class="researcher-pill"><span class="av" aria-hidden="true"></span><span>Dr. B.</span></li>
+            <li class="researcher-pill"><span class="av" aria-hidden="true"></span><span>Dr. C.</span></li>
+            <li class="researcher-pill"><span class="av" aria-hidden="true"></span><span>Dr. D.</span></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="block about-block zone-b">
+        <div class="wire-tag zone-b">Zone B — qui sommes-nous</div>
+        <div class="shell-inner about-inner">
+          <h2 class="block-title" data-i18n="aboutTitle">Qui sommes-nous ?</h2>
+          <p class="about-text" data-i18n="aboutText">Lab Horizon met en valeur la recherche calédonienne et facilite les échanges entre chercheurs, citoyens et entreprises.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEARCH -->
+    <section id="view-search" class="view view-search" hidden aria-labelledby="search-heading">
+      <div class="shell-inner layout-split">
+        <aside class="filters zone-c" aria-label="Filtres">
+          <div class="wire-tag zone-c">Zone C — filtres</div>
+          <h2 class="filters-title" id="search-heading" data-i18n="filtersTitle">Affiner</h2>
+          <div class="field">
+            <span class="label" data-i18n="fAvail">Disponibilité</span>
+            <select class="input" id="fAvail">
+              <option>Toutes</option>
+              <option>Ouvert aux collaborations</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="label" data-i18n="fCat">Catégorie</span>
+            <select class="input" id="fCat">
+              <option>Toutes</option>
+              <option>Biologie</option>
+              <option>Droit</option>
+            </select>
+          </div>
+          <div class="field">
+            <span class="label" data-i18n="fInst">Institution</span>
+            <select class="input" id="fInst">
+              <option>Toutes</option>
+              <option>UNC</option>
+              <option>IRD</option>
+            </select>
+          </div>
+          <button type="button" class="btn btn-primary btn-block" data-i18n="applyFilters">Appliquer</button>
+        </aside>
+        <div class="results-main zone-b">
+          <div class="wire-tag zone-b">Zone B — résultats</div>
+          <div class="search-top">
+            <input type="search" class="input" value="corail" aria-label="Mots-clés" />
+            <div class="tabs" role="tablist">
+              <button type="button" class="tab is-active" role="tab" aria-selected="true" data-i18n="tabPub">Publications</button>
+              <button type="button" class="tab" role="tab" aria-selected="false" data-i18n="tabRes">Chercheurs</button>
+            </div>
+          </div>
+          <ul class="card-grid">
+            <li><article class="result-card"><h3 class="rc-title">Titre publication vulgarisée (exemple)</h3><p class="rc-meta">Auteur · 2025 · Biologie</p></article></li>
+            <li><article class="result-card"><h3 class="rc-title">Autre résultat lié aux mots-clés</h3><p class="rc-meta">Auteur · 2024 · Écologie</p></article></li>
+            <li><article class="result-card"><h3 class="rc-title">Troisième carte wireframe</h3><p class="rc-meta">Auteur · 2024 · Droit</p></article></li>
+          </ul>
+          <p class="pagination-faux" data-i18n="pagination">Pagination …</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- ARTICLE -->
+    <section id="view-article" class="view view-article" hidden aria-labelledby="article-title">
+      <div class="shell-inner article-layout">
+        <nav class="breadcrumb zone-a" aria-label="Fil d’Ariane">
+          <div class="wire-tag zone-a">Zone A</div>
+          <ol class="crumb-list">
+            <li><button type="button" data-nav="home">Accueil</button></li>
+            <li><span aria-hidden="true">›</span> Biologie</li>
+            <li><span aria-hidden="true">›</span> <span class="crumb-current">Titre court</span></li>
+          </ol>
+        </nav>
+        <div class="article-grid">
+          <article class="article-body zone-b">
+            <div class="wire-tag zone-b">Zone B — corps</div>
+            <h1 id="article-title">Résilience des récifs face au changement climatique</h1>
+            <p class="lead">Résumé accessible — contenu validé par le chercheur avant publication (vulgarisation IA).</p>
+            <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Wireframe : plusieurs paragraphes pour tester la colonne principale et le sticky méta sur desktop.</p>
+            <p>Second paragraphe. Le bloc métadonnées reste aligné en colonne droite sur grand écran ; sur mobile il précède ou suit le titre selon la spec UX.</p>
+          </article>
+          <aside class="meta-aside zone-c" aria-label="Informations publication">
+            <div class="wire-tag zone-c">Zone C — Quoi / Qui / Quand / Lab</div>
+            <dl class="meta-dl">
+              <div><dt data-i18n="metaWhat">Quoi</dt><dd>Hal-ID · titre scientifique</dd></div>
+              <div><dt data-i18n="metaWho">Qui</dt><dd>Dr. Exemple &amp; al.</dd></div>
+              <div><dt data-i18n="metaWhen">Quand</dt><dd>12 mars 2025</dd></div>
+              <div><dt data-i18n="metaLab">Lab / Organisme</dt><dd>Laboratoire ENTROPIE</dd></div>
+            </dl>
+          </aside>
+        </div>
+        <div class="article-actions zone-b">
+          <button type="button" class="btn btn-outline" data-nav="profile" data-i18n="seeProfile">Voir le profil du chercheur</button>
+          <button type="button" class="btn btn-primary" disabled title="Connexion requise" data-i18n="msgLocked">Message (connexion requise)</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROFILE -->
+    <section id="view-profile" class="view view-profile" hidden aria-labelledby="profile-name">
+      <div class="shell-inner">
+        <nav class="breadcrumb zone-a" aria-label="Fil d’Ariane">
+          <ol class="crumb-list">
+            <li><button type="button" data-nav="home">Accueil</button></li>
+            <li><span aria-hidden="true">›</span> Chercheurs</li>
+            <li><span aria-hidden="true">›</span> <span class="crumb-current">Nom</span></li>
+          </ol>
+        </nav>
+        <header class="profile-head zone-b">
+          <div class="wire-tag zone-b">Zone B — en-tête profil</div>
+          <div class="profile-hero">
+            <div class="profile-photo" aria-hidden="true"></div>
+            <div>
+              <h1 id="profile-name">Dr. Jane Cadet</h1>
+              <p class="profile-inst">UNC · ENTROPIE</p>
+              <p class="profile-tags"><span class="tag">Biologie</span><span class="tag">Écologie marine</span><span class="tag">corail</span></p>
+              <p class="avail avail--on" data-i18n="availOn">Disponibilité : ouverte aux collaborations (opt-in)</p>
+            </div>
+          </div>
+        </header>
+        <section class="zone-b" aria-labelledby="pub-list-title">
+          <div class="wire-tag zone-b">Zone B — publications liées</div>
+          <h2 id="pub-list-title" class="block-title" data-i18n="linkedPub">Publications</h2>
+          <ul class="link-list">
+            <li><button type="button" class="link-row" data-nav="article">Résilience des récifs… <span class="row-date">2025</span></button></li>
+            <li><button type="button" class="link-row" data-nav="article">Autre travail vulgarisé <span class="row-date">2024</span></button></li>
+          </ul>
+        </section>
+        <div class="profile-actions">
+          <button type="button" class="btn btn-primary" disabled data-i18n="msgLockedShort">Message</button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="view-dashboard" class="view view-dashboard" hidden aria-labelledby="dash-title">
+      <div class="shell-inner dash-layout">
+        <div class="wire-tag zone-a">Zone A — espace connecté chercheur</div>
+        <header class="dash-header">
+          <h1 id="dash-title" data-i18n="dashTitle">Tableau de bord chercheur</h1>
+          <div class="dash-actions">
+            <button type="button" class="btn btn-primary" data-i18n="newPub">Nouvelle publication</button>
+            <button type="button" class="btn btn-outline" data-i18n="previewPublic">Voir comme le public</button>
+          </div>
+        </header>
+        <div class="dash-today zone-b">
+          <div class="wire-tag zone-b">Aujourd’hui</div>
+          <div class="today-cards">
+            <div class="mini-card"><strong data-i18n="drafts">Brouillons</strong><span class="num">1</span></div>
+            <div class="mini-card"><strong data-i18n="pendingIA">En attente validation IA</strong><span class="num">0</span></div>
+            <div class="mini-card"><strong data-i18n="veilleSnap">Veille (aperçu)</strong><span class="num">3</span></div>
+          </div>
+        </div>
+        <div class="dash-tabs zone-b">
+          <div class="wire-tag zone-b">Onglets</div>
+          <div class="tabs dash-tablist" role="tablist">
+            <button type="button" class="tab is-active" role="tab" data-i18n="tabVeille">Veille</button>
+            <button type="button" class="tab" role="tab" data-i18n="tabMyPub">Mes publications</button>
+            <button type="button" class="tab" role="tab" data-i18n="tabProf">Profil</button>
+            <button type="button" class="tab" role="tab" data-i18n="tabMsg">Messages</button>
+          </div>
+          <div class="tab-panel">
+            <p class="panel-placeholder" data-i18n="veillePlaceholder">Liste des chercheurs suivis, flux d’activité, réglages des alertes push (PWA).</p>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="shell-footer zone-a" role="contentinfo">
+    <div class="shell-inner footer-inner">
+      <div class="wire-tag zone-a">Zone A — pied</div>
+      <ul class="footer-links">
+        <li><a href="#" data-i18n="legalMentions">Mentions légales</a></li>
+        <li><a href="#" data-i18n="legalPrivacy">Confidentialité</a></li>
+        <li><a href="#" data-i18n="legalCookies">Cookies</a></li>
+      </ul>
+      <p class="footer-note" data-i18n="footerNote">Wireframe Lab Horizon — aligné docs/ux · SAE 501</p>
+    </div>
+  </footer>
+
+  <!-- Zone D — Chatbot FAB -->
+  <div class="fab-wrap zone-d">
+    <div class="wire-tag fab-tag">Zone D — chatbot</div>
+    <button type="button" class="fab" id="fabChat" aria-expanded="false" aria-controls="chatPanel" title="Assistant">
+      <span class="fab-icon" aria-hidden="true">💬</span>
+      <span class="sr-only">Ouvrir l’assistant (LLM)</span>
+    </button>
+    <div id="chatPanel" class="chat-panel" hidden role="dialog" aria-label="Assistant Lab Horizon">
+      <div class="chat-head">
+        <span data-i18n="chatTitle">Assistant</span>
+        <button type="button" class="chat-close" id="chatClose" aria-label="Fermer">×</button>
+      </div>
+      <div class="chat-body">
+        <p class="chat-bubble bot" data-i18n="chatWelcome">Bonjour — je peux vous aider à trouver des publications. (Wireframe)</p>
+      </div>
+      <div class="chat-foot">
+        <input type="text" class="input chat-input" placeholder="Votre question…" data-i18n-placeholder="chatPlaceholder" id="chatInput" />
+        <button type="button" class="btn btn-primary btn-sm" data-i18n="chatSend">Envoyer</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
