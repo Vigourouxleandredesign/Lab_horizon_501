@@ -21,7 +21,7 @@ Route::get('/dashboard', function () {
 })->middleware('auth')->name('dashboard');
 
 // Routes admin
-Route::prefix('admin')->name('admin.')->middleware('auth')->group(function () {
+Route::prefix('moncompte')->name('admin.')->middleware('auth')->group(function () {
 
     Route::resource('recherches', RechercheController::class)
          ->parameters(['recherches' => 'recherche']);
