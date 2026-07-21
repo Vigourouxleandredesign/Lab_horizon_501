@@ -76,7 +76,9 @@ class RechercheController extends Controller
 
         if ($request->hasFile('pdf')) {
             // Supprimer l'ancien fichier
-            Storage::disk('public')->delete($recherche->pdf_path);
+            if ($recherche->pdf_path) {
+                Storage::disk('public')->delete($recherche->pdf_path);
+            }
             $recherche->pdf_path = $request->file('pdf')->store('recherches', 'public');
         }
 
