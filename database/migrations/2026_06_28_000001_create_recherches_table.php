@@ -14,7 +14,7 @@ return new class extends Migration
             $table->text('description')->nullable();
             $table->text('abstract')->nullable();        // ← résumé HAL
             $table->string('auteur')->nullable();
-            $table->string('structure')->nullable();     // ← structName_s
+            $table->text('structure')->nullable();    // ← structName_s
             $table->string('pdf_path')->nullable();      // ← nullable car HAL n'a pas de PDF
             $table->string('domaine')->nullable();
             $table->date('date_production')->nullable(); // ← producedDate_tdate
