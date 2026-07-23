@@ -24,7 +24,7 @@
                 <option value="grand_public" {{ old('niveau_public') == 'grand_public' ? 'selected' : '' }}>
                     Grand public
                 </option>
-                <option value="lyceen" {{ old('niveau_public') == 'chercheurs' ? 'selected' : '' }}>
+                <option value="chercheurs" {{ old('niveau_public') == 'chercheurs' ? 'selected' : '' }}>
                     Chercheurs
                 </option>
             </select>
