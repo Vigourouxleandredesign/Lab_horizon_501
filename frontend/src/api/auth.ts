@@ -1,17 +1,15 @@
 /**
  * Façade authentification — session chercheur (rôles V1 : RESEARCHER, ADMIN).
  *
- * Mode 'rest' (cible Laravel Sanctum) :
+ * Mode 'rest' (Laravel session cookie) :
  *   GET  /sanctum/csrf-cookie   → pose le cookie CSRF avant login
  *   POST /api/login             → ouvre la session (cookie httpOnly)
  *   POST /api/logout            → ferme la session
  *   GET  /api/me                → SessionUser ou 401
- *   POST /api/register          → création de compte (mécanisme de validation à trancher, doc 07 §9)
+ *   POST /api/register          → pas encore exposé en JSON côté back (501)
  *
  * Mode démo (mock/hal) : session simulée côté front, clairement signalée dans
- * l'UI (`isDemoAuth`). Garde-fou documenté : aucune donnée sensible n'existe
- * en mode démo, et le mode 'rest' repose exclusivement sur la session serveur —
- * ce mock ne contourne aucun contrôle réel.
+ * l'UI (`isDemoAuth`).
  */
 
 import { isDemoAuth } from '../lib/config'
@@ -32,6 +30,31 @@ const DEMO_USER: SessionUser = {
 /** sessionStorage (pas localStorage) : la session démo meurt avec l'onglet. */
 const DEMO_SESSION_KEY = 'lab-horizon-demo-session'
 
+/** Shape brute renvoyée par Laravel AuthApiController. */
+type LaravelUser = {
+  id: number | string
+  name: string
+  email: string
+  orcid?: string | null
+  orcid_verified?: boolean
+}
+
+type LaravelLoginResponse = {
+  user: LaravelUser
+}
+
+function mapLaravelUser(user: LaravelUser): SessionUser {
+  const id = String(user.id)
+  return {
+    id,
+    displayName: user.name,
+    email: user.email,
+    // Absents du modèle User back — défauts assumés jusqu'à livraison rôle / profil.
+    role: 'RESEARCHER',
+    researcherId: id,
+  }
+}
+
 function readDemoSession(): SessionUser | null {
   try {
     const raw = sessionStorage.getItem(DEMO_SESSION_KEY)
@@ -47,7 +70,8 @@ export async function fetchSessionUser(signal?: AbortSignal): Promise<SessionUse
   if (isDemoAuth) return readDemoSession()
 
   try {
-    return await apiRequest<SessionUser>('/api/me', { signal })
+    const user = await apiRequest<LaravelUser>('/api/me', { signal })
+    return mapLaravelUser(user)
   } catch (error) {
     if (error instanceof ApiError && (error.status === 401 || error.status === 419)) {
       return null
@@ -65,9 +89,12 @@ export async function login(payload: LoginPayload): Promise<SessionUser> {
     return DEMO_USER
   }
 
-  // Sanctum : cookie CSRF d'abord, puis login — la session vit en cookie httpOnly.
   await apiRequest<void>('/sanctum/csrf-cookie')
-  return apiRequest<SessionUser>('/api/login', { method: 'POST', body: payload })
+  const response = await apiRequest<LaravelLoginResponse>('/api/login', {
+    method: 'POST',
+    body: payload,
+  })
+  return mapLaravelUser(response.user)
 }
 
 export async function logout(): Promise<void> {
@@ -80,13 +107,15 @@ export async function logout(): Promise<void> {
 
 export async function register(payload: RegisterPayload): Promise<SessionUser> {
   if (isDemoAuth) {
-    // Mécanisme d'inscription réel non tranché (doc 07 §9) : la démo refuse
-    // la création et oriente vers le compte de démonstration.
     throw new ApiError(
       `Inscription indisponible en démo — utilisez ${DEMO_EMAIL} sur la page de connexion.`,
       501,
     )
   }
-  await apiRequest<void>('/sanctum/csrf-cookie')
-  return apiRequest<SessionUser>('/api/register', { method: 'POST', body: payload })
+  // Back : register JSON absent (Blade /register seulement).
+  void payload
+  throw new ApiError(
+    'Inscription API indisponible — le back n’expose pas encore POST /api/register.',
+    501,
+  )
 }

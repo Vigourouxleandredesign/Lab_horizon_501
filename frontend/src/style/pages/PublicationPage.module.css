@@ -41,6 +41,41 @@
   line-height: 1.6;
 }
 
+.covers {
+  margin: 0 0 22px;
+}
+
+.coversTitle {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lh-src-placeholder);
+}
+
+.coverGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 10px;
+}
+
+.coverLink {
+  display: block;
+  overflow: hidden;
+  border-radius: 12px;
+  border: 1px solid var(--lh-border-light);
+  background: var(--lh-bg);
+  aspect-ratio: 4 / 3;
+}
+
+.coverImage {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
 .body p {
   margin: 0 0 14px;
   color: var(--lh-text);

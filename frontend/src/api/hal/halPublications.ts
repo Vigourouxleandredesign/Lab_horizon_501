@@ -41,6 +41,7 @@ function halYear(date: string | undefined): number | null {
 
 function toSummary(doc: HalDoc): PublicationSummary {
   const year = halYear(doc.producedDate_s)
+  const abstract = doc.abstract_s?.[0]?.trim() || null
   return {
     id: String(doc.docid),
     title: doc.title_s?.[0] ?? 'Sans titre',
@@ -51,6 +52,8 @@ function toSummary(doc: HalDoc): PublicationSummary {
     authorId: null,
     institution: doc.labStructName_s?.[0] ?? null,
     source: 'hal',
+    lead: abstract,
+    sourceUrl: doc.uri_s ?? null,
   }
 }
 
@@ -108,6 +111,7 @@ export async function halGetPublication(
       lab: doc.labStructName_s?.[0] ?? null,
     },
     sourceUrl: doc.uri_s ?? null,
+    coverUrls: [],
     related: [],
   }
 }

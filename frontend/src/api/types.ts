@@ -26,6 +26,12 @@ export type PublicationSummary = {
   authorId: string | null
   institution: string | null
   source: PublicationSource
+  /** Accroche courte affichée dans les listes. */
+  lead: string | null
+  /** Lien PDF / HAL / source — le clic liste ouvre cette URL. */
+  sourceUrl: string | null
+  /** Première image de couverture si disponible (rest / extract local). */
+  coverUrl?: string | null
 }
 
 /** Grille méta Quoi / Qui / Quand / Lab (cf. docs/ux/03). */
@@ -36,15 +42,14 @@ export type PublicationMeta = {
   lab: string | null
 }
 
-/** Page détail — corps vulgarisé + méta + lien vers la source. */
+/** Page détail — corps vulgarisé + méta + aperçus. */
 export type PublicationDetail = PublicationSummary & {
   status: PublicationStatus
-  lead: string | null
   /** Corps vulgarisé, par paragraphes. */
   paragraphs: string[]
   meta: PublicationMeta
-  /** Lien externe DOI / HAL vers la publication originale. */
-  sourceUrl: string | null
+  /** Images extraites du PDF (tests locaux) — vide si absentes. */
+  coverUrls: string[]
   related: PublicationSummary[]
 }
 

@@ -1,16 +1,16 @@
 /**
  * Façade chercheurs — accès réservé aux chercheurs connectés (D3).
  *
- * Le front conditionne l'affichage, mais la règle de visibilité est une
- * règle serveur : l'API Laravel devra répondre 401/403 sans session valide.
+ * Contrat REST cible (back à livrer) :
+ *   GET /api/researchers?q=&category=   → SearchResult<ResearcherSummary>
+ *   GET /api/researchers/:id            → ResearcherProfile
+ *   POST /api/researchers/:id/follow    → veille (D5)
  *
- * Contrat REST attendu (back Laravel, à implémenter) :
- *   GET /api/researchers?q=&category=   → SearchResult<ResearcherSummary>   (auth requise)
- *   GET /api/researchers/:id            → ResearcherProfile                 (auth requise)
- *   POST /api/researchers/:id/follow    → veille (D5)                       (auth requise)
+ * Mode hybride : même en `VITE_DATA_SOURCE=rest`, on reste sur le mock tant que
+ * l'API researchers n'existe pas (évite de casser `/chercheurs/:id`).
+ * TODO : brancher l'API dès livraison back (docs/front-back-status-v1.md F9).
  */
 
-import { appConfig } from '../lib/config'
 import { apiRequest } from './http'
 import { mockGetResearcher, mockSearchResearchers } from './mock/mockPublications'
 import type {
@@ -20,17 +20,19 @@ import type {
   SearchResult,
 } from './types'
 
+/** Passe à true quand le back expose `/api/researchers`. */
+const RESEARCHERS_API_READY = false
+
 export async function searchResearchers(
   params: ResearcherSearchParams,
   signal?: AbortSignal,
 ): Promise<SearchResult<ResearcherSummary>> {
-  if (appConfig.dataSource === 'rest') {
+  if (RESEARCHERS_API_READY) {
     return apiRequest<SearchResult<ResearcherSummary>>('/api/researchers', {
       params: { q: params.query, category: params.category },
       signal,
     })
   }
-  // HAL n'expose pas d'annuaire chercheurs : le mock sert aussi en mode 'hal'.
   return mockSearchResearchers(params)
 }
 
@@ -38,19 +40,17 @@ export async function getResearcher(
   id: string,
   signal?: AbortSignal,
 ): Promise<ResearcherProfile | null> {
-  if (appConfig.dataSource === 'rest') {
+  if (RESEARCHERS_API_READY) {
     return apiRequest<ResearcherProfile>(`/api/researchers/${encodeURIComponent(id)}`, { signal })
   }
   return mockGetResearcher(id)
 }
 
-/** Suivre un chercheur (veille D5) — no-op documenté hors mode 'rest'. */
+/** Suivre un chercheur (veille D5) — no-op tant que l'API n'est pas prête. */
 export async function followResearcher(id: string): Promise<void> {
-  if (appConfig.dataSource === 'rest') {
+  if (RESEARCHERS_API_READY) {
     await apiRequest<void>(`/api/researchers/${encodeURIComponent(id)}/follow`, {
       method: 'POST',
     })
-    return
   }
-  // Mode démo : l'action est visuelle uniquement (aucune persistance).
 }

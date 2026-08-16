@@ -66,6 +66,12 @@ export default function PublicationPage() {
     { label: t.meta.lab, value: publication.meta.lab },
   ].filter((row) => row.value)
 
+  const isLocalPdf =
+    Boolean(publication.sourceUrl) &&
+    (publication.sourceUrl!.includes('/files/') ||
+      publication.sourceUrl!.toLowerCase().endsWith('.pdf'))
+  const sourceLabel = isLocalPdf ? t.pdfCta : t.sourceCta
+
   return (
     <main className={styles.page}>
       <header className={styles.header}>
@@ -81,6 +87,25 @@ export default function PublicationPage() {
       </header>
 
       {publication.lead && <p className={styles.lead}>{publication.lead}</p>}
+
+      {publication.coverUrls.length > 0 && (
+        <section className={styles.covers} aria-label={t.coversLabel}>
+          <h2 className={styles.coversTitle}>{t.coversLabel}</h2>
+          <div className={styles.coverGrid}>
+            {publication.coverUrls.map((url) => (
+              <a
+                key={url}
+                href={publication.sourceUrl ?? url}
+                className={styles.coverLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <img src={url} alt="" className={styles.coverImage} loading="lazy" />
+              </a>
+            ))}
+          </div>
+        </section>
+      )}
 
       <article className={styles.body} aria-label={t.bodyLabel}>
         {publication.paragraphs.length > 0 ? (
@@ -108,7 +133,7 @@ export default function PublicationPage() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          {t.sourceCta} ↗
+          {sourceLabel} ↗
         </a>
       )}
 

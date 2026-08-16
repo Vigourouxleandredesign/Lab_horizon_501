@@ -1,6 +1,5 @@
 import { researchers } from '../data/labData'
 import { publicUrl } from '../lib/publicAsset'
-import { UNC_CATEGORIES } from '../data/categories'
 
 /** Icônes et images UI — fichiers locaux dans `public/ui` et `public/brand`. */
 export const figmaHomeAssets = {
@@ -33,14 +32,25 @@ export const figmaHomeAssets = {
 
 export const brandLogoSrc = publicUrl('brand/logo-color-v3.svg')
 
-const pillPlaceholder = publicUrl('pillules/biologie.png')
+/** Pillules domaine — PNG dans `public/pillules/` (une image par catégorie UNC). */
+const DOMAIN_PILL_BY_SLUG: Record<string, string> = {
+  'biodiversite-environnement-sante': 'pillules/biologie.png',
+  geosciences: 'pillules/geoscience.png',
+  'education-sante': 'pillules/Education.png',
+  'economie-gestion': 'pillules/Economie.png',
+  'droit-sciences-politiques': 'pillules/droit.png',
+  'histoire-archeologie': 'pillules/Histoire.png',
+  'societes-langues-cultures-oceaniennes': 'pillules/Culture.png',
+}
+
+const pillFallback = publicUrl(DOMAIN_PILL_BY_SLUG['biodiversite-environnement-sante'])
 
 export const domainPillImageById: Record<string, string> = Object.fromEntries(
-  UNC_CATEGORIES.map((c) => [c.slug, pillPlaceholder]),
+  Object.entries(DOMAIN_PILL_BY_SLUG).map(([slug, path]) => [slug, publicUrl(path)]),
 )
 
 export function getDomainPillSrc(id: string): string {
-  return domainPillImageById[id] ?? pillPlaceholder
+  return domainPillImageById[id] ?? pillFallback
 }
 
 export function getHomeHeroSrc(): string {

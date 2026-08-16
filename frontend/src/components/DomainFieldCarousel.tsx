@@ -57,9 +57,9 @@ function runSpringToTarget(
   let v = 0
   let cancelled = false
   let rafId = 0
-  const stiffness = 380
-  const damping = 32
-  const mass = 0.85
+  const stiffness = 280
+  const damping = 34
+  const mass = 1
   const dt = 1 / 60
 
   const tick = () => {
@@ -69,7 +69,7 @@ function runSpringToTarget(
     x += v * dt
     setX(x)
 
-    if (Math.abs(x - target) < 0.45 && Math.abs(v) < 4.5) {
+    if (Math.abs(x - target) < 0.35 && Math.abs(v) < 3) {
       setX(target)
       onComplete()
       return
@@ -167,6 +167,7 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
         const from = dragRef.current
         const targetDrag = -slotOffset * spacing
         springCancelRef.current = runSpringToTarget(from, targetDrag, setDrag, () => {
+          // Commit atomique : le contenu garde sa position écran (clés = index virtuel).
           setVirtualCenter((vc) => vc + slotOffset)
           setDrag(0)
           springCancelRef.current = null
@@ -262,11 +263,13 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
         const d = dragRef.current
         const steps = -Math.round(d / spacing)
 
+        // Ne pas avancer virtualCenter tout de suite : on termine le snap en anim,
+        // puis on commit (évite le « retour » visuel à l’origine).
         if (steps !== 0 && len > 1) {
-          setVirtualCenter((vc) => vc + steps)
+          animateSnapByLogicalDelta(steps)
+        } else {
+          runSnapAnimation()
         }
-
-        runSnapAnimation()
 
         window.removeEventListener('pointermove', onWinMove)
         window.removeEventListener('pointerup', onWinUp)
@@ -320,7 +323,7 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
 
           return (
             <div
-              key={slotOffset}
+              key={vi}
               style={{
                 position: 'absolute',
                 left: '50%',

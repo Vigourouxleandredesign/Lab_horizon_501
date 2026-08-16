@@ -57,6 +57,8 @@ function toSummary(pub: (typeof publications)[number]): PublicationSummary {
     authorId: pub.authorId,
     institution: pub.institution,
     source: 'local',
+    lead: `${pub.title} — étude présentée pour le grand public dans le domaine « ${pub.category} ».`,
+    sourceUrl: `https://hal.science/search/index/?q=${encodeURIComponent(pub.title)}`,
   }
 }
 
@@ -128,6 +130,7 @@ export function mockGetPublication(id: string): PublicationDetail | null {
       lab: pub.institution,
     },
     sourceUrl: `https://hal.science/search/index/?q=${encodeURIComponent(pub.title)}`,
+    coverUrls: [],
     related,
   }
 }
