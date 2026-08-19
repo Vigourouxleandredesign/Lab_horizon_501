@@ -11,7 +11,7 @@
 
 - **`mock`** — Données locales (`data/labData.ts`). Aucun réseau. Idéal pour maquettes et CI.
 - **`hal`** — Recherche publique branchée sur [HAL](https://api.archives-ouvertes.fr/search/). Démo d'une vraie API externe avant le back Laravel.
-- **`rest`** — API Laravel + SQLite. Auth Sanctum (cookies httpOnly). Cible V1.
+- **`rest`** — API Laravel (cookies de session + CSRF). **Mode hybride V1 :** auth + catalogue `/api/recherches` via adaptateur `src/api/rest/` ; compte / chercheurs restent en mock tant que leurs endpoints back n’existent pas.
 
 Exemple :
 
@@ -27,8 +27,9 @@ VITE_DATA_SOURCE=mock
 ```
 src/
 ├── api/              # Façades + adaptateurs (mock | hal | rest)
-│   ├── types.ts      # DTO — contrat JSON partagé avec Laravel
-│   ├── http.ts       # Client fetch centralisé (timeout, cookies, ApiError)
+│   ├── types.ts      # DTO UI stables (camelCase) — pages ne voient que ça
+│   ├── http.ts       # fetch + cookies + X-XSRF-TOKEN + ApiError
+│   ├── rest/         # Mappers Laravel (/api/recherches → DTO)
 │   ├── publications.ts
 │   ├── researchers.ts
 │   ├── auth.ts
@@ -57,14 +58,19 @@ Changer de source = variable d'environnement, pas réécriture des pages.
 
 ## Contrats REST attendus (Laravel)
 
-Documentés en en-tête de chaque façade :
+**Référence partagée (2 repos séparés) :** [`docs/api-contract-v1.md`](./api-contract-v1.md)  
+— besoins, endpoints, taxonomie JSON (camelCase), auth Sanctum, checklist d’alignement.
 
-| Façade | Endpoints |
-|--------|-----------|
-| `publications` | `GET /api/publications`, `GET /api/publications/:id` |
-| `researchers` | `GET /api/researchers`, `GET /api/researchers/:id`, `POST /api/researchers/:id/follow` |
-| `auth` | `GET /api/me`, `POST /api/login`, `POST /api/logout`, `POST /api/register` + Sanctum CSRF |
-| `account` | `GET /api/me/dashboard`, `GET /api/me/publications`, `GET/POST …/review`, `POST …/validate` |
+Résumé des facades (détail dans le contrat + en-têtes de `src/api/*`) :
+
+| Façade | Endpoints runtime (back actuel) |
+|--------|----------------------------------|
+| `publications` | `GET /api/recherches`, `GET /api/recherches/:id` (mappés vers DTO) |
+| `auth` | `GET /api/me`, `POST /api/login`, `POST /api/logout` + `/sanctum/csrf-cookie` ; register → 501 |
+| `researchers` | Mock tant que `/api/researchers` absent |
+| `account` | Mock tant que dashboard / review absents |
+
+Voir aussi : [`docs/front-back-status-v1.md`](./front-back-status-v1.md).
 
 ## Sécurité front
 
