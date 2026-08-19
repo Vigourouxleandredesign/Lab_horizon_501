@@ -1,29 +1,24 @@
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { useLocale } from '../hooks/useLocale'
+import { legalContent, type LegalKind } from '../i18n/legal'
+import { commonCopy } from '../i18n/common'
 import styles from '../style/pages/SimplePage.module.css'
 
-const legalCopy = {
-  'mentions-legales': {
-    title: 'Mentions légales',
-    body: 'Éditeur : Lab Horizon. Hébergement et coordonnées à compléter pour la mise en production.',
-  },
-  confidentialite: {
-    title: 'Politique de confidentialité',
-    body: 'Description du traitement des données personnelles (finalités, durées de conservation, droits des personnes).',
-  },
-  cookies: {
-    title: 'Politique cookies',
-    body: 'Information sur les cookies techniques et analytiques utilisés sur la plateforme.',
-  },
-} as const
-
-export type LegalKind = keyof typeof legalCopy
+export type { LegalKind } from '../i18n/legal'
 
 type LegalPageProps = {
   kind: LegalKind
 }
 
 export default function LegalPage({ kind }: LegalPageProps) {
-  const content = legalCopy[kind]
+  const { locale } = useLocale()
+  const content = legalContent(kind, locale)
+  const common = commonCopy[locale]
+
+  useEffect(() => {
+    document.title = `${content.title}, Lab Horizon`
+  }, [content.title])
 
   return (
     <main className={styles.page}>
@@ -31,7 +26,7 @@ export default function LegalPage({ kind }: LegalPageProps) {
       <p className={styles.lead}>{content.body}</p>
 
       <Link to="/" className={styles.backLink}>
-        Retour à l&apos;accueil
+        {common.backHome}
       </Link>
     </main>
   )

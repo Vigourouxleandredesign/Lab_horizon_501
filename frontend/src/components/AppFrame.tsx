@@ -1,10 +1,14 @@
 import { NavLink, Outlet, useMatch } from 'react-router-dom'
 import { brandLogoSrc } from '../assets/figmaHomeAssets'
+import { useLocale } from '../hooks/useLocale'
+import { commonCopy } from '../i18n/common'
 import SiteBottomNav from './chrome/SiteBottomNav'
 import SiteHeader from './chrome/SiteHeader'
 import chrome from '../style/chrome/siteChrome.module.css'
 
 export default function AppFrame() {
+  const { locale } = useLocale()
+  const footer = commonCopy[locale].footer
   const isHomePage = Boolean(useMatch({ path: '/', end: true }))
   const isCategoryDomainPage = Boolean(useMatch('/categories/:slug'))
   const headerOverHero = isHomePage || isCategoryDomainPage
@@ -22,11 +26,11 @@ export default function AppFrame() {
             <span>Lab Horizon</span>
           </div>
           <nav className={chrome.footerLinks} aria-label="Pied de page">
-            <NavLink to="/mentions-legales">Mentions legales</NavLink>
+            <NavLink to="/mentions-legales">{footer.legal}</NavLink>
             <span className={chrome.footerSep}>|</span>
-            <NavLink to="/confidentialite">Confidentialite</NavLink>
+            <NavLink to="/confidentialite">{footer.privacy}</NavLink>
             <span className={chrome.footerSep}>|</span>
-            <NavLink to="/cookies">Cookies</NavLink>
+            <NavLink to="/cookies">{footer.cookies}</NavLink>
           </nav>
           <p className={chrome.footerCopy}>© {new Date().getFullYear()} Lab Horizon</p>
         </div>

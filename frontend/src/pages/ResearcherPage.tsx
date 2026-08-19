@@ -25,7 +25,7 @@ export default function ResearcherPage() {
 
   useEffect(() => {
     if (query.status === 'success' && query.data) {
-      document.title = `${query.data.displayName} — Lab Horizon`
+      document.title = `${query.data.displayName}, Lab Horizon`
     }
   }, [query])
 

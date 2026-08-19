@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom'
 import type { PublicationSummary } from '../api/types'
+import { useLocale } from '../hooks/useLocale'
+import { commonCopy } from '../i18n/common'
 import styles from '../style/components/PublicationCard.module.css'
 
 type Props = {
@@ -12,6 +14,8 @@ type Props = {
  * (sinon repli vers la fiche détail).
  */
 export default function PublicationCard({ publication }: Props) {
+  const { locale } = useLocale()
+  const t = commonCopy[locale]
   const openExternal = Boolean(publication.sourceUrl)
   const className = [
     styles.card,
@@ -42,7 +46,7 @@ export default function PublicationCard({ publication }: Props) {
           {publication.source === 'hal' && <span className={styles.sourceTag}>HAL</span>}
         </div>
         <span className={styles.cta}>
-          {openExternal ? 'Ouvrir le document ↗' : 'Voir la fiche →'}
+          {openExternal ? t.openDocument : t.viewDetail}
         </span>
       </div>
     </>

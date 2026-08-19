@@ -36,7 +36,7 @@ export default function InscriptionPage() {
     const password = String(formData.get('password') ?? '')
     const confirm = String(formData.get('confirmPassword') ?? '')
     if (password !== confirm) {
-      setError('Les mots de passe ne correspondent pas.')
+      setError(t.passwordMismatch)
       setSubmitting(false)
       return
     }
@@ -49,11 +49,7 @@ export default function InscriptionPage() {
       })
       navigate('/compte', { replace: true })
     } catch (err) {
-      setError(
-        err instanceof Error
-          ? err.message
-          : 'Inscription indisponible — utilisez la page de connexion.',
-      )
+      setError(err instanceof Error ? err.message : t.unavailable)
     } finally {
       setSubmitting(false)
     }
@@ -87,9 +83,8 @@ export default function InscriptionPage() {
 
           {isDemoAuth && (
             <p className={styles.demoNote} role="note">
-              Inscription réelle prévue avec l&apos;API Laravel (validation par le référent à
-              trancher). En attendant, connectez-vous via la{' '}
-              <Link to="/connexion">page de connexion</Link>.
+              {t.demoNote}{' '}
+              <Link to="/connexion">{t.signIn}</Link>.
             </p>
           )}
         </section>
@@ -128,7 +123,7 @@ export default function InscriptionPage() {
               </p>
             )}
             <button type="submit" className={styles.submitBtn} disabled={submitting}>
-              {submitting ? '…' : t.submit}
+              {submitting ? t.submitting : t.submit}
             </button>
           </form>
 

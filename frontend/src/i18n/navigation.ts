@@ -11,7 +11,7 @@ export const siteNavCopy = {
     items: {
       home: { headerDesktop: 'Accueil', bottom: 'Accueil' },
       publications: { headerDesktop: 'Recherche', bottom: 'Recherche' },
-      researchers: { headerDesktop: 'Chercheurs', bottom: 'Chercheurs' },
+      researchers: { headerDesktop: 'Recherche UNC', bottom: 'Recherche UNC' },
       about: { headerDesktop: 'À propos' },
       categories: { headerDesktop: 'Catégories', bottom: 'Catégories' },
       account: { headerDesktop: 'Compte' },
@@ -27,7 +27,7 @@ export const siteNavCopy = {
     items: {
       home: { headerDesktop: 'Home', bottom: 'Home' },
       publications: { headerDesktop: 'Search', bottom: 'Search' },
-      researchers: { headerDesktop: 'Researchers', bottom: 'Researchers' },
+      researchers: { headerDesktop: 'UNC research', bottom: 'UNC research' },
       about: { headerDesktop: 'About' },
       categories: { headerDesktop: 'Categories', bottom: 'Categories' },
       account: { headerDesktop: 'Account' },

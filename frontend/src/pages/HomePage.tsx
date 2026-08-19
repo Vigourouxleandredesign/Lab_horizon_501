@@ -8,6 +8,7 @@ import HomeHero from '../components/HomeHero'
 import { uncTeams } from '../data/uncResearch'
 import { domainSlides, homeCopy } from '../i18n/home'
 import { useLocale } from '../hooks/useLocale'
+import { localizedText } from '../lib/localizedText'
 import styles from '../style/pages/HomePage.module.css'
 
 export default function HomePage() {
@@ -33,6 +34,7 @@ export default function HomePage() {
     <div className={styles.page}>
       <HomeHero
         title={t.hero.title}
+        platformBadge={t.platformBadge}
         imageSrc={getHomeHeroSrc()}
         scrollCta={t.hero.scrollCta}
         onScrollToContent={scrollToSearch}
@@ -142,7 +144,7 @@ export default function HomePage() {
               <article key={team.id} className={styles.researcherCard}>
                 <div className={styles.researcherBody}>
                   <div className={styles.researcherName}>{team.name}</div>
-                  <div className={styles.researcherOrg}>{team.summary}</div>
+                  <div className={styles.researcherOrg}>{localizedText(team.summary, locale)}</div>
                   <div className={styles.researcherTags}>
                     {team.websiteUrl ? (
                       <a

@@ -9,10 +9,17 @@ type Props = {
   title: string
   imageSrc: string
   scrollCta: string
+  platformBadge?: string
   onScrollToContent: () => void
 }
 
-export default function HomeHero({ title, imageSrc, scrollCta, onScrollToContent }: Props) {
+export default function HomeHero({
+  title,
+  imageSrc,
+  scrollCta,
+  platformBadge,
+  onScrollToContent,
+}: Props) {
   const heroRef = useRef<HTMLElement>(null)
   const distortStackRef = useRef<HTMLDivElement>(null)
   const parallaxInnerRef = useRef<HTMLDivElement>(null)
@@ -47,6 +54,9 @@ export default function HomeHero({ title, imageSrc, scrollCta, onScrollToContent
       <div className={styles.homeHeroOverlay} aria-hidden />
 
       <div ref={titleWrapRef} className={styles.homeHeroTitleWrap}>
+        {platformBadge && (
+          <p className={styles.homeHeroBadge}>{platformBadge}</p>
+        )}
         <h1
           id="home-hero-title"
           ref={titleRef}

@@ -1,7 +1,9 @@
-import { useState, type FormEvent } from 'react'
+import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { DEMO_EMAIL } from '../api/auth'
 import { useAuth } from '../auth/AuthContext'
+import { useLocale } from '../hooks/useLocale'
+import { connexionCopy } from '../i18n/connexion'
 import { isDemoAuth } from '../lib/config'
 import styles from '../style/pages/SimplePage.module.css'
 
@@ -10,13 +12,18 @@ import styles from '../style/pages/SimplePage.module.css'
  * 'rest', session de démonstration sinon, clairement signalée).
  */
 export default function ConnexionPage() {
+  const { locale } = useLocale()
+  const t = connexionCopy[locale]
   const { status, login } = useAuth()
   const navigate = useNavigate()
   const location = useLocation()
   const [error, setError] = useState<string | null>(null)
   const [submitting, setSubmitting] = useState(false)
 
-  // Déjà connecté : direction l'espace compte (ou la page demandée).
+  useEffect(() => {
+    document.title = t.metaTitle
+  }, [t.metaTitle])
+
   const from = (location.state as { from?: string } | null)?.from ?? '/compte'
   if (status === 'authenticated') {
     return <Navigate to={from} replace />
@@ -35,7 +42,7 @@ export default function ConnexionPage() {
       })
       navigate(from, { replace: true })
     } catch {
-      setError('Identifiants invalides ou service indisponible.')
+      setError(t.error)
     } finally {
       setSubmitting(false)
     }
@@ -43,25 +50,22 @@ export default function ConnexionPage() {
 
   return (
     <main className={styles.page}>
-      <h1>Connexion</h1>
-      <p className={styles.lead}>
-        Accédez à votre espace chercheur pour publier et gérer votre veille.
-      </p>
+      <h1>{t.title}</h1>
+      <p className={styles.lead}>{t.lead}</p>
 
       {isDemoAuth && (
         <p className={styles.highlight} role="note">
-          Mode démonstration — connectez-vous avec <strong>{DEMO_EMAIL}</strong> et un mot
-          de passe quelconque. L&apos;authentification réelle arrivera avec l&apos;API Lab Horizon.
+          {t.demoNote(DEMO_EMAIL)}
         </p>
       )}
 
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
-          E-mail
+          {t.email}
           <input type="email" name="email" autoComplete="email" required />
         </label>
         <label>
-          Mot de passe
+          {t.password}
           <input type="password" name="password" autoComplete="current-password" required />
         </label>
         {error && (
@@ -70,17 +74,17 @@ export default function ConnexionPage() {
           </p>
         )}
         <button type="submit" className={styles.primaryBtn} disabled={submitting}>
-          {submitting ? 'Connexion…' : 'Se connecter'}
+          {submitting ? t.submitting : t.submit}
         </button>
       </form>
 
       <p className={styles.lead}>
-        Pas encore de compte ?{' '}
-        <Link to="/inscription">Créer un compte</Link>
+        {t.noAccount}{' '}
+        <Link to="/inscription">{t.createAccount}</Link>
       </p>
 
       <Link to="/" className={styles.backLink}>
-        Retour à l&apos;accueil
+        {t.backHome}
       </Link>
     </main>
   )

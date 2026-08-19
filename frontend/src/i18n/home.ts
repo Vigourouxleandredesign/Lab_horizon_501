@@ -1,4 +1,4 @@
-/** Textes page d’accueil — alignés maquette Figma + taxonomie UNC. */
+/** Textes page d'accueil (maquette Figma + taxonomie UNC). */
 
 import { UNC_CATEGORIES } from '../data/categories'
 
@@ -6,18 +6,18 @@ export type Locale = 'fr' | 'en'
 
 export const homeCopy = {
   fr: {
-    metaTitle: 'Lab Horizon — Recherche calédonienne',
-    platformBadge: 'Plateforme de recherche scientifique',
+    metaTitle: 'Lab Horizon, recherche calédonienne',
+    platformBadge: 'Université de la Nouvelle-Calédonie',
     hero: {
-      title: "Bienvenue dans l'univers de la recherche accessible à tous",
+      title: 'La recherche en Nouvelle-Calédonie, accessible par tous et pour tous',
       scrollCta: 'Explorer',
     },
     search: {
-      sectionLabel: 'Recherche globale',
+      sectionLabel: 'Recherche sur Lab Horizon',
       placeholder: 'Rechercher un thème ou un sujet…',
       submit: 'Rechercher',
       advanced: 'Filtres avancés',
-      advancedHint: '(dispo · catégorie · institution)',
+      advancedHint: '(catégorie, année, tri)',
     },
     categories: {
       title: 'Explorez par domaine',
@@ -32,9 +32,9 @@ export const homeCopy = {
     },
     mission: {
       badge: 'NOTRE MISSION',
-      title: 'Une communauté scientifique mondiale ancrée en Nouvelle-Calédonie',
+      title: 'Valoriser la recherche calédonienne',
       body:
-        'Lab Horizon rassemble chercheurs, étudiants et professionnels autour d’une plateforme collaborative de partage des connaissances scientifiques.',
+        'Lab Horizon met en lumière les travaux des chercheurs affiliés à l’Université de la Nouvelle-Calédonie et de leurs partenaires, à travers les publications, la vulgarisation et une veille organisée par domaine scientifique.',
       cta: 'Découvrir qui nous sommes',
     },
     footer: {
@@ -43,21 +43,20 @@ export const homeCopy = {
       cookies: 'Cookies',
       copyright: 'Lab Horizon',
     },
-    chatFab: 'Ouvrir l’assistant Lab Horizon',
   },
   en: {
-    metaTitle: 'Lab Horizon — New Caledonian research',
-    platformBadge: 'Scientific research platform',
+    metaTitle: 'Lab Horizon, New Caledonian research',
+    platformBadge: 'University of New Caledonia',
     hero: {
-      title: 'Welcome to a world of research accessible to everyone',
+      title: 'Research in New Caledonia, accessible by all and for all',
       scrollCta: 'Explore',
     },
     search: {
-      sectionLabel: 'Global search',
+      sectionLabel: 'Search Lab Horizon',
       placeholder: 'Search a topic or theme…',
       submit: 'Search',
       advanced: 'Advanced filters',
-      advancedHint: '(availability · category · institution)',
+      advancedHint: '(category, year, sort)',
     },
     categories: {
       title: 'Explore by field',
@@ -72,9 +71,9 @@ export const homeCopy = {
     },
     mission: {
       badge: 'OUR MISSION',
-      title: 'A global scientific community rooted in New Caledonia',
+      title: 'Showcase New Caledonian research',
       body:
-        'Lab Horizon brings together researchers, students and professionals around a collaborative platform for sharing scientific knowledge.',
+        'Lab Horizon highlights the work of researchers affiliated with the University of New Caledonia and their partners, through publications, plain-language summaries and field-based watchlists.',
       cta: 'Discover who we are',
     },
     footer: {
@@ -83,7 +82,6 @@ export const homeCopy = {
       cookies: 'Cookies',
       copyright: 'Lab Horizon',
     },
-    chatFab: 'Open Lab Horizon assistant',
   },
 } as const
 
@@ -91,7 +89,6 @@ function slidesForLocale(locale: Locale) {
   return UNC_CATEGORIES.map((c) => ({
     id: c.slug,
     label: locale === 'fr' ? c.labelFr : c.labelEn,
-    count: c.publicationCount,
   }))
 }
 

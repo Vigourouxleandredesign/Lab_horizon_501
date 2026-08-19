@@ -13,7 +13,6 @@ export type UncCategory = {
   slug: CategorySlug
   labelFr: string
   labelEn: string
-  publicationCount: number
 }
 
 export const UNC_CATEGORIES: UncCategory[] = [
@@ -21,43 +20,36 @@ export const UNC_CATEGORIES: UncCategory[] = [
     slug: 'biodiversite-environnement-sante',
     labelFr: 'Biodiversité, environnement et santé',
     labelEn: 'Biodiversity, environment and health',
-    publicationCount: 24,
   },
   {
     slug: 'geosciences',
     labelFr: 'Géosciences (sciences de la Terre)',
     labelEn: 'Geosciences (Earth sciences)',
-    publicationCount: 18,
   },
   {
     slug: 'education-sante',
     labelFr: 'Éducation & Santé',
     labelEn: 'Education & Health',
-    publicationCount: 15,
   },
   {
     slug: 'economie-gestion',
     labelFr: 'Économie & gestion',
     labelEn: 'Economics & management',
-    publicationCount: 12,
   },
   {
     slug: 'droit-sciences-politiques',
     labelFr: 'Droit & sciences politiques',
     labelEn: 'Law & political science',
-    publicationCount: 14,
   },
   {
     slug: 'histoire-archeologie',
     labelFr: 'Histoire & Archéologie',
     labelEn: 'History & Archaeology',
-    publicationCount: 9,
   },
   {
     slug: 'societes-langues-cultures-oceaniennes',
     labelFr: 'Sociétés, langues & cultures océaniennes',
     labelEn: 'Oceanian societies, languages & cultures',
-    publicationCount: 11,
   },
 ]
 

@@ -24,7 +24,7 @@ export default function PublicationPage() {
 
   useEffect(() => {
     if (query.status === 'success' && query.data) {
-      document.title = `${query.data.title} — Lab Horizon`
+      document.title = `${query.data.title}, Lab Horizon`
     }
   }, [query])
 

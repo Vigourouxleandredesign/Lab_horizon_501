@@ -1,23 +1,30 @@
+import { useEffect } from 'react'
 import { directoryIntro, externalUmrs, uncTeams } from '../data/uncResearch'
+import { useLocale } from '../hooks/useLocale'
+import { localizedText } from '../lib/localizedText'
+import { uncResearchPageCopy } from '../i18n/uncResearchPage'
 import styles from '../style/pages/UncResearchPage.module.css'
 
 export default function UncResearchPage() {
+  const { locale } = useLocale()
+  const t = uncResearchPageCopy[locale]
+
+  useEffect(() => {
+    document.title = t.metaTitle
+  }, [t.metaTitle])
+
   return (
     <main className={styles.page}>
-      <h1>Recherche à l&apos;UNC</h1>
-      <p className={styles.intro}>
-        Les équipes de recherche de l&apos;Université de Nouvelle-Calédonie et les
-        annuaires des acteurs de la recherche — enseignants-chercheurs, ingénieurs et
-        techniciens.
-      </p>
+      <h1>{t.title}</h1>
+      <p className={styles.intro}>{t.intro}</p>
 
       <section className={styles.section} aria-labelledby="teams-heading">
-        <h2 id="teams-heading">Équipes de recherche UNC</h2>
+        <h2 id="teams-heading">{t.teamsHeading}</h2>
         <div className={styles.teamGrid}>
           {uncTeams.map((team) => (
             <article key={team.id} className={styles.teamCard}>
               <h3>{team.name}</h3>
-              <p>{team.summary}</p>
+              <p>{localizedText(team.summary, locale)}</p>
               {team.websiteUrl ? (
                 <a
                   href={team.websiteUrl}
@@ -25,10 +32,12 @@ export default function UncResearchPage() {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {team.websiteLabel ?? 'Voir le site'}
+                  {team.websiteLabel
+                    ? localizedText(team.websiteLabel, locale)
+                    : t.visitSite}
                 </a>
               ) : (
-                <span className={styles.badgeSoon}>Site bientôt disponible</span>
+                <span className={styles.badgeSoon}>{t.comingSoon}</span>
               )}
             </article>
           ))}
@@ -37,8 +46,8 @@ export default function UncResearchPage() {
 
       <section className={styles.section} aria-labelledby="directory-heading">
         <div className={styles.directoryCard}>
-          <h2 id="directory-heading">{directoryIntro.title}</h2>
-          <p>{directoryIntro.subtitle}</p>
+          <h2 id="directory-heading">{t.directoryTitle}</h2>
+          <p>{t.directorySubtitle}</p>
           <div className={styles.linkList}>
             {directoryIntro.links.map((link) => (
               <a
@@ -48,17 +57,17 @@ export default function UncResearchPage() {
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                {link.label}
+                {localizedText(link.label, locale)}
               </a>
             ))}
           </div>
 
           <div className={styles.umrBlock}>
-            <h3>UMR hors UNC (informations à compléter)</h3>
+            <h3>{t.externalLabsHeading}</h3>
             {externalUmrs.map((umr) => (
               <div key={umr.id} className={styles.umrCard}>
                 <strong>{umr.name}</strong>
-                <p>{umr.summary}</p>
+                <p>{localizedText(umr.summary, locale)}</p>
                 <a
                   href={umr.websiteUrl}
                   className={styles.teamLink}

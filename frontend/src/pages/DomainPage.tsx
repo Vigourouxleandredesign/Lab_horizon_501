@@ -10,6 +10,7 @@ import type { CategorySlug } from '../data/categories'
 import { useApiQuery } from '../hooks/useApiQuery'
 import { useLocale } from '../hooks/useLocale'
 import { useTextReveal } from '../hooks/useTextReveal'
+import { toApiCategoryParam } from '../lib/categoryFilter'
 import { domainDescription, domainPageCopy } from '../i18n/domains'
 import NotFoundPage from './NotFoundPage'
 import styles from '../style/pages/DomainPage.module.css'
@@ -33,13 +34,12 @@ export default function DomainPage() {
     publicationsRef.current?.scrollIntoView({ behavior: 'smooth' })
   }, [])
 
-  // Filtre catégorie via la façade API — le libellé FR est la clé des filtres.
   const publicationsQuery = useApiQuery(
     (signal) =>
       category
-        ? searchPublications({ category: category.labelFr }, signal)
+        ? searchPublications({ category: toApiCategoryParam(category.slug) }, signal)
         : Promise.resolve({ items: [], total: 0 }),
-    [category?.labelFr],
+    [category?.slug],
   )
 
   if (!category || typedSlug === undefined) {
@@ -77,7 +77,7 @@ export default function DomainPage() {
               {copy.publicationsTitle}
             </h2>
             <Link
-              to={`/recherche?category=${encodeURIComponent(category.labelFr)}`}
+              to={`/recherche?category=${encodeURIComponent(category.slug)}`}
               className={styles.searchLink}
             >
               {copy.searchAll}

@@ -10,7 +10,7 @@ import {
 import { useNavigate } from 'react-router-dom'
 import { useMediaQuery } from '../hooks/useMediaQuery'
 
-export type DomainSlide = { id: string; label: string; count: number }
+export type DomainSlide = { id: string; label: string; count?: number }
 
 export type DomainFieldCarouselHandle = {
   step: (delta: number) => void
@@ -385,15 +385,17 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
                 >
                   {cat.label}
                 </div>
-                <div
-                  style={{
-                    fontSize: '0.75rem',
-                    color: 'var(--lh-link)',
-                    marginTop: 2,
-                  }}
-                >
-                  {cat.count} {pubsCountLabel}
-                </div>
+                {cat.count != null && (
+                  <div
+                    style={{
+                      fontSize: '0.75rem',
+                      color: 'var(--lh-link)',
+                      marginTop: 2,
+                    }}
+                  >
+                    {cat.count} {pubsCountLabel}
+                  </div>
+                )}
               </div>
             </div>
           )

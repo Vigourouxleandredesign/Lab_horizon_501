@@ -6,11 +6,10 @@ import type { PublicationSort } from '../api/types'
 import { useAuth } from '../auth/AuthContext'
 import PublicationCard from '../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../components/QueryStates'
-import { categoryLabels } from '../data/categories'
+import { categoryOptions, categorySlugFromDomain, parseCategorySlug, toApiCategoryParam } from '../lib/categoryFilter'
 import { useApiQuery } from '../hooks/useApiQuery'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
 import { useLocale } from '../hooks/useLocale'
-import { categoryFromDomain } from '../lib/domainCategory'
 import { searchPageCopy } from '../i18n/search'
 import styles from '../style/pages/SearchPage.module.css'
 
@@ -35,10 +34,11 @@ export default function SearchPage() {
   const [searchParams, setSearchParams] = useSearchParams()
 
   const urlQuery = searchParams.get('q') ?? ''
-  const category =
-    searchParams.get('category') ??
-    categoryFromDomain(searchParams.get('domain'), locale) ??
+  const categorySlug =
+    parseCategorySlug(searchParams.get('category')) ||
+    categorySlugFromDomain(searchParams.get('domain')) ||
     ''
+  const apiCategory = toApiCategoryParam(categorySlug)
   const year = Number(searchParams.get('year')) || undefined
   const sort = parseSort(searchParams.get('sort'))
 
@@ -85,18 +85,18 @@ export default function SearchPage() {
   const publicationsQuery = useApiQuery(
     (signal) =>
       searchPublications(
-        { query: urlQuery, category: category || undefined, year, sort },
+        { query: urlQuery, category: apiCategory, year, sort },
         signal,
       ),
-    [urlQuery, category, year, sort],
+    [urlQuery, apiCategory, year, sort],
   )
 
   const researchersQuery = useApiQuery(
     (signal) =>
       canSeeResearchers
-        ? searchResearchers({ query: urlQuery, category: category || undefined }, signal)
+        ? searchResearchers({ query: urlQuery, category: apiCategory }, signal)
         : Promise.resolve({ items: [], total: 0 }),
-    [urlQuery, category, canSeeResearchers],
+    [urlQuery, apiCategory, canSeeResearchers],
   )
 
   return (
@@ -117,13 +117,13 @@ export default function SearchPage() {
           <label className={styles.filterField}>
             <span className={styles.filterLabel}>{t.filters.category}</span>
             <select
-              value={category}
+              value={categorySlug}
               onChange={(e) => setParam('category', e.target.value)}
               className={styles.filterSelect}
             >
               <option value="">{t.filters.allCategories}</option>
-              {categoryLabels('fr').map((label) => (
-                <option key={label} value={label}>
+              {categoryOptions(locale).map(({ slug, label }) => (
+                <option key={slug} value={slug}>
                   {label}
                 </option>
               ))}
