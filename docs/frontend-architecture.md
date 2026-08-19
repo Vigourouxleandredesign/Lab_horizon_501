@@ -11,7 +11,7 @@
 
 - **`mock`** — Données locales (`data/labData.ts`). Aucun réseau. Idéal pour maquettes et CI.
 - **`hal`** — Recherche publique branchée sur [HAL](https://api.archives-ouvertes.fr/search/). Démo d'une vraie API externe avant le back Laravel.
-- **`rest`** — API Laravel (cookies de session + CSRF). **Mode hybride V1 :** auth + catalogue `/api/recherches` via adaptateur `src/api/rest/` ; compte / chercheurs restent en mock tant que leurs endpoints back n’existent pas.
+- **`rest`** — API Laravel (cookies de session + CSRF). **Mode hybride V1 :** auth + catalogue `/api/recherches` via adaptateur `src/api/rest/`, compte et chercheurs restent en mock tant que leurs endpoints back n’existent pas.
 
 Exemple :
 
