@@ -1,5 +1,5 @@
 # =============================================================================
-# Lab Horizon — .gitignore racine (monorepo frontend + backend Laravel à venir)
+# Lab Horizon — .gitignore racine (monorepo frontend React + backend Laravel)
 # Objectif : aucun secret, aucun artefact de build, aucune config machine-local.
 # =============================================================================
 
@@ -18,11 +18,12 @@ id_rsa.*
 secrets/
 .secrets/
 
-# --- Laravel / PHP (backend/ à venir) -----------------------------------------
+# --- Laravel / PHP (backend/) -------------------------------------------------
 backend/vendor/
 backend/node_modules/
 backend/.env
 backend/.env.*
+!backend/.env.example
 backend/storage/*.key
 backend/storage/logs/
 backend/storage/framework/cache/data/
@@ -33,6 +34,7 @@ backend/storage/app/private/
 backend/bootstrap/cache/*.php
 backend/public/hot
 backend/public/storage
+backend/public/build/
 backend/database/*.sqlite
 backend/database/*.sqlite-journal
 backend/database/*.sqlite-wal
@@ -42,6 +44,7 @@ backend/.phpunit.cache
 backend/Homestead.json
 backend/Homestead.yaml
 backend/auth.json
+backend/labhorizon
 
 # --- Node / frontend ----------------------------------------------------------
 node_modules/
@@ -73,10 +76,11 @@ coverage/
 .parcel-cache/
 .turbo/
 
-# --- OS -----------------------------------------------------------------------
+# --- OS & fichiers temporaires Office -----------------------------------------
 .DS_Store
 Thumbs.db
 Desktop.ini
+.~lock.*
 
 # --- IDE (config personnelle) -------------------------------------------------
 .idea/
