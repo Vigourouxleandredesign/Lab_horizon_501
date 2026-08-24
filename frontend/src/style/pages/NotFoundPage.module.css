@@ -1,0 +1,203 @@
+/**
+ * Page 404 — un seul bloc, inspiré de GitHub (mascotte, texte, recherche, liens).
+ * Fond gris DA (--lh-page-top) pour se distinguer du header et du footer marine.
+ */
+
+.page {
+  --lh-not-found-bg: var(--lh-page-top);
+  min-height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 120px 20px calc(88px + env(safe-area-inset-bottom));
+  background: var(--lh-not-found-bg);
+  color: var(--lh-heading);
+}
+
+@media (max-width: 899px) {
+  .page {
+    padding-top: 40px;
+  }
+}
+
+.panel {
+  position: relative;
+  width: 100%;
+  max-width: 640px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+/* Hibou derrière le texte : le bas s’efface en dégradé dans le beige DA. */
+.mascot {
+  position: relative;
+  z-index: 0;
+  width: min(340px, 78vw);
+  pointer-events: none;
+  mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 38%,
+    transparent 72%
+  );
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    #000 0%,
+    #000 38%,
+    transparent 72%
+  );
+}
+
+.logo {
+  display: block;
+  width: 100%;
+  height: auto;
+}
+
+.copy {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: clamp(-200px, -36vw, -130px);
+  padding: 56px 8px 0;
+  background: linear-gradient(
+    to bottom,
+    transparent 0%,
+    var(--lh-not-found-bg) 36%
+  );
+}
+
+.title {
+  margin: 0 auto 14px;
+  max-width: 22ch;
+  font-size: clamp(1.6rem, 4.2vw, 2.5rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--lh-navy);
+}
+
+.lead {
+  margin: 0 auto 28px;
+  max-width: 38rem;
+  font-size: 1rem;
+  line-height: 1.65;
+  color: var(--lh-muted);
+}
+
+.textReveal {
+  font-kerning: none;
+}
+
+.searchPill {
+  display: flex;
+  align-items: center;
+  width: min(100%, 560px);
+  padding: 7px 8px 7px 10px;
+  border-radius: 999px;
+  border: 0.8px solid var(--lh-src-white-070);
+  background: var(--lh-src-white-097);
+  box-shadow: var(--lh-shadow-search-pill);
+  position: relative;
+}
+
+.searchPill::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  box-shadow: var(--lh-inset-search-top);
+}
+
+.searchLead {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 44px;
+  flex-shrink: 0;
+}
+
+.searchLead img {
+  padding: 9px;
+  border-radius: 999px;
+  background: linear-gradient(
+    135deg,
+    var(--lh-src-search-lead-from) 0%,
+    var(--lh-src-search-lead-to) 100%
+  );
+  border: 0.8px solid var(--lh-src-white-050);
+}
+
+.searchInput {
+  flex: 1;
+  min-width: 0;
+  border: none;
+  background: transparent;
+  font-size: 0.9rem;
+  padding: 12px 8px;
+  font-family: inherit;
+  color: var(--lh-heading);
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: var(--lh-src-placeholder);
+}
+
+.searchSubmit {
+  flex-shrink: 0;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 999px;
+  color: var(--lh-src-white);
+  font-weight: 700;
+  font-size: 0.875rem;
+  cursor: pointer;
+  font-family: inherit;
+  background: linear-gradient(
+    162.71deg,
+    var(--lh-src-navy-900) 0%,
+    var(--lh-src-indigo-600) 100%
+  );
+  box-shadow: var(--lh-shadow-search-submit);
+}
+
+.searchSubmit:hover {
+  filter: brightness(1.06);
+}
+
+.discover {
+  margin: 22px auto 0;
+  max-width: 36rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--lh-body-gray);
+}
+
+.discover a {
+  color: var(--lh-link);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.discover a:hover {
+  text-decoration: underline;
+}
+
+.backHome {
+  margin-top: 16px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backHome:hover {
+  text-decoration: underline;
+}

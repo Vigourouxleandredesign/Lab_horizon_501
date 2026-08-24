@@ -62,12 +62,6 @@ export default function DomainHero({
         <HeroGlassBackground imageSrc={imageSrc} heroRef={heroRef} />
       </div>
 
-      <div ref={layerRef} className={styles.heroForegroundLayer} aria-hidden>
-        <div className={styles.heroForegroundLayerInner}>
-          <img src={layerSrc} alt="" className={styles.heroForegroundImage} decoding="async" />
-        </div>
-      </div>
-
       <div className={styles.heroOverlay} aria-hidden />
 
       <div ref={leftTextRef} className={styles.heroTitlePrimaryWrap}>
@@ -77,6 +71,12 @@ export default function DomainHero({
         >
           {title}
         </h1>
+      </div>
+
+      <div ref={layerRef} className={styles.heroForegroundLayer} aria-hidden>
+        <div className={styles.heroForegroundLayerInner}>
+          <img src={layerSrc} alt="" className={styles.heroForegroundImage} decoding="async" />
+        </div>
       </div>
 
       <div ref={rightTextRef} className={styles.heroTitleGhostWrap}>

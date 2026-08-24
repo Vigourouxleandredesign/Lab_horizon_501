@@ -1,4 +1,4 @@
-import { NavLink, Outlet, useMatch } from 'react-router-dom'
+import { NavLink, Outlet, useMatch, useMatches } from 'react-router-dom'
 import { brandLogoSrc } from '../assets/figmaHomeAssets'
 import { useLocale } from '../hooks/useLocale'
 import { commonCopy } from '../i18n/common'
@@ -11,7 +11,10 @@ export default function AppFrame() {
   const footer = commonCopy[locale].footer
   const isHomePage = Boolean(useMatch({ path: '/', end: true }))
   const isCategoryDomainPage = Boolean(useMatch('/categories/:slug'))
-  const headerOverHero = isHomePage || isCategoryDomainPage
+  const overlayFromRoute = useMatches().some(
+    (match) => (match.handle as { overlayHeader?: boolean } | undefined)?.overlayHeader,
+  )
+  const headerOverHero = isHomePage || isCategoryDomainPage || overlayFromRoute
 
   return (
     <div className={headerOverHero ? chrome.frameCategoryDomain : undefined}>

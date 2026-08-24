@@ -1,7 +1,9 @@
+import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { brandLogoSrc, figmaHomeAssets as A } from '../../assets/figmaHomeAssets'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
+import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { commonCopy } from '../../i18n/common'
 import { siteNavCopy } from '../../i18n/navigation'
 import chrome from '../../style/chrome/siteChrome.module.css'
@@ -11,15 +13,57 @@ type Props = {
   overlay?: boolean
 }
 
+/**
+ * Sur desktop, le header est fixe : plein largeur en haut de page, puis il se
+ * rétracte en pillule flottante dès que l'utilisateur scrolle.
+ * Sur mobile (< 900px), le header haut est masqué tant que la barre de
+ * navigation basse est présente (voir .headerZone / .bottomNav).
+ */
 export default function SiteHeader({ overlay = false }: Props) {
   const { locale, toggleLocale } = useLocale()
   const t = siteNavCopy[locale]
   const mainNavItems = useSiteNavigation('headerDesktop')
 
+  const isDesktop = useMediaQuery('(min-width: 900px)')
+  const [pill, setPill] = useState(false)
+  const rafRef = useRef(0)
+
+  useEffect(() => {
+    if (!isDesktop) {
+      setPill(false)
+      return
+    }
+
+    const update = () => {
+      rafRef.current = 0
+      setPill(window.scrollY > 24)
+    }
+    const onScroll = () => {
+      if (rafRef.current) return
+      rafRef.current = window.requestAnimationFrame(update)
+    }
+
+    update()
+    window.addEventListener('scroll', onScroll, { passive: true })
+    return () => {
+      window.removeEventListener('scroll', onScroll)
+      if (rafRef.current) window.cancelAnimationFrame(rafRef.current)
+      rafRef.current = 0
+    }
+  }, [isDesktop])
+
+  const zoneClass = [
+    chrome.headerZone,
+    overlay ? chrome.headerZoneOverHero : '',
+    isDesktop ? chrome.headerZoneDesktop : '',
+    isDesktop && pill ? chrome.headerZonePill : '',
+  ]
+    .filter(Boolean)
+    .join(' ')
+
   return (
-    <div
-      className={overlay ? `${chrome.headerZone} ${chrome.headerZoneOverHero}` : chrome.headerZone}
-    >
+    <>
+      <div className={zoneClass}>
       <div className={chrome.headerStack}>
         {/*
           Accès chercheur (connexion / inscription) volontairement absent de la navigation
@@ -59,5 +103,8 @@ export default function SiteHeader({ overlay = false }: Props) {
         </header>
       </div>
     </div>
+      {/* Réserve la hauteur du header fixe (desktop, hors pages à héro plein écran). */}
+      {!overlay ? <div className={chrome.headerSpacerDesktop} aria-hidden="true" /> : null}
+    </>
   )
 }

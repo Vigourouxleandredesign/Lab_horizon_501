@@ -1,0 +1,195 @@
+/**
+ * Page À propos — héro sobre (gris DA), puis projet, piliers, équipe.
+ */
+
+.page {
+  min-height: 100vh;
+  padding-bottom: calc(72px + env(safe-area-inset-bottom));
+  background: var(--lh-page-top);
+  color: var(--lh-heading);
+}
+
+.hero {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: min(72dvh, 36rem);
+  padding: 120px 24px 56px;
+  text-align: center;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    padding-top: 48px;
+    min-height: auto;
+  }
+}
+
+.badge {
+  margin: 0 0 16px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 0.8px solid var(--lh-src-beige-border);
+  background: var(--lh-src-white-070);
+  color: var(--lh-navy);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.heroTitle {
+  margin: 0 auto 16px;
+  max-width: 20ch;
+  font-size: clamp(1.7rem, 4.6vw, 2.75rem);
+  font-weight: 700;
+  line-height: 1.15;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+  color: var(--lh-navy);
+}
+
+.heroLead {
+  margin: 0 auto 28px;
+  max-width: 38rem;
+  font-size: 1.05rem;
+  line-height: 1.65;
+  color: var(--lh-muted);
+}
+
+.textReveal {
+  font-kerning: none;
+}
+
+.heroCta {
+  display: inline-flex;
+  align-items: center;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: linear-gradient(
+    162.71deg,
+    var(--lh-src-navy-900) 0%,
+    var(--lh-src-indigo-600) 100%
+  );
+  color: var(--lh-src-white);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  box-shadow: var(--lh-shadow-search-submit);
+}
+
+.heroCta:hover {
+  filter: brightness(1.06);
+}
+
+.main {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 8px 16px 48px;
+}
+
+.section {
+  margin: 0 0 48px;
+}
+
+.section h2 {
+  margin: 0 0 16px;
+  font-size: clamp(1.35rem, 3vw, 1.85rem);
+  font-weight: 700;
+  color: var(--lh-navy);
+}
+
+.section p {
+  margin: 0 0 14px;
+  max-width: 42rem;
+  font-size: 0.95rem;
+  line-height: 1.7;
+  color: var(--lh-body-gray);
+}
+
+.pillars,
+.team {
+  display: grid;
+  gap: 16px;
+  margin: 22px 0 0;
+  padding: 0;
+  list-style: none;
+}
+
+.pillars {
+  grid-template-columns: 1fr;
+}
+
+.team {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 720px) {
+  .pillars {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .team {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 22px 22px 20px;
+  border-radius: 20px;
+  border: 1px solid var(--lh-card-border);
+  background: var(--lh-bg);
+  box-shadow: 0 8px 20px var(--lh-src-card-shadow);
+}
+
+.cardTitle,
+.memberName {
+  margin: 0;
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: var(--lh-navy);
+}
+
+.cardBody,
+.memberRole {
+  margin: 0;
+  font-size: 0.9rem;
+  line-height: 1.6;
+  color: var(--lh-body-gray);
+}
+
+.discover {
+  margin: 8px auto 0;
+  max-width: 36rem;
+  text-align: center;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--lh-body-gray);
+}
+
+.discover a {
+  color: var(--lh-link);
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.discover a:hover {
+  text-decoration: underline;
+}
+
+.backHome {
+  display: block;
+  width: fit-content;
+  margin: 16px auto 0;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+}
+
+.backHome:hover {
+  text-decoration: underline;
+}

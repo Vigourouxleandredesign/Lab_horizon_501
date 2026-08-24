@@ -30,6 +30,17 @@
   margin: 0 auto;
 }
 
+/*
+  Mobile : la navigation principale est la barre du bas (.bottomNav).
+  On masque le header haut uniquement dans cette plage, là où .bottomNav
+  est visible (il est en display:none dès 900px).
+*/
+@media (max-width: 899px) {
+  .headerZone {
+    display: none;
+  }
+}
+
 /* Pages domaine (/categories/:slug) — héro sous le header flottant */
 .frameCategoryDomain {
   position: relative;
@@ -48,6 +59,28 @@
 .headerZoneOverHero .headerBar,
 .headerZoneOverHero .folderTab {
   pointer-events: auto;
+}
+
+/* -----------------------------------------------------------------------------
+   Desktop (≥ 900px) — header fixe : plein largeur en haut, pillule au scroll
+   -----------------------------------------------------------------------------
+   • Uniquement desktop : sur mobile le header haut est masqué (nav basse).
+   • On n'anime QUE des propriétés interpolables (padding du conteneur, rayon et
+     bordures de la barre) pour éviter tout « saut » : la largeur de la barre
+     varie via le padding latéral du conteneur, jamais via max-width.
+   • Le contenu (.headerInner) reste centré sur une colonne 1180px constante,
+     donc il ne bouge pas pendant la transition plein largeur ↔ pillule.
+   Les règles vivent dans le bloc @media plus bas.
+   ----------------------------------------------------------------------------- */
+.headerSpacerDesktop {
+  display: none;
+}
+
+@media (min-width: 900px) {
+  .headerSpacerDesktop {
+    display: block;
+    height: 92px;
+  }
 }
 
 /* Pile onglet chercheur + barre pill */
@@ -138,6 +171,57 @@
 @media (min-width: 900px) {
   .headerInner {
     grid-template-columns: 1fr auto 1fr;
+    max-width: 1180px;
+    margin: 0 auto;
+  }
+
+  /* Header fixe : par défaut plein largeur, collé en haut, coins carrés */
+  .headerZoneDesktop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 40;
+    max-width: none;
+    margin: 0;
+    padding: 0;
+    pointer-events: none;
+    transition: padding 0.34s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+
+  .headerZoneDesktop .headerStack {
+    pointer-events: none;
+  }
+
+  .headerZoneDesktop .headerBar {
+    pointer-events: auto;
+    /* Annule le décalage prévu pour l'onglet « dossier » (non rendu ici),
+       sinon la barre remonte de 12px et dépasse en haut du viewport. */
+    margin-top: 0;
+    border-radius: 0;
+    border-left-width: 0;
+    border-right-width: 0;
+    transition:
+      border-radius 0.34s cubic-bezier(0.4, 0, 0.2, 1),
+      box-shadow 0.34s ease;
+  }
+
+  /* État « scrollé » : la barre se rétracte en pillule flottante centrée (1180) */
+  .headerZonePill {
+    padding: 16px max(24px, calc((100% - 1180px) / 2)) 0;
+  }
+
+  .headerZonePill .headerBar {
+    border-radius: 40px;
+    border-left-width: 0.8px;
+    border-right-width: 0.8px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .headerZoneDesktop,
+  .headerZoneDesktop .headerBar {
+    transition: none;
   }
 }
 

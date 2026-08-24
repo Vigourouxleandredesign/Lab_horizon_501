@@ -39,7 +39,11 @@ export const appRouter = createBrowserRouter([
       { path: 'chercheurs', element: withSuspense(<UncResearchPage />) },
       { path: 'categories/:slug', element: <DomainPage /> },
       { path: 'categories', element: withSuspense(<CategoriesPage />) },
-      { path: 'a-propos', element: withSuspense(<AboutPage />) },
+      {
+        path: 'a-propos',
+        element: withSuspense(<AboutPage />),
+        handle: { overlayHeader: true },
+      },
       { path: 'connexion', element: withSuspense(<ConnexionPage />) },
       { path: 'inscription', element: withSuspense(<InscriptionPage />) },
       {
@@ -57,7 +61,11 @@ export const appRouter = createBrowserRouter([
         children: [{ path: 'chercheurs/:id', element: withSuspense(<ResearcherPage />) }],
       },
 
-      { path: '*', element: withSuspense(<NotFoundPage />) },
+      {
+        path: '*',
+        element: withSuspense(<NotFoundPage />),
+        handle: { overlayHeader: true },
+      },
     ],
   },
 

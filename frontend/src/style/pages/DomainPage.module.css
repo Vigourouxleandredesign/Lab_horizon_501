@@ -35,11 +35,11 @@
   pointer-events: none;
 }
 
-/* z-index 3 — texte arrière-plan */
+/* z-index 2 — texte de gauche, entre le fond (zindex0) et le calque (zindex1) */
 .heroTitlePrimaryWrap {
   position: absolute;
   inset: 0;
-  z-index: 3;
+  z-index: 2;
   pointer-events: none;
   will-change: transform;
 }
@@ -63,11 +63,11 @@
   animation: none;
 }
 
-/* z-index 2 — calque PNG (hors déformation splash, au-dessus de l'overlay) */
+/* z-index 3 — calque PNG (zindex1), au-dessus du texte de gauche */
 .heroForegroundLayer {
   position: absolute;
   inset: 0;
-  z-index: 2;
+  z-index: 3;
   pointer-events: none;
   will-change: transform;
   transform-origin: center center;
