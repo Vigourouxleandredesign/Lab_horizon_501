@@ -1,0 +1,129 @@
+# Lab Horizon — front React + back Laravel + MySQL + Redis
+# Stack back reprise du Docker.zip (php-fpm/nginx, MySQL 8.4, Redis 7).
+# Usage : copier .env.docker.example vers .env, renseigner APP_KEY, puis
+#   docker compose up --build
+
+services:
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+      args:
+        VITE_DATA_SOURCE: rest
+        VITE_API_BASE_URL: ${APP_URL:-http://localhost:8080}
+    container_name: labhorizon-frontend
+    restart: unless-stopped
+    ports:
+      - "8080:80"
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - labhorizon
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    container_name: labhorizon-backend
+    restart: unless-stopped
+    env_file:
+      - path: .env
+        required: false
+    ports:
+      - "8081:80"
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_TIMEZONE: Pacific/Noumea
+      APP_LOCALE: fr
+
+      DB_CONNECTION: mysql
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_DATABASE: ${DB_DATABASE:-labhorizon}
+      DB_USERNAME: ${DB_USERNAME:-labhorizon}
+      DB_PASSWORD: ${DB_PASSWORD:-change-me}
+
+      SESSION_DRIVER: database
+      SESSION_SECURE_COOKIE: "false"
+      QUEUE_CONNECTION: redis
+      CACHE_STORE: database
+
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD: ${REDIS_PASSWORD:-}
+      PDF_QUEUE_NAME: ${PDF_QUEUE_NAME:-pdf-processing}
+
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost:8080,127.0.0.1:8080,localhost:5173,127.0.0.1:5173}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173}
+
+      LOG_CHANNEL: stderr
+      LOG_LEVEL: warning
+
+      RUN_MIGRATIONS: "true"
+      RUN_SEED: "true"
+    volumes:
+      - storage-data:/var/www/html/storage/app
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1/up"]
+      interval: 10s
+      timeout: 5s
+      retries: 12
+      start_period: 50s
+    networks:
+      - labhorizon
+
+  redis:
+    image: redis:7-alpine
+    container_name: labhorizon-redis
+    restart: unless-stopped
+    command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
+    volumes:
+      - redis-data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+    networks:
+      - labhorizon
+
+  mysql:
+    image: mysql:8.4
+    container_name: labhorizon-mysql
+    restart: unless-stopped
+    environment:
+      MYSQL_DATABASE: ${DB_DATABASE:-labhorizon}
+      MYSQL_USER: ${DB_USERNAME:-labhorizon}
+      MYSQL_PASSWORD: ${DB_PASSWORD:-change-me}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:-change-me-root}
+    volumes:
+      - lh-mysql-data:/var/lib/mysql
+    ports:
+      - "3306:3306"
+    healthcheck:
+      # 127.0.0.1 force le TCP (pas le socket Unix) : mysqladmin ping via socket
+      # peut renvoyer 0 même si le mot de passe est faux.
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASSWORD:-change-me-root}"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+      start_period: 30s
+    networks:
+      - labhorizon
+
+volumes:
+  lh-mysql-data:
+  redis-data:
+  storage-data:
+
+networks:
+  labhorizon:
+    driver: bridge

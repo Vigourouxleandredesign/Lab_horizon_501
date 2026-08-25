@@ -1,0 +1,691 @@
+{
+    "users": [
+        {
+            "id": 1,
+            "name": "Test Chercheur",
+            "email": "test@labhorizon.nc",
+            "email_verified_at": null,
+            "password": "$2y$12$iArwROzQd3ETlwhflASWteKfA.1X4K6mTbhfA3wvlEmltRKFCioKu",
+            "remember_token": null,
+            "created_at": "2026-08-12 06:49:11",
+            "updated_at": "2026-08-12 06:49:11",
+            "orcid": null,
+            "orcid_verified": 0
+        }
+    ],
+    "domaines": [
+        {
+            "id": 1,
+            "code": "0.info",
+            "label": "Informatique",
+            "created_at": "2026-08-12 06:49:11",
+            "updated_at": "2026-08-12 06:49:11"
+        },
+        {
+            "id": 2,
+            "code": "1.biodiv",
+            "label": "Biodiversité, environnement, santé",
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 3,
+            "code": "2.geosci",
+            "label": "Géosciences",
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        }
+    ],
+    "auteurs": [
+        {
+            "id": 1,
+            "nom": "Jean Dupont",
+            "orcid": null,
+            "created_at": "2026-08-12 06:49:11",
+            "updated_at": "2026-08-12 06:49:11"
+        },
+        {
+            "id": 2,
+            "nom": "Nature JFG",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 3,
+            "nom": "Nazha SELMAOUI",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 4,
+            "nom": "Dotte-Wacalie",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 5,
+            "nom": "Dumas P",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 6,
+            "nom": "Hnawia",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 7,
+            "nom": "Marchand",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 8,
+            "nom": "Diaporama PDF",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 9,
+            "nom": "Projet BONC",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-12 08:27:56"
+        },
+        {
+            "id": 10,
+            "nom": "Projet DECHRO",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-12 08:27:57"
+        },
+        {
+            "id": 11,
+            "nom": "Projet FUEL",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-12 08:27:57"
+        },
+        {
+            "id": 12,
+            "nom": "Projet SPIRAL",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-12 08:27:57"
+        },
+        {
+            "id": 13,
+            "nom": "V",
+            "orcid": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-12 08:27:57"
+        }
+    ],
+    "structures": [],
+    "recherches": [
+        {
+            "id": 1,
+            "titre": "Recherche de test Lab Horizon",
+            "description": null,
+            "abstract": "Resume scientifique de test.",
+            "pdf_path": null,
+            "date_production": "2026-01-15",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 06:49:11",
+            "updated_at": "2026-08-12 06:49:11",
+            "user_id": 1
+        },
+        {
+            "id": 2,
+            "titre": "Impact du changement climatique sur la croissance économique",
+            "description": "Test extract — covers: /files/recherches/covers/c-nature-jfg-2026-07-07-protected-1.jpg | /files/recherches/covers/c-nature-jfg-2026-07-07-protected-2.jpg",
+            "abstract": "Conférence C’Nature — quel est l’impact du changement climatique sur la croissance économique ? Intervention de Jean-François Gajewski (UNC – LARJE / IAE), autour de l’habitabilité et de ses effets économiques.",
+            "pdf_path": "recherches/cnature-jfg-2026-07-07-protected-bc43b636.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 3,
+            "titre": "Comprendre et prévoir la leptospirose",
+            "description": "Test extract — covers: /files/recherches/covers/c-nature-nazha-selmaoui-roman-thibeaux-2026-05-05-1.jpg | /files/recherches/covers/c-nature-nazha-selmaoui-roman-thibeaux-2026-05-05-2.jpg",
+            "abstract": "Modélisation du risque fondée sur les données environnementales, avec Roman Thibeaux, Pierre Genthon, Cyrille Goarant, Rodrigue Govan et Nazha Selmaoui — pour anticiper la leptospirose en Nouvelle-Calédonie.",
+            "pdf_path": "recherches/cnature-nazha-selmaoui-roman-thibeaux-2026-05-05-dddaf024.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 4,
+            "titre": "Promotion et revitalisation des langues en Nouvelle-Calédonie",
+            "description": "Test extract — covers: /files/recherches/covers/synthese-topos-dotte-wacalie-v2-1.jpg | /files/recherches/covers/synthese-topos-dotte-wacalie-v2-2.jpg",
+            "abstract": "Les langues sont plus qu’un outil de communication : un enjeu pour maintenir l’héritage culturel kanak, au cœur du projet TOPOS.",
+            "pdf_path": "recherches/synthese-topos-dotte-wacalie-v2-f7134541.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 5,
+            "titre": "TOPOS : une ville à l’écoute de ses synergies",
+            "description": "Test extract — covers: /files/recherches/covers/synthese-topos-dumas-p-v1-1.jpg | /files/recherches/covers/synthese-topos-dumas-p-v1-2.jpg",
+            "abstract": "Un projet au cœur de Nouméa pour une ville à l’écoute de ses synergies biologiques et culturelles, porté par le Dr Pascal Dumas.",
+            "pdf_path": "recherches/synthese-topos-dumas-p-v1-a3159a0e.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 6,
+            "titre": "Bien-être kanak : individu, société, environnement",
+            "description": "Test extract — covers: /files/recherches/covers/synthese-topos-hnawia-v1-1.jpg | /files/recherches/covers/synthese-topos-hnawia-v1-2.jpg",
+            "abstract": "Les trois piliers du bien-être chez les Kanak, et le rôle de la petite médecine face aux déséquilibres du quotidien — synthèse TOPOS.",
+            "pdf_path": "recherches/synthese-topos-hnawia-v1-f91eae32.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 7,
+            "titre": "Mangroves urbaines sous pression",
+            "description": "Test extract — covers: /files/recherches/covers/synthese-topos-marchand-v2-1.jpg | /files/recherches/covers/synthese-topos-marchand-v2-2.jpg",
+            "abstract": "Malgré leurs services écosystémiques, les mangroves — surtout urbaines — subissent de fortes pressions anthropiques. Synthèse TOPOS sur leur distribution géographique et les enjeux de préservation.",
+            "pdf_path": "recherches/synthese-topos-marchand-v2-cfc375e8.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 8,
+            "titre": "Surpoids et obésité chez les enfants du Pacifique",
+            "description": "Test extract — covers: /files/recherches/covers/v2-modele-fiche-synthese-fiche-1-1.jpg | /files/recherches/covers/v2-modele-fiche-synthese-fiche-1-2.jpg",
+            "abstract": "Quelle est la prévalence du surpoids et de l’obésité chez les enfants de 6 à 12 ans dans la région du Pacifique, et quelles en sont les principales causes ?",
+            "pdf_path": "recherches/v2-modele-fiche-synthese-fiche-1-cc634485.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 9,
+            "titre": "BONC : réduire le chrome hexavalent dans les cours d’eau",
+            "description": "Test extract — covers: /files/recherches/covers/bonc-diaporama-pdf-1.jpg | /files/recherches/covers/bonc-diaporama-pdf-2.jpg",
+            "abstract": "Plus de la moitié des échantillons d’eaux brutes analysés dépassent le seuil autorisé. Le projet BONC explore une solution fondée sur la nature pour réduire le Cr(VI).",
+            "pdf_path": "recherches/bonc-diaporama-pdf-18d91131.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 10,
+            "titre": "CESO DiversitÉS — thème 1",
+            "description": "Test extract — covers: /files/recherches/covers/ceso-diversites-theme-1-v1-1.jpg | /files/recherches/covers/ceso-diversites-theme-1-v1-2.jpg",
+            "abstract": "Résumé du projet DiversitÉS (CESO) : données-clés et apports pour comprendre la diversité, réalisation Direction Science & Société UNC.",
+            "pdf_path": "recherches/ceso-diversites-theme-1-v1-2960f253.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 11,
+            "titre": "FUEL : pollution atmosphérique et incendies",
+            "description": "Test extract — covers: /files/recherches/covers/fuel-diaporama-pdf-1.jpg | /files/recherches/covers/fuel-diaporama-pdf-2.jpg",
+            "abstract": "Porté par le Dr Sarah Robin, le projet FUEL analyse les particules fines et polluants gazeux durant les périodes d’incendies, et leurs conséquences pour le vivant.",
+            "pdf_path": "recherches/fuel-diaporama-pdf-a89b969c.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 12,
+            "titre": "Fiche projet BONC",
+            "description": "Test extract — covers: /files/recherches/covers/fiche-projet-bonc-v1-1.jpg | /files/recherches/covers/fiche-projet-bonc-v1-2.jpg",
+            "abstract": "Réduire la charge en Cr(VI) des cours d’eau sous le seuil acceptable pour la consommation humaine (6 µg/L), via une solution fondée sur la nature.",
+            "pdf_path": "recherches/fiche-projet-bonc-v1-bf388112.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:56",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 13,
+            "titre": "Fiche projet DECHRO",
+            "description": "Test extract — covers: /files/recherches/covers/fiche-projet-dechro-v1-1.jpg | /files/recherches/covers/fiche-projet-dechro-v1-2.jpg",
+            "abstract": "Étudier des solutions écologiques et peu coûteuses pour limiter les risques sanitaires liés aux pollutions — bénéfices pour la société, constat et chiffres-clés.",
+            "pdf_path": "recherches/fiche-projet-dechro-v1-15f5dffe.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 14,
+            "titre": "Fiche projet FUEL",
+            "description": "Test extract — covers: /files/recherches/covers/fiche-projet-fuel-v1-1.jpg | /files/recherches/covers/fiche-projet-fuel-v1-2.jpg",
+            "abstract": "Collecte et analyse des mesures atmosphériques (PM10, PM2,5, métaux, NOx, SO₂, O₃) sur les stations Scal’Air durant les périodes d’incendies.",
+            "pdf_path": "recherches/fiche-projet-fuel-v1-798b9885.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 15,
+            "titre": "MATRRISS : dépollution des sols polymétalliques",
+            "description": "Test extract — covers: /files/recherches/covers/matrriss-diaporama-long-1.jpg | /files/recherches/covers/matrriss-diaporama-long-2.jpg",
+            "abstract": "Les pollutions sont souvent polymétalliques, ce qui rend la dépollution complexe. MATRRISS explore des approches pour y répondre.",
+            "pdf_path": "recherches/matrriss-diaporama-long-b2de9728.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 16,
+            "titre": "SPIRAL — l’IA au service de la santé publique",
+            "description": "Test extract — covers: /files/recherches/covers/projet-spiral-wp3-4-r-thibeaux-n-selmaoui-1.jpg | /files/recherches/covers/projet-spiral-wp3-4-r-thibeaux-n-selmaoui-2.jpg",
+            "abstract": "Transfert des résultats de la recherche en modélisation et cartographie du risque de leptospirose en Nouvelle-Calédonie (volets 3-4 du projet SPIRAL).",
+            "pdf_path": "recherches/projet-spiral-wp3-4-r-thibeaux-n-selmaoui-dadbbf01.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        },
+        {
+            "id": 17,
+            "titre": "Synthèse TOPOS — nature en ville",
+            "description": "Test extract — covers: /files/recherches/covers/synthese-topos-v5-1.jpg | /files/recherches/covers/synthese-topos-v5-2.jpg",
+            "abstract": "Le projet interroge les interactions entre les citadins et leur environnement : perceptions et pratiques liées aux formes de nature en ville.",
+            "pdf_path": "recherches/synthese-topos-v5-cf9c1995.pdf",
+            "date_production": "2026-01-01",
+            "source": "manuel",
+            "hal_id": null,
+            "hal_url": null,
+            "created_at": "2026-08-12 08:27:57",
+            "updated_at": "2026-08-15 03:44:12",
+            "user_id": 1
+        }
+    ],
+    "vulgarisations": [
+        {
+            "id": 1,
+            "recherche_id": 1,
+            "titre": "Vulga GP",
+            "resume": "Lead de vulgarisation.\n\nParagraphe deux de la vulgarisation.",
+            "pdf_path": "",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-12 06:49:40",
+            "updated_at": "2026-08-12 06:49:40",
+            "langue": "fr"
+        },
+        {
+            "id": 2,
+            "recherche_id": 2,
+            "titre": "Impact du changement climatique sur la croissance économique",
+            "resume": "Conférence C’Nature — quel est l’impact du changement climatique sur la croissance économique ? Intervention de Jean-François Gajewski (UNC – LARJE / IAE), autour de l’habitabilité et de ses effets économiques.",
+            "pdf_path": "recherches/cnature-jfg-2026-07-07-protected-bc43b636.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 3,
+            "recherche_id": 3,
+            "titre": "Comprendre et prévoir la leptospirose",
+            "resume": "Modélisation du risque fondée sur les données environnementales, avec Roman Thibeaux, Pierre Genthon, Cyrille Goarant, Rodrigue Govan et Nazha Selmaoui — pour anticiper la leptospirose en Nouvelle-Calédonie.",
+            "pdf_path": "recherches/cnature-nazha-selmaoui-roman-thibeaux-2026-05-05-dddaf024.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 4,
+            "recherche_id": 4,
+            "titre": "Promotion et revitalisation des langues en Nouvelle-Calédonie",
+            "resume": "Les langues sont plus qu’un outil de communication : un enjeu pour maintenir l’héritage culturel kanak, au cœur du projet TOPOS.",
+            "pdf_path": "recherches/synthese-topos-dotte-wacalie-v2-f7134541.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 5,
+            "recherche_id": 5,
+            "titre": "TOPOS : une ville à l’écoute de ses synergies",
+            "resume": "Un projet au cœur de Nouméa pour une ville à l’écoute de ses synergies biologiques et culturelles, porté par le Dr Pascal Dumas.",
+            "pdf_path": "recherches/synthese-topos-dumas-p-v1-a3159a0e.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 6,
+            "recherche_id": 6,
+            "titre": "Bien-être kanak : individu, société, environnement",
+            "resume": "Les trois piliers du bien-être chez les Kanak, et le rôle de la petite médecine face aux déséquilibres du quotidien — synthèse TOPOS.",
+            "pdf_path": "recherches/synthese-topos-hnawia-v1-f91eae32.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 7,
+            "recherche_id": 7,
+            "titre": "Mangroves urbaines sous pression",
+            "resume": "Malgré leurs services écosystémiques, les mangroves — surtout urbaines — subissent de fortes pressions anthropiques. Synthèse TOPOS sur leur distribution géographique et les enjeux de préservation.",
+            "pdf_path": "recherches/synthese-topos-marchand-v2-cfc375e8.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 8,
+            "recherche_id": 8,
+            "titre": "Surpoids et obésité chez les enfants du Pacifique",
+            "resume": "Quelle est la prévalence du surpoids et de l’obésité chez les enfants de 6 à 12 ans dans la région du Pacifique, et quelles en sont les principales causes ?",
+            "pdf_path": "recherches/v2-modele-fiche-synthese-fiche-1-cc634485.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 9,
+            "recherche_id": 9,
+            "titre": "BONC : réduire le chrome hexavalent dans les cours d’eau",
+            "resume": "Plus de la moitié des échantillons d’eaux brutes analysés dépassent le seuil autorisé. Le projet BONC explore une solution fondée sur la nature pour réduire le Cr(VI).",
+            "pdf_path": "recherches/bonc-diaporama-pdf-18d91131.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 10,
+            "recherche_id": 10,
+            "titre": "CESO DiversitÉS — thème 1",
+            "resume": "Résumé du projet DiversitÉS (CESO) : données-clés et apports pour comprendre la diversité, réalisation Direction Science & Société UNC.",
+            "pdf_path": "recherches/ceso-diversites-theme-1-v1-2960f253.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 11,
+            "recherche_id": 12,
+            "titre": "Fiche projet BONC",
+            "resume": "Réduire la charge en Cr(VI) des cours d’eau sous le seuil acceptable pour la consommation humaine (6 µg/L), via une solution fondée sur la nature.",
+            "pdf_path": "recherches/fiche-projet-bonc-v1-bf388112.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 12,
+            "recherche_id": 13,
+            "titre": "Fiche projet DECHRO",
+            "resume": "Étudier des solutions écologiques et peu coûteuses pour limiter les risques sanitaires liés aux pollutions — bénéfices pour la société, constat et chiffres-clés.",
+            "pdf_path": "recherches/fiche-projet-dechro-v1-15f5dffe.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 13,
+            "recherche_id": 14,
+            "titre": "Fiche projet FUEL",
+            "resume": "Collecte et analyse des mesures atmosphériques (PM10, PM2,5, métaux, NOx, SO₂, O₃) sur les stations Scal’Air durant les périodes d’incendies.",
+            "pdf_path": "recherches/fiche-projet-fuel-v1-798b9885.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 14,
+            "recherche_id": 11,
+            "titre": "FUEL : pollution atmosphérique et incendies",
+            "resume": "Porté par le Dr Sarah Robin, le projet FUEL analyse les particules fines et polluants gazeux durant les périodes d’incendies, et leurs conséquences pour le vivant.",
+            "pdf_path": "recherches/fuel-diaporama-pdf-a89b969c.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 15,
+            "recherche_id": 15,
+            "titre": "MATRRISS : dépollution des sols polymétalliques",
+            "resume": "Les pollutions sont souvent polymétalliques, ce qui rend la dépollution complexe. MATRRISS explore des approches pour y répondre.",
+            "pdf_path": "recherches/matrriss-diaporama-long-b2de9728.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 16,
+            "recherche_id": 16,
+            "titre": "SPIRAL — l’IA au service de la santé publique",
+            "resume": "Transfert des résultats de la recherche en modélisation et cartographie du risque de leptospirose en Nouvelle-Calédonie (volets 3-4 du projet SPIRAL).",
+            "pdf_path": "recherches/projet-spiral-wp3-4-r-thibeaux-n-selmaoui-dadbbf01.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        },
+        {
+            "id": 17,
+            "recherche_id": 17,
+            "titre": "Synthèse TOPOS — nature en ville",
+            "resume": "Le projet interroge les interactions entre les citadins et leur environnement : perceptions et pratiques liées aux formes de nature en ville.",
+            "pdf_path": "recherches/synthese-topos-v5-cf9c1995.pdf",
+            "niveau_public": "grand_public",
+            "created_at": "2026-08-15 03:44:12",
+            "updated_at": "2026-08-15 03:44:12",
+            "langue": "fr"
+        }
+    ],
+    "recherche_domaine": [
+        {
+            "recherche_id": 1,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 2,
+            "domaine_id": 2
+        },
+        {
+            "recherche_id": 3,
+            "domaine_id": 2
+        },
+        {
+            "recherche_id": 4,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 5,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 6,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 7,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 8,
+            "domaine_id": 1
+        },
+        {
+            "recherche_id": 9,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 10,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 11,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 12,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 13,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 14,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 15,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 16,
+            "domaine_id": 3
+        },
+        {
+            "recherche_id": 17,
+            "domaine_id": 3
+        }
+    ],
+    "recherche_auteur": [
+        {
+            "recherche_id": 1,
+            "auteur_id": 1
+        },
+        {
+            "recherche_id": 2,
+            "auteur_id": 2
+        },
+        {
+            "recherche_id": 3,
+            "auteur_id": 3
+        },
+        {
+            "recherche_id": 4,
+            "auteur_id": 4
+        },
+        {
+            "recherche_id": 5,
+            "auteur_id": 5
+        },
+        {
+            "recherche_id": 6,
+            "auteur_id": 6
+        },
+        {
+            "recherche_id": 7,
+            "auteur_id": 7
+        },
+        {
+            "recherche_id": 9,
+            "auteur_id": 8
+        },
+        {
+            "recherche_id": 11,
+            "auteur_id": 8
+        },
+        {
+            "recherche_id": 12,
+            "auteur_id": 9
+        },
+        {
+            "recherche_id": 13,
+            "auteur_id": 10
+        },
+        {
+            "recherche_id": 14,
+            "auteur_id": 11
+        },
+        {
+            "recherche_id": 16,
+            "auteur_id": 12
+        },
+        {
+            "recherche_id": 17,
+            "auteur_id": 13
+        }
+    ],
+    "recherche_structure": []
+}

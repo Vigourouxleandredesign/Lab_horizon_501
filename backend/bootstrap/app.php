@@ -17,7 +17,10 @@ return Application::configure(basePath: dirname(__DIR__))
         },
     )
     ->withMiddleware(function (Middleware $middleware): void {
-        //
+        // Sessions + CSRF sur /api pour la SPA (cookies Sanctum). Sans cela,
+        // Auth::attempt() / $request->session() lève "Session store not set".
+        $middleware->statefulApi();
+        $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //
