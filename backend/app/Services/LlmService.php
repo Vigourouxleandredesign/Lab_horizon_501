@@ -6,8 +6,6 @@ use Illuminate\Support\Facades\Http;
 
 class LlmService
 {
-    const BASE_URL = 'http://localhost:1234/v1';
-
     public function vulgariser(string $texte, string $niveau, string $langue): string
     {
         $niveauLabel = match($niveau) {
@@ -30,8 +28,8 @@ Texte à vulgariser :
 {$texte}
 PROMPT;
 
-        $response = Http::timeout(120)->post(self::BASE_URL . '/chat/completions', [
-            'model'    => 'local-model',
+        $response = Http::timeout(120)->post(config('services.llm.url') . '/chat/completions', [
+            'model'    => config('services.llm.model'),
             'messages' => [
                 ['role' => 'system', 'content' => 'Tu es un expert en vulgarisation scientifique.'],
                 ['role' => 'user',   'content' => $prompt],
