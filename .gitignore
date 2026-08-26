@@ -28,8 +28,10 @@ backend/.env.*
 backend/storage/*.key
 backend/storage/logs/
 backend/storage/framework/cache/data/
-backend/storage/framework/sessions/
-backend/storage/framework/views/
+backend/storage/framework/sessions/*
+!backend/storage/framework/sessions/.gitignore
+backend/storage/framework/views/*
+!backend/storage/framework/views/.gitignore
 backend/storage/app/public/
 backend/storage/app/private/
 backend/bootstrap/cache/*.php
