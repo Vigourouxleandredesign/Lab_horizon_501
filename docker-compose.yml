@@ -1,41 +1,13 @@
-# Lab Horizon — front React + back Laravel + MySQL + Redis + LM Studio
+# Lab Horizon — front React + back Laravel + MySQL + Redis
 # Stack back reprise du Docker.zip (php-fpm/nginx, MySQL 8.4, Redis 7).
 # Usage : copier .env.docker.example vers .env, renseigner APP_KEY, puis
 #   docker compose up --build
 #
-# lm-studio : image bureau distant (noVNC, port 3001) — modeles geres a la
-# main via l'UI ou `docker compose exec lm-studio lms ...`. L'appli LM Studio
-# ne se relance pas seule au demarrage du conteneur (pas de hook autostart
-# dans l'image) : le healthcheck relance le serveur `lms` lui-meme si besoin.
+# Branche Dockploy : pas de conteneur LM Studio (trop lourd pour l'hote de
+# deploiement). LLM_ENABLED=false par defaut — voir .env.docker.example.
+# La stack complete avec LM Studio reste sur `main`.
 
 services:
-  lm-studio:
-    image: linuxserver/lm-studio:latest
-    container_name: lm-studio
-    restart: unless-stopped
-    environment:
-      TITLE: LM Studio
-    volumes:
-      - lmstudio-config:/config
-    ports:
-      - "3001:3000" # UI (noVNC, http) — http://localhost:3001
-      - "3000:3001" # UI (noVNC, https)
-    healthcheck:
-      # Le conteneur ne relance pas l'appli LM Studio tout seul au boot :
-      # si le serveur local est injoignable, on le (re)demarre via `lms`.
-      test:
-        - CMD-SHELL
-        - >-
-          curl -sf http://127.0.0.1:1234/v1/models ||
-          (lms server start --port 1234 --bind 0.0.0.0 --cors &&
-          sleep 2 && curl -sf http://127.0.0.1:1234/v1/models)
-      interval: 10s
-      timeout: 20s
-      retries: 12
-      start_period: 30s
-    networks:
-      - labhorizon
-
   frontend:
     build:
       context: ./frontend
@@ -103,8 +75,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      lm-studio:
-        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1/up"]
       interval: 10s
@@ -157,7 +127,6 @@ volumes:
   lh-mysql-data:
   redis-data:
   storage-data:
-  lmstudio-config:
 
 networks:
   labhorizon:

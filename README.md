@@ -10,11 +10,13 @@ Plateforme de valorisation de la recherche calédonienne (IUT de Nouvelle-Caléd
 | `backend/` | API REST Laravel 12 + MySQL |
 | `docs/` | Cahier des charges, dictionnaire de données, spécifications UX |
 | `docs/archive/` | Livrables historiques (wireframe HTML, export Figma, logos) — référence uniquement |
-| `docker-compose.yml` | Front, back, MySQL 8.4, Redis 7 et LM Studio |
+| `docker-compose.yml` | Front, back, MySQL 8.4 et Redis 7 |
 
-## Docker (front + back + LM Studio)
+## Docker (front + back)
 
-Cinq conteneurs communiquent sur le réseau Compose `labhorizon`. Le navigateur n’appelle que le front (`http://localhost:8080`) : Nginx y reverse-proxy `/api`, `/sanctum` et `/files` vers le back. Le back appelle LM Studio via `http://lm-studio:1234/v1` (nom du service Compose, pas `localhost`).
+> Branche **Dockploy** : pas de conteneur LM Studio (trop lourd pour l'hôte de déploiement), `LLM_ENABLED=false`. La stack complète avec LM Studio reste sur `main`.
+
+Quatre conteneurs communiquent sur le réseau Compose `labhorizon`. Le navigateur n’appelle que le front (`http://localhost:8080`) : Nginx y reverse-proxy `/api`, `/sanctum` et `/files` vers le back.
 
 ```bash
 cp .env.docker.example .env
@@ -26,24 +28,10 @@ docker compose up --build
 - Site : `http://localhost:8080`
 - API Laravel directe (debug) : `http://localhost:8081`
 - MySQL : `localhost:3306`
-- Interface LM Studio (bureau distant noVNC) : `http://localhost:3001`
 
 Au premier démarrage, Laravel migre puis **seed** le contenu local (17 recherches, chemins PDF vers `public/files/recherches/`). Compte démo : `test@labhorizon.nc` / `password`.
 
 Ne pas committer `.env` (mots de passe, `APP_KEY`).
-
-### LM Studio
-
-Le conteneur `lm-studio` (image `linuxserver/lm-studio`) expose un bureau distant sur `http://localhost:3001` pour gérer les modèles via l'UI. Ses réglages serveur (écoute réseau `0.0.0.0:1234`, CORS) et les modèles téléchargés sont persistés dans le volume `lmstudio-config` — ils survivent à un `docker compose down` / `up`.
-
-Sur une machine neuve (volume vide), après le premier démarrage :
-
-```bash
-docker compose exec lm-studio lms get <nom-du-modele>   # télécharger un modèle
-docker compose exec lm-studio lms load <nom-du-modele>  # le charger en mémoire
-```
-
-Le nom de modèle chargé doit correspondre à `LLM_MODEL` dans `.env` (ex. `mistral-7b-instruct-v0.3`). Sans modèle chargé, `justInTimeModelLoading` de LM Studio tentera de le charger à la première requête.
 
 ## Démarrer le frontend (sans Docker)
 
