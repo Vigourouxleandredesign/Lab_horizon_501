@@ -12,7 +12,7 @@ class RechercheController extends Controller
     public function index()
     {
         $recherches = Recherche::where('user_id', auth()->id())
-                                 ->with(['auteurs', 'domaines'])
+                                 ->with(['auteurs', 'domaines', 'motsCles'])
                                  ->withCount('vulgarisations')
                                  ->latest()
                                  ->paginate(15);
@@ -57,8 +57,10 @@ class RechercheController extends Controller
             }
         }
 
+        $this->syncMotsCles($recherche, $request->input('mots_cles'));
+
         if (request()->expectsJson()) {
-            return response()->json($recherche->load('domaines', 'auteurs'), 201);
+            return response()->json($recherche->load('domaines', 'auteurs', 'motsCles'), 201);
         }
 
         return redirect()->route('admin.recherches.index')
@@ -69,7 +71,7 @@ class RechercheController extends Controller
     {
         abort_if($recherche->user_id !== auth()->id(), 403);
 
-        $recherche->load('vulgarisations');
+        $recherche->load(['vulgarisations', 'motsCles']);
         return view('admin.recherches.show', compact('recherche'));
     }
 
@@ -77,6 +79,7 @@ class RechercheController extends Controller
     {
         abort_if($recherche->user_id !== auth()->id(), 403);
 
+        $recherche->load('motsCles');
         return view('admin.recherches.edit', compact('recherche'));
     }
 
@@ -99,12 +102,32 @@ class RechercheController extends Controller
         $recherche->update($request->only(['titre', 'description', 'date_production'])
                  + ['pdf_path' => $recherche->pdf_path]);
 
+        $this->syncMotsCles($recherche, $request->input('mots_cles'));
+
         if (request()->expectsJson()) {
-            return response()->json($recherche);
+            return response()->json($recherche->load('motsCles'));
         }
 
         return redirect()->route('admin.recherches.show', $recherche)
                          ->with('success', 'Recherche mise à jour.');
+    }
+
+    /**
+     * Remplace les mots-clés de la recherche à partir d'une liste séparée
+     * par des virgules (crée les mots-clés manquants).
+     */
+    private function syncMotsCles(Recherche $recherche, ?string $raw): void
+    {
+        $labels = collect(explode(',', (string) $raw))
+            ->map(fn ($label) => trim($label))
+            ->filter()
+            ->unique();
+
+        $ids = $labels->map(
+            fn ($label) => \App\Models\MotCle::firstOrCreate(['label' => $label])->id
+        );
+
+        $recherche->motsCles()->sync($ids);
     }
 
     public function destroy(Recherche $recherche)

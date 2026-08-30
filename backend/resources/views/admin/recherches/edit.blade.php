@@ -23,6 +23,13 @@
             <textarea name="description" class="form-control" rows="4">{{ old('description', $recherche->description) }}</textarea>
         </div>
         <div class="mb-3">
+            <label class="form-label">Mots-clés</label>
+            <input type="text" name="mots_cles" class="form-control"
+                   value="{{ old('mots_cles', $recherche->motsCles->pluck('label')->implode(', ')) }}"
+                   placeholder="ex: biodiversité, climat, santé publique">
+            <small class="text-muted">Séparés par des virgules — utilisés par la recherche et les filtres du site public.</small>
+        </div>
+        <div class="mb-3">
             <label class="form-label">Nouveau PDF <small class="text-muted">(laisser vide pour conserver l'actuel)</small></label>
             <input type="file" name="pdf" class="form-control" accept=".pdf">
             <small class="text-muted">Actuel : <a href="{{ $recherche->pdf_url }}" target="_blank">voir le PDF</a></small>
