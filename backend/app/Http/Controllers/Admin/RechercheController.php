@@ -30,6 +30,7 @@ class RechercheController extends Controller
         $request->validate([
             'titre' => 'required|string|max:255',
             'pdf' => 'nullable|mimetypes:application/pdf|max:20480',
+            'mots_cles' => 'nullable|string|max:2000',
         ]);
 
         $pdfPath = null;
@@ -90,6 +91,7 @@ class RechercheController extends Controller
         $request->validate([
             'titre' => 'required|string|max:255',
             'pdf' => 'nullable|mimetypes:application/pdf|max:20480',
+            'mots_cles' => 'nullable|string|max:2000',
         ]);
 
         if ($request->hasFile('pdf')) {
@@ -121,6 +123,9 @@ class RechercheController extends Controller
         $labels = collect(explode(',', (string) $raw))
             ->map(fn ($label) => trim($label))
             ->filter()
+            // Colonne mots_cles.label = varchar(255) unique : un libellé plus
+            // long ferait planter firstOrCreate() en 500 au lieu d'un rejet propre.
+            ->filter(fn ($label) => mb_strlen($label) <= 255)
             ->unique();
 
         $ids = $labels->map(
