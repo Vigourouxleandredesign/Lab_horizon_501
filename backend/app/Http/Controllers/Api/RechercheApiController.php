@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Models\Domaine;
 use App\Models\Recherche;
 use Illuminate\Http\Request;
 
@@ -15,6 +16,15 @@ class RechercheApiController extends Controller
      */
     public function index(Request $request)
     {
+        $request->validate([
+            'q'        => 'nullable|string|max:255',
+            'category' => 'nullable|string|max:255',
+            'year'     => 'nullable|integer',
+            'sort'     => 'nullable|string|in:recent,relevance',
+            'page'     => 'nullable|integer|min:1',
+            'pageSize' => 'nullable|integer|min:1',
+        ]);
+
         $query = Recherche::with(['domaines', 'auteurs', 'motsCles'])
                            ->withCount('vulgarisations');
 
@@ -31,14 +41,8 @@ class RechercheApiController extends Controller
 
         if ($request->filled('category')) {
             $category = trim((string) $request->input('category'));
-            // Taxonomie front (UNC_CATEGORIES) et libellés domaine back pas
-            // encore alignés (cf. docs/api-contract-v1.md §7.2) : match dans
-            // les deux sens ("Géosciences" ⊂ "Géosciences (sciences de la Terre)").
-            $query->whereHas('domaines', function ($d) use ($category) {
-                $d->where('label', 'like', "%{$category}%")
-                  ->orWhereRaw('? LIKE CONCAT(\'%\', label, \'%\')', [$category])
-                  ->orWhere('code', $category);
-            });
+            $domaineIds = $this->domaineIdsMatchingCategory($category);
+            $query->whereHas('domaines', fn ($d) => $d->whereIn('domaines.id', $domaineIds));
         }
 
         if ($request->filled('year')) {
@@ -55,6 +59,44 @@ class RechercheApiController extends Controller
         $recherches = $query->paginate($perPage);
 
         return response()->json($recherches);
+    }
+
+    /**
+     * Domaines dont le libellé (ou code) correspond à la catégorie front,
+     * ponctuation/casse ignorées. Taxonomie front (7 UNC_CATEGORIES) et
+     * libellés domaine back pas encore alignés (docs/api-contract-v1.md
+     * §7.2) : un simple LIKE échoue déjà sur "Biodiversité, environnement
+     * et santé" (front) vs "Biodiversité, environnement, santé" (back).
+     */
+    private function domaineIdsMatchingCategory(string $category): array
+    {
+        $normalizedCategory = self::normalizeForCategoryMatch($category);
+
+        return Domaine::all(['id', 'code', 'label'])
+            ->filter(function ($domaine) use ($category, $normalizedCategory) {
+                if ($domaine->code === $category) {
+                    return true;
+                }
+                $normalizedLabel = self::normalizeForCategoryMatch((string) $domaine->label);
+                if ($normalizedLabel === '') {
+                    return false;
+                }
+
+                return str_contains($normalizedCategory, $normalizedLabel)
+                    || str_contains($normalizedLabel, $normalizedCategory);
+            })
+            ->pluck('id')
+            ->all();
+    }
+
+    private static function normalizeForCategoryMatch(string $value): string
+    {
+        $value = mb_strtolower($value);
+        $value = preg_replace('/\(.*?\)/u', ' ', $value); // ex. "(sciences de la Terre)"
+        $value = str_replace([',', ' et ', ' & '], ' ', $value);
+        $value = preg_replace('/\s+/', ' ', $value);
+
+        return trim($value);
     }
 
     public function show(Recherche $recherche)
