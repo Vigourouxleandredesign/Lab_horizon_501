@@ -5,7 +5,7 @@
  * les pages ne connaissent jamais l'adaptateur, seulement ces fonctions.
  *
  * Mode `rest` : `GET /api/recherches` (Laravel) via `api/rest/recherches.ts`.
- * Les filtres q/category/year/sort ne sont pas encore supportés côté API.
+ * Filtres q/category/year/sort envoyés en query params et appliqués côté API.
  */
 
 import { appConfig } from '../lib/config'
