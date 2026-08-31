@@ -16,7 +16,7 @@ import styles from '../style/pages/SearchPage.module.css'
 type Tab = 'publications' | 'chercheurs'
 
 /** Années proposées au filtre — bornées aux données réellement couvertes. */
-const YEAR_OPTIONS = [2025, 2024, 2023, 2022, 2021, 2020]
+const YEAR_OPTIONS = [2026,2025, 2024, 2023, 2022, 2021, 2020]
 
 function parseSort(raw: string | null): PublicationSort {
   return raw === 'relevance' ? 'relevance' : 'recent'
