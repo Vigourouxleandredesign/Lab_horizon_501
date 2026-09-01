@@ -11,6 +11,8 @@ type Props = {
   layerSrc: string
   scrollCta: string
   onScrollToContent: () => void
+  /** Inclut la locale pour remonter les titres animés au changement de langue. */
+  titleKey: string
 }
 
 export default function DomainHero({
@@ -19,6 +21,7 @@ export default function DomainHero({
   layerSrc,
   scrollCta,
   onScrollToContent,
+  titleKey,
 }: Props) {
   const heroRef = useRef<HTMLElement>(null)
   const distortStackRef = useRef<HTMLDivElement>(null)
@@ -43,12 +46,12 @@ export default function DomainHero({
   useTextReveal(primaryTitleRef, {
     playOnMount: true,
     delay: gsapMotion.textReveal.heroDelay,
-    contentKey: title,
+    contentKey: titleKey,
   })
   useTextReveal(ghostTitleRef, {
     playOnMount: true,
     delay: gsapMotion.textReveal.heroGhostDelay,
-    contentKey: title,
+    contentKey: titleKey,
   })
 
   return (
@@ -66,6 +69,7 @@ export default function DomainHero({
 
       <div ref={leftTextRef} className={styles.heroTitlePrimaryWrap}>
         <h1
+          key={titleKey}
           ref={primaryTitleRef}
           className={`${styles.heroTitlePrimary} ${styles.heroTitlePrimaryReveal} ${styles.textReveal}`}
         >
@@ -81,6 +85,7 @@ export default function DomainHero({
 
       <div ref={rightTextRef} className={styles.heroTitleGhostWrap}>
         <p
+          key={titleKey}
           ref={ghostTitleRef}
           className={`${styles.heroTitleGhost} ${styles.heroTitleGhostReveal} ${styles.textReveal}`}
           aria-hidden

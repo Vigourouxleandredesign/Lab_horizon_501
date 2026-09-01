@@ -36,9 +36,17 @@ export const appRouter = createBrowserRouter([
       { index: true, element: <HomePage /> },
       { path: 'recherche', element: <SearchPage /> },
       { path: 'publications/:id', element: <PublicationPage /> },
-      { path: 'chercheurs', element: withSuspense(<UncResearchPage />) },
+      {
+        path: 'chercheurs',
+        element: withSuspense(<UncResearchPage />),
+        handle: { overlayHeader: true },
+      },
       { path: 'categories/:slug', element: <DomainPage /> },
-      { path: 'categories', element: withSuspense(<CategoriesPage />) },
+      {
+        path: 'categories',
+        element: withSuspense(<CategoriesPage />),
+        handle: { overlayHeader: true },
+      },
       {
         path: 'a-propos',
         element: withSuspense(<AboutPage />),

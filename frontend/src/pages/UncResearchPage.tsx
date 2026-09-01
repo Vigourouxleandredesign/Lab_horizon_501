@@ -1,4 +1,6 @@
 import { useEffect } from 'react'
+import ContentHero from '../components/chrome/ContentHero'
+import { getUncResearchHeroSrc } from '../assets/figmaHomeAssets'
 import { directoryIntro, externalUmrs, uncTeams } from '../data/uncResearch'
 import { useLocale } from '../hooks/useLocale'
 import { localizedText } from '../lib/localizedText'
@@ -14,10 +16,14 @@ export default function UncResearchPage() {
   }, [t.metaTitle])
 
   return (
-    <main className={styles.page}>
-      <h1>{t.title}</h1>
-      <p className={styles.intro}>{t.intro}</p>
-
+    <>
+      <ContentHero
+        title={t.title}
+        subtitle={t.intro}
+        imageSrc={getUncResearchHeroSrc()}
+        localeKey={locale}
+      />
+      <main className={styles.page}>
       <section className={styles.section} aria-labelledby="teams-heading">
         <h2 id="teams-heading">{t.teamsHeading}</h2>
         <div className={styles.teamGrid}>
@@ -81,6 +87,7 @@ export default function UncResearchPage() {
           </div>
         </div>
       </section>
-    </main>
+      </main>
+    </>
   )
 }

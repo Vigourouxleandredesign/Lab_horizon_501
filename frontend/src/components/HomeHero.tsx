@@ -11,6 +11,8 @@ type Props = {
   scrollCta: string
   platformBadge?: string
   onScrollToContent: () => void
+  /** Locale + titre — remount du h1 animé au changement de langue. */
+  titleKey: string
 }
 
 export default function HomeHero({
@@ -19,6 +21,7 @@ export default function HomeHero({
   scrollCta,
   platformBadge,
   onScrollToContent,
+  titleKey,
 }: Props) {
   const heroRef = useRef<HTMLElement>(null)
   const distortStackRef = useRef<HTMLDivElement>(null)
@@ -35,7 +38,7 @@ export default function HomeHero({
   useTextReveal(titleRef, {
     playOnMount: true,
     delay: gsapMotion.homeHero.introDelay,
-    contentKey: title,
+    contentKey: titleKey,
   })
 
   return (
@@ -58,6 +61,7 @@ export default function HomeHero({
           <p className={styles.homeHeroBadge}>{platformBadge}</p>
         )}
         <h1
+          key={titleKey}
           id="home-hero-title"
           ref={titleRef}
           className={`${styles.homeHeroTitle} ${styles.textReveal}`}
