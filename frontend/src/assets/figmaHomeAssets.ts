@@ -58,6 +58,21 @@ export function getHomeHeroSrc(): string {
   return publicUrl('hero/hero_lab_horizon.png')
 }
 
+/** Héro page /categories — réutilise l'ambiance labo de l'accueil. */
+export function getCategoriesHeroSrc(): string {
+  return publicUrl('hero/hero_lab_horizon.png')
+}
+
+/** Héro page /chercheurs — chercheuse en laboratoire (Unsplash, libre de droit). */
+export function getUncResearchHeroSrc(): string {
+  return publicUrl('hero/unc-research.jpg')
+}
+
+/** Héro page /a-propos — équipe au travail (Unsplash, libre de droit). */
+export function getAboutHeroSrc(): string {
+  return publicUrl('hero/about-corporate.jpg')
+}
+
 const DOMAIN_HERO_DIR = 'hero/heros avant retravaille'
 
 /** Fond (zindex0) + calque (zindex1) par catégorie. */

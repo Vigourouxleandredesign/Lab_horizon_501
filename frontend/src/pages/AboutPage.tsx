@@ -1,51 +1,30 @@
-import { useEffect, useRef } from 'react'
+import { useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import ContentHero from '../components/chrome/ContentHero'
+import { getAboutHeroSrc } from '../assets/figmaHomeAssets'
 import { ABOUT_TEAM } from '../data/team'
 import { useLocale } from '../hooks/useLocale'
-import { useTextReveal } from '../hooks/useTextReveal'
 import { aboutCopy } from '../i18n/about'
-import { gsapMotion } from '../lib/gsapDefaults'
 import styles from '../style/pages/AboutPage.module.css'
 
 export default function AboutPage() {
   const { locale } = useLocale()
   const t = aboutCopy[locale]
-  const titleRef = useRef<HTMLHeadingElement>(null)
-  const leadRef = useRef<HTMLParagraphElement>(null)
 
   useEffect(() => {
     document.title = t.metaTitle
   }, [t.metaTitle])
 
-  useTextReveal(titleRef, {
-    playOnMount: true,
-    delay: gsapMotion.textReveal.heroDelay,
-    contentKey: t.title,
-  })
-  useTextReveal(leadRef, {
-    playOnMount: true,
-    delay: gsapMotion.textReveal.heroDelay + 0.12,
-    contentKey: t.lead,
-  })
-
   return (
     <div className={styles.page}>
-      <section className={styles.hero} aria-labelledby="about-hero-title">
-        <p className={styles.badge}>{t.badge}</p>
-        <h1
-          id="about-hero-title"
-          ref={titleRef}
-          className={`${styles.heroTitle} ${styles.textReveal}`}
-        >
-          {t.title}
-        </h1>
-        <p ref={leadRef} className={`${styles.heroLead} ${styles.textReveal}`}>
-          {t.lead}
-        </p>
-        <Link to="/recherche" className={styles.heroCta}>
-          {t.exploreCta}
-        </Link>
-      </section>
+      <ContentHero
+        title={t.title}
+        subtitle={t.lead}
+        imageSrc={getAboutHeroSrc()}
+        badge={t.badge}
+        cta={{ label: t.exploreCta, to: '/recherche' }}
+        localeKey={locale}
+      />
 
       <main className={styles.main}>
         <section className={styles.section} aria-labelledby="about-project-title">

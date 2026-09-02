@@ -1,0 +1,114 @@
+/**
+ * Héro de page de contenu (catégories, recherche UNC, à propos).
+ * Fond image + effet vague WebGL (HeroGlassBackground), texte aligné en bas.
+ * Le header du site passe en overlay sur ces pages (handle overlayHeader).
+ */
+
+.hero {
+  position: relative;
+  width: 100%;
+  min-height: min(62dvh, 32rem);
+  display: flex;
+  align-items: flex-end;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.background {
+  position: absolute;
+  inset: 0;
+  z-index: 0;
+  overflow: hidden;
+  transform: translateZ(0);
+}
+
+.overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  pointer-events: none;
+  background: linear-gradient(
+    180deg,
+    rgba(6, 14, 28, 0.2) 0%,
+    rgba(6, 14, 28, 0.5) 55%,
+    rgba(6, 14, 28, 0.85) 100%
+  );
+}
+
+.content {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: 0 24px 52px;
+  color: var(--lh-src-white);
+  pointer-events: none;
+}
+
+.badge {
+  display: inline-block;
+  margin: 0 0 14px;
+  padding: 7px 14px;
+  border-radius: 999px;
+  border: 0.8px solid var(--lh-src-white-025);
+  background: var(--lh-src-white-010);
+  backdrop-filter: blur(8px);
+  color: var(--lh-src-white-085);
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.title {
+  margin: 0 0 14px;
+  max-width: 18ch;
+  font-size: clamp(1.9rem, 5.4vw, 3.25rem);
+  font-weight: 700;
+  line-height: 1.08;
+  letter-spacing: -0.02em;
+  text-wrap: balance;
+}
+
+.subtitle {
+  margin: 0;
+  max-width: 42rem;
+  font-size: clamp(0.98rem, 1.6vw, 1.15rem);
+  line-height: 1.6;
+  color: var(--lh-src-white-085);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  margin-top: 24px;
+  padding: 12px 22px;
+  border-radius: 999px;
+  background: var(--lh-src-white);
+  color: var(--lh-src-navy-900);
+  font-weight: 700;
+  font-size: 0.875rem;
+  text-decoration: none;
+  pointer-events: auto;
+  transition: filter 0.15s, transform 0.15s;
+}
+
+.cta:hover {
+  filter: brightness(0.95);
+  transform: translateY(-1px);
+}
+
+.textReveal {
+  font-kerning: none;
+}
+
+@media (max-width: 899px) {
+  .hero {
+    min-height: min(52dvh, 26rem);
+  }
+
+  .content {
+    padding: 0 18px 36px;
+  }
+}

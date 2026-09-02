@@ -12,6 +12,9 @@ export const commonCopy = {
     },
     langToggle: (current: Locale) =>
       current === 'fr' ? 'Passer en anglais' : 'Switch to French',
+    langMenuLabel: 'Langue',
+    langFr: 'Français',
+    langEn: 'English',
     visitSite: 'Voir le site',
   },
   en: {
@@ -25,6 +28,9 @@ export const commonCopy = {
     },
     langToggle: (current: Locale) =>
       current === 'fr' ? 'Passer en anglais' : 'Switch to French',
+    langMenuLabel: 'Language',
+    langFr: 'Français',
+    langEn: 'English',
     visitSite: 'Visit website',
   },
 } as const satisfies Record<Locale, Record<string, unknown>>

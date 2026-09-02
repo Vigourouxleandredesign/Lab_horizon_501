@@ -1,7 +1,7 @@
 .page {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 4px 16px 120px;
+  padding: clamp(0.25rem, 1.2vw, 0.75rem) 16px 120px;
 }
 
 .date {
