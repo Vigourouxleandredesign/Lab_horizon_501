@@ -14,18 +14,21 @@
     <table class="table table-bordered">
         <thead>
             <tr>
-                <th>Titre</th><th>Auteur</th><th>Domaine</th><th>Vulgarisations</th><th>Actions</th>
+                <th>Titre</th><th>Auteur</th><th>Domaine</th><th>Mots-clés</th><th>Vulgarisations</th><th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($recherches as $r)
             <tr>
                 <td>{{ $r->titre }}</td>
-                <<td>
+                <td>
                     {{ $r->auteurs->pluck('nom')->implode(', ') ?: '—' }}
                 </td>
                 <td>
                     {{ $r->domaines->pluck('label')->implode(', ') ?: '—' }}
+                </td>
+                <td>
+                    {{ $r->motsCles->pluck('label')->implode(', ') ?: '—' }}
                 </td>
                 <td>{{ $r->vulgarisations_count }}</td>
                 <td>

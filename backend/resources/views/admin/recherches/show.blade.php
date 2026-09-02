@@ -5,6 +5,15 @@
     <p><strong>Auteur :</strong> {{ $recherche->auteur ?? '—' }} | <strong>Domaine :</strong> {{ $recherche->domaine ?? '—' }}</p>
     <p>{{ $recherche->description }}</p>
 
+    <p class="mb-4">
+        <strong>Mots-clés :</strong>
+        @forelse($recherche->motsCles as $motCle)
+            <span class="badge bg-secondary">{{ $motCle->label }}</span>
+        @empty
+            <span class="text-muted">Aucun mot-clé.</span>
+        @endforelse
+    </p>
+
     {{-- Bouton PDF de la recherche --}}
     @if($recherche->pdf_path)
         <a href="{{ $recherche->pdf_url }}" target="_blank" class="btn btn-outline-primary mb-4">

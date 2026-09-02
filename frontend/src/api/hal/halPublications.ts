@@ -54,6 +54,8 @@ function toSummary(doc: HalDoc): PublicationSummary {
     source: 'hal',
     lead: abstract,
     sourceUrl: doc.uri_s ?? null,
+    // HAL n'expose pas de mots-clés dans les champs demandés (HAL_FIELDS).
+    keywords: [],
   }
 }
 

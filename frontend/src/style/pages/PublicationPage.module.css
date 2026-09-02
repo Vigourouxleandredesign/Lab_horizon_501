@@ -83,6 +83,42 @@
   line-height: 1.75;
 }
 
+.keywords {
+  margin: 0 0 22px;
+}
+
+.keywordsTitle {
+  margin: 0 0 10px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lh-src-placeholder);
+}
+
+.keywordList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.keywordTag {
+  padding: 4px 12px;
+  border-radius: 999px;
+  border: 1px solid var(--lh-src-teal-020);
+  background: var(--lh-src-teal-010);
+  color: var(--lh-teal);
+  font-size: 0.76rem;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.keywordTag:hover {
+  background: var(--lh-link);
+  border-color: var(--lh-link);
+  color: var(--lh-on-navy);
+}
+
 .metaGrid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));

@@ -10,21 +10,21 @@ class HalImportService
     const BASE_URL = 'https://api.archives-ouvertes.fr/search/';
 
     const DOMAINES = [
-        'Tous (M-1)'                        => null,
-        'Sciences Humaines et Sociales'     => '0.shs',
-        'Sciences du Vivant'                => '0.sdv',
-        'Sciences de l\'Ingénieur'          => '0.spi',
-        'Physique'                          => '0.phys',
-        'Mathématiques'                     => '0.math',
-        'Informatique'                      => '0.info',
-        'Sciences de la Terre'              => '0.sde',
-        'Chimie'                            => '0.chim',
-        'Sciences Cognitives'               => '0.scco',
-        'Neurosciences'                     => '1.scco.neur',
-        'Sciences Médicales'                => '1.sdv.mhep',
-        'Sciences Agricoles'                => '1.sdv.sa',
-        'Astrophysique'                     => '1.phys.astr',
-        'Écologie'                          => '1.sdv.ee',
+        'Tous (M-1)'                            => null,
+        'Sciences Humaines et Sociales'         => '0.shs',
+        'Sciences du Vivant'                    => '0.sdv',
+        'Sciences de l\'Ingénieur'              => '0.spi',
+        'Physique'                              => '0.phys',
+        'Mathématiques et modélisation'         => '0.math',
+        'Informatique et sciences des données'  => '0.info',
+        'Sciences de la Terre'                  => '0.sde',
+        'Chimie'                                => '0.chim',
+        'Sciences Cognitives'                   => '0.scco',
+        'Neurosciences'                         => '1.scco.neur',
+        'Sciences Médicales'                    => '1.sdv.mhep',
+        'Sciences Agricoles'                    => '1.sdv.sa',
+        'Astrophysique'                         => '1.phys.astr',
+        'Écologie'                              => '1.sdv.ee',
     ];
 
     public function fetchByDomaine(?string $domaine = null, int $rows = 500): array

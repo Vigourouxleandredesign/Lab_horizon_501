@@ -90,6 +90,21 @@
   color: var(--lh-src-placeholder);
 }
 
+.keywords {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+}
+
+.keywordTag {
+  padding: 2px 8px;
+  border-radius: 999px;
+  border: 1px solid var(--lh-border-light);
+  color: var(--lh-src-placeholder);
+  font-size: 0.62rem;
+  font-weight: 600;
+}
+
 .sourceTag {
   padding: 2px 8px;
   border-radius: 999px;
