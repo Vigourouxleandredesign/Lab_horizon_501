@@ -1,4 +1,4 @@
-# Lab Horizon — Points bloquants back (V1)
+# Lab Horizon — Points bloquants back (V2)
 
 > **Pour qui :** dev back (niveau junior OK) — repo `labhorizon`  
 > **Dernier test live :** 12 août 2026 — front Vite `http://localhost:5173` + Laravel `http://127.0.0.1:8000`  

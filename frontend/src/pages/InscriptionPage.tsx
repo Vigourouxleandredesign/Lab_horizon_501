@@ -1,9 +1,11 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
+import { registerErrorMessage } from '../api/auth'
 import { useAuth } from '../auth/AuthContext'
 import { useLocale } from '../hooks/useLocale'
 import { inscriptionCopy } from '../i18n/inscription'
 import { isDemoAuth } from '../lib/config'
+import auth from '../style/pages/AuthPage.module.css'
 import styles from '../style/pages/InscriptionPage.module.css'
 
 /**
@@ -46,20 +48,28 @@ export default function InscriptionPage() {
         name: String(formData.get('name') ?? ''),
         email: String(formData.get('email') ?? ''),
         password,
+        passwordConfirmation: confirm,
       })
       navigate('/compte', { replace: true })
     } catch (err) {
-      setError(err instanceof Error ? err.message : t.unavailable)
+      setError(
+        registerErrorMessage(err, {
+          unavailable: t.unavailable,
+          validationEmail: t.validationEmail,
+          validationPassword: t.validationPassword,
+          validationGeneric: t.validationGeneric,
+        }),
+      )
     } finally {
       setSubmitting(false)
     }
   }
 
   return (
-    <main className={styles.page}>
+    <main className={`${auth.shell} ${auth.shellWide}`}>
       <div className={styles.layout}>
         <section className={styles.whyBlock} aria-labelledby="inscription-why-title">
-          <h1 className={styles.title}>{t.title}</h1>
+          <h1 className={styles.desktopTitle}>{t.title}</h1>
           <h2 id="inscription-why-title" className={styles.whyTitle}>
             {t.whyTitle}
           </h2>
@@ -90,6 +100,7 @@ export default function InscriptionPage() {
         </section>
 
         <aside className={styles.formPanel} aria-labelledby="inscription-form-title">
+          <h1 className={styles.formPageTitle}>{t.title}</h1>
           <h2 id="inscription-form-title" className={styles.formTitle}>
             {t.formTitle}
           </h2>
@@ -106,7 +117,13 @@ export default function InscriptionPage() {
             </label>
             <label>
               {t.fields.password}
-              <input type="password" name="password" autoComplete="new-password" required />
+              <input
+                type="password"
+                name="password"
+                autoComplete="new-password"
+                minLength={8}
+                required
+              />
             </label>
             <label>
               {t.fields.confirmPassword}
@@ -134,7 +151,7 @@ export default function InscriptionPage() {
         </aside>
       </div>
 
-      <Link to="/" className={styles.backLink}>
+      <Link to="/" className={auth.backLink}>
         ← {t.backHome}
       </Link>
     </main>

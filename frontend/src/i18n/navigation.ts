@@ -14,13 +14,13 @@ export const siteNavCopy = {
       researchers: { headerDesktop: 'Recherche UNC', bottom: 'Recherche UNC' },
       about: { headerDesktop: 'À propos' },
       categories: { headerDesktop: 'Catégories', bottom: 'Catégories' },
-      account: { headerDesktop: 'Compte' },
+      account: { headerDesktop: 'Compte', bottom: 'Compte' },
     },
-    login: 'Connexion',
-    researcherTab: 'Vous êtes chercheur ?',
+    researchersAccess: 'Chercheurs',
     aria: {
       mainNav: 'Navigation principale',
       quickNav: 'Navigation rapide',
+      researchersAccess: 'Espace chercheur',
     },
   },
   en: {
@@ -30,22 +30,21 @@ export const siteNavCopy = {
       researchers: { headerDesktop: 'UNC research', bottom: 'UNC research' },
       about: { headerDesktop: 'About' },
       categories: { headerDesktop: 'Categories', bottom: 'Categories' },
-      account: { headerDesktop: 'Account' },
+      account: { headerDesktop: 'Account', bottom: 'Account' },
     },
-    login: 'Sign in',
-    researcherTab: 'Are you a researcher?',
+    researchersAccess: 'Researchers',
     aria: {
       mainNav: 'Main navigation',
       quickNav: 'Quick navigation',
+      researchersAccess: 'Researcher space',
     },
   },
 } as const satisfies Record<
   Locale,
   {
     items: Record<string, SiteNavItemLabels>
-    login: string
-    researcherTab: string
-    aria: { mainNav: string; quickNav: string }
+    researchersAccess: string
+    aria: { mainNav: string; quickNav: string; researchersAccess: string }
   }
 >
 

@@ -16,12 +16,19 @@ const DEFAULT_TIMEOUT_MS = 10_000
 
 export class ApiError extends Error {
   readonly status: number
+  readonly body?: ApiErrorBody
 
-  constructor(message: string, status: number) {
+  constructor(message: string, status: number, body?: ApiErrorBody) {
     super(message)
     this.name = 'ApiError'
     this.status = status
+    this.body = body
   }
+}
+
+export type ApiErrorBody = {
+  message?: string
+  errors?: Record<string, string[]>
 }
 
 type RequestOptions = {
@@ -65,19 +72,37 @@ function isMutatingMethod(method: string): boolean {
   return method !== 'GET' && method !== 'HEAD'
 }
 
+/** Upload multipart (PDF) : le body est un FormData, jamais du JSON. */
+function isFormData(body: unknown): body is FormData {
+  return typeof FormData !== 'undefined' && body instanceof FormData
+}
+
 async function parseJsonBody<T>(response: Response): Promise<T> {
   const text = await response.text()
   if (!text) return undefined as T
   return JSON.parse(text) as T
 }
 
+function messageFromErrorBody(body: ApiErrorBody | undefined, fallback: string): string {
+  if (!body) return fallback
+  if (body.errors) {
+    for (const messages of Object.values(body.errors)) {
+      if (messages?.[0]) return messages[0]
+    }
+  }
+  if (body.message) return body.message
+  return fallback
+}
+
 async function request<T>(baseUrl: string, path: string, options: RequestOptions = {}): Promise<T> {
   const { method = 'GET', body, params, signal, timeoutMs = DEFAULT_TIMEOUT_MS } = options
   const towardLaravel = baseUrl === appConfig.apiBaseUrl
 
+  const bodyIsFormData = isFormData(body)
   const headers: Record<string, string> = {
     Accept: 'application/json',
-    ...(body !== undefined ? { 'Content-Type': 'application/json' } : {}),
+    // FormData : laisser le navigateur poser Content-Type + boundary lui-même.
+    ...(body !== undefined && !bodyIsFormData ? { 'Content-Type': 'application/json' } : {}),
   }
 
   if (towardLaravel && isMutatingMethod(method)) {
@@ -88,14 +113,21 @@ async function request<T>(baseUrl: string, path: string, options: RequestOptions
   const response = await fetch(buildUrl(baseUrl, path, params), {
     method,
     headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: body === undefined ? undefined : bodyIsFormData ? body : JSON.stringify(body),
     // Cookies de session — le back doit répondre avec CORS credentials.
     credentials: towardLaravel ? 'include' : 'omit',
     signal: combineSignals(timeoutMs, signal),
   })
 
   if (!response.ok) {
-    throw new ApiError(`Requête échouée (${response.status}) — ${path}`, response.status)
+    let body: ApiErrorBody | undefined
+    try {
+      body = await parseJsonBody<ApiErrorBody>(response)
+    } catch {
+      body = undefined
+    }
+    const fallback = `Requête échouée (${response.status}) — ${path}`
+    throw new ApiError(messageFromErrorBody(body, fallback), response.status, body)
   }
 
   return parseJsonBody<T>(response)

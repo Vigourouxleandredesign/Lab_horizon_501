@@ -1,0 +1,97 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 32px) 40px;
+}
+
+.header {
+  margin-bottom: 24px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  color: var(--lh-heading);
+}
+
+.lead {
+  margin: 0;
+  color: var(--lh-body-gray);
+  line-height: 1.55;
+}
+
+.form {
+  display: grid;
+  gap: 18px;
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 18px;
+  padding: clamp(20px, 4vw, 28px);
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.form label {
+  display: grid;
+  gap: 8px;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--lh-body-gray);
+}
+
+.form input,
+.form textarea {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 12px 14px;
+  font-size: 0.92rem;
+  font-family: inherit;
+  background: var(--lh-bg);
+  resize: vertical;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.form input:focus-visible,
+.form textarea:focus-visible {
+  outline: none;
+  border-color: var(--lh-link);
+  box-shadow: 0 0 0 3px var(--lh-src-teal-010);
+}
+
+.formError {
+  margin: 0;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--lh-src-hint-cream);
+  border: 1px solid var(--lh-src-gold-030);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.85rem;
+  line-height: 1.5;
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.submitBtn {
+  border: none;
+  border-radius: 999px;
+  padding: 12px 26px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.submitBtn:hover:not(:disabled) {
+  background: var(--lh-link);
+}
+
+.submitBtn:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}

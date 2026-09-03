@@ -82,6 +82,20 @@ export default function SearchPage() {
     })
   }
 
+  const hasActiveFilters = Boolean(urlQuery || categorySlug || year)
+
+  const clearFilters = () => {
+    setInputValue('')
+    setSearchParams((params) => {
+      params.delete('q')
+      params.delete('category')
+      params.delete('domain')
+      params.delete('year')
+      params.delete('sort')
+      return params
+    })
+  }
+
   const publicationsQuery = useApiQuery(
     (signal) =>
       searchPublications(
@@ -157,6 +171,12 @@ export default function SearchPage() {
               <option value="relevance">{t.filters.sortRelevance}</option>
             </select>
           </label>
+
+          {hasActiveFilters && (
+            <button type="button" className={styles.clearFilters} onClick={clearFilters}>
+              {t.clearFilters}
+            </button>
+          )}
         </div>
       </section>
 
@@ -185,6 +205,11 @@ export default function SearchPage() {
 
       {tab === 'publications' && (
         <>
+          {publicationsQuery.status === 'success' && publicationsQuery.data.total > 0 && (
+            <p className={styles.resultsSummary}>
+              {t.resultsSummary(publicationsQuery.data.total, urlQuery)}
+            </p>
+          )}
           {publicationsQuery.status === 'loading' && <LoadingState label={t.loading} />}
           {publicationsQuery.status === 'error' && <ErrorState label={t.error} />}
           {publicationsQuery.status === 'success' &&
@@ -195,7 +220,7 @@ export default function SearchPage() {
                 ))}
               </section>
             ) : (
-              <EmptyState label={t.empty} />
+              <EmptyState label={hasActiveFilters ? t.emptyFiltered : t.empty} />
             ))}
         </>
       )}

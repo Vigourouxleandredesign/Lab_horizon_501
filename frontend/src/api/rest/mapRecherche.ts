@@ -57,6 +57,8 @@ export type LaravelRecherche = {
   abstract?: string | null
   date_production?: string | null
   source?: string | null
+  /** Propriétaire — utilisé côté front pour filtrer « mes publications » (pas de `?mine=1` back). */
+  user_id?: number | null
   hal_id?: string | null
   hal_url?: string | null
   pdf_path?: string | null

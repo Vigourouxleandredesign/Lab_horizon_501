@@ -1,61 +1,36 @@
-import { Link, Outlet, useNavigate } from 'react-router-dom'
-import { brandLogoSrc } from '../../assets/figmaHomeAssets'
-import { useAuth } from '../../auth/AuthContext'
+import { Outlet } from 'react-router-dom'
 import { useLocale } from '../../hooks/useLocale'
-import { accountPageCopy } from '../../i18n/account'
+import { backofficeShellCopy } from '../../i18n/backoffice'
 import { isDemoAuth } from '../../lib/config'
 import styles from '../../style/backoffice/backoffice.module.css'
+import BackofficeBottomNav from './BackofficeBottomNav'
+import BackofficeSidebar from './BackofficeSidebar'
 
 /**
  * Coque backoffice chercheur — séparée de l'app publique (doc 07 §5).
- * Les pages enfants (`/compte`, validation vulgarisation) ne changent pas
- * quand l'API Laravel sera branchée : seule la façade `api/` est concernée.
+ *
+ * Sidebar verticale fixe sur desktop (≥900px), barre basse fixe sur mobile —
+ * plus de top bar globale : « Retour au site public » vit dans Recherche,
+ * « Déconnexion » vit uniquement dans Votre compte (cf. plan refonte backoffice).
  */
 export default function BackofficeLayout() {
-  const { user, logout } = useAuth()
   const { locale } = useLocale()
-  const navigate = useNavigate()
-  const t = accountPageCopy[locale]
-
-  const handleLogout = async () => {
-    await logout()
-    navigate('/', { replace: true })
-  }
+  const t = backofficeShellCopy[locale]
 
   return (
-    <div className={styles.backoffice}>
-      <header className={styles.topBar}>
-        <Link to="/compte" className={styles.brand}>
-          <img src={brandLogoSrc} alt="" width={36} height={36} />
-          <span>Lab Horizon — {t.nav.dashboard}</span>
-        </Link>
-        <div className={styles.topActions}>
-          <Link to="/recherche" className={styles.topLink}>
-            {t.nav.search}
-          </Link>
-          <Link to="/" className={styles.topLink}>
-            {t.nav.publicSite}
-          </Link>
-          {user && (
-            <span className={styles.topLink} aria-hidden>
-              {user.displayName}
-            </span>
-          )}
-          <button type="button" className={styles.logoutBtn} onClick={handleLogout}>
-            {t.logout}
-          </button>
-        </div>
-      </header>
+    <div className={styles.shell}>
+      <BackofficeSidebar />
 
-      {isDemoAuth && (
-        <p className={styles.demoBanner} role="note">
-          {t.demoBanner}
-        </p>
-      )}
-
-      <div className={styles.body}>
+      <div className={styles.content}>
+        {isDemoAuth && (
+          <p className={styles.demoBanner} role="note">
+            {t.demoBanner}
+          </p>
+        )}
         <Outlet />
       </div>
+
+      <BackofficeBottomNav />
     </div>
   )
 }

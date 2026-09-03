@@ -1,0 +1,145 @@
+.page {
+  max-width: 1080px;
+  margin: 0 auto;
+  width: 100%;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 32px) 40px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0 0 8px;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  color: var(--lh-heading);
+}
+
+.lead {
+  margin: 0;
+  color: var(--lh-body-gray);
+  line-height: 1.55;
+}
+
+.quickActions {
+  margin-bottom: 20px;
+}
+
+.primaryAction {
+  display: inline-flex;
+  align-items: center;
+  border: none;
+  border-radius: 999px;
+  padding: 12px 22px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 0.88rem;
+  font-weight: 600;
+  text-decoration: none;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.primaryAction:hover {
+  background: var(--lh-link);
+}
+
+.stats {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+  gap: 12px;
+  margin-bottom: 28px;
+}
+
+.statCard,
+.statCardMuted {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding: 16px;
+  border-radius: 14px;
+  border: 1px solid var(--lh-border-light);
+  background: var(--lh-bg);
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.statCard strong {
+  font-size: 1.6rem;
+  color: var(--lh-heading);
+}
+
+.statCard span {
+  font-size: 0.78rem;
+  color: var(--lh-src-placeholder);
+}
+
+.statCardMuted {
+  justify-content: center;
+  color: var(--lh-src-placeholder);
+  font-size: 0.78rem;
+  font-style: italic;
+}
+
+.list {
+  display: grid;
+  gap: 16px;
+}
+
+.listItem {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.itemActions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  padding: 0 4px;
+}
+
+.itemLink {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--lh-teal);
+  text-decoration: none;
+}
+
+.itemLink:hover {
+  text-decoration: underline;
+}
+
+.itemDeleteBtn {
+  border: none;
+  background: none;
+  padding: 0;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--lh-src-hint-brown);
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.itemDeleteBtn:hover:not(:disabled) {
+  text-decoration: underline;
+}
+
+.itemDeleteBtn:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.formError {
+  margin: 0 0 16px;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--lh-src-hint-cream);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.85rem;
+}
+
+.scanLimitNote {
+  margin: 16px 0 0;
+  font-size: 0.72rem;
+  color: var(--lh-src-placeholder);
+}

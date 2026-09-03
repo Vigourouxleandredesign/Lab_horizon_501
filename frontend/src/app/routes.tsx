@@ -1,5 +1,5 @@
 import { lazy, Suspense, type ReactNode } from 'react'
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import RequireAuth from '../auth/RequireAuth'
 import AppFrame from '../components/AppFrame'
 import BackofficeLayout from '../components/backoffice/BackofficeLayout'
@@ -16,9 +16,14 @@ const InscriptionPage = lazy(() => import('../pages/InscriptionPage'))
 const LegalPage = lazy(() => import('../pages/LegalPage'))
 const NotFoundPage = lazy(() => import('../pages/NotFoundPage'))
 const UncResearchPage = lazy(() => import('../pages/UncResearchPage'))
-const AccountPage = lazy(() => import('../pages/AccountPage'))
 const PublicationReviewPage = lazy(() => import('../pages/PublicationReviewPage'))
 const ResearcherPage = lazy(() => import('../pages/ResearcherPage'))
+const NouveautesPage = lazy(() => import('../pages/backoffice/NouveautesPage'))
+const BackofficeSearchPage = lazy(() => import('../pages/backoffice/BackofficeSearchPage'))
+const PublicationsPage = lazy(() => import('../pages/backoffice/PublicationsPage'))
+const NewPublicationPage = lazy(() => import('../pages/backoffice/NewPublicationPage'))
+const EditPublicationPage = lazy(() => import('../pages/backoffice/EditPublicationPage'))
+const AccountSettingsPage = lazy(() => import('../pages/backoffice/AccountSettingsPage'))
 
 function PageFallback() {
   return <LoadingState label="…" />
@@ -84,11 +89,20 @@ export const appRouter = createBrowserRouter([
       {
         element: <BackofficeLayout />,
         children: [
-          { index: true, element: withSuspense(<AccountPage />) },
+          { index: true, element: <Navigate to="nouveautes" replace /> },
+          { path: 'nouveautes', element: withSuspense(<NouveautesPage />) },
+          { path: 'recherche', element: withSuspense(<BackofficeSearchPage />) },
+          { path: 'publications', element: withSuspense(<PublicationsPage />) },
+          { path: 'publications/nouvelle', element: withSuspense(<NewPublicationPage />) },
+          {
+            path: 'publications/:id/modifier',
+            element: withSuspense(<EditPublicationPage />),
+          },
           {
             path: 'publications/:id/review',
             element: withSuspense(<PublicationReviewPage />),
           },
+          { path: 'profil', element: withSuspense(<AccountSettingsPage />) },
         ],
       },
     ],

@@ -397,12 +397,31 @@
   color: var(--lh-src-white);
 }
 
+.researcherBtn {
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 14px;
+  border-radius: 999px;
+  border: 0.8px solid var(--lh-src-white-015);
+  background: var(--lh-src-white-008);
+  color: var(--lh-src-white-085);
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.researcherBtn:hover {
+  color: var(--lh-src-white);
+  background: var(--lh-src-white-012);
+}
+
 /* -----------------------------------------------------------------------------
    Pied de page
    ----------------------------------------------------------------------------- */
 .footer {
   margin-top: 48px;
-  padding: 28px 16px calc(88px + env(safe-area-inset-bottom));
+  padding: 28px 16px var(--lh-mobile-bottom-stack);
   border-top: 0.8px solid var(--lh-src-white-005);
   background: linear-gradient(
     174.7deg,
@@ -485,13 +504,56 @@
 /* -----------------------------------------------------------------------------
    Navigation basse fixe — mobile uniquement
    ----------------------------------------------------------------------------- */
-.bottomNav {
+.bottomNavZone {
   position: fixed;
   z-index: 45;
   left: 10vw;
   right: 10vw;
   width: auto;
   bottom: calc(16px + env(safe-area-inset-bottom));
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  pointer-events: none;
+}
+
+.bottomNavZone > * {
+  pointer-events: auto;
+}
+
+/* Onglet chercheur — au-dessus de la pill nav, sans élargir la barre */
+.bottomResearcherTab {
+  position: relative;
+  z-index: 1;
+  margin-bottom: -10px;
+  padding: 8px 20px 14px;
+  border-radius: 14px 14px 0 0;
+  background: var(--lh-beige);
+  color: var(--lh-navy);
+  font-size: 0.625rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-decoration: none;
+  box-shadow: var(--lh-shadow-folder-tab);
+  white-space: nowrap;
+}
+
+.bottomResearcherTab:hover {
+  filter: brightness(1.03);
+}
+
+.bottomResearcherTabActive {
+  color: var(--lh-navy);
+  box-shadow:
+    var(--lh-shadow-folder-tab),
+    inset 0 -2px 0 var(--lh-src-gold);
+}
+
+.bottomNav {
+  position: relative;
+  z-index: 2;
+  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -511,7 +573,7 @@
 }
 
 @media (min-width: 900px) {
-  .bottomNav {
+  .bottomNavZone {
     display: none;
   }
 }
@@ -558,7 +620,7 @@
   position: fixed;
   z-index: 50;
   right: calc(16px + env(safe-area-inset-right));
-  bottom: calc(92px + env(safe-area-inset-bottom));
+  bottom: calc(var(--lh-mobile-bottom-stack) + 12px);
   width: 56px;
   height: 56px;
   border-radius: 50%;

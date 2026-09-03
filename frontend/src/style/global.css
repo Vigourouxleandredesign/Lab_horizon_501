@@ -211,6 +211,9 @@
   --lh-inset-glass-top: inset 0 1px 0 var(--lh-src-white-090);
   --lh-inset-search-top: inset 0 1px 0 var(--lh-src-white);
 
+  /* Mobile — nav basse + onglet chercheur (siteChrome.bottomNavZone) */
+  --lh-mobile-bottom-stack: calc(132px + env(safe-area-inset-bottom));
+
   /* Typo principale charte : Baloo Chettan (Google Fonts : Baloo Chettan 2) */
   font-family:
     'Baloo Chettan 2',

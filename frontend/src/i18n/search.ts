@@ -19,6 +19,10 @@ export const searchPageCopy = {
     loading: 'Recherche en cours…',
     error: 'La recherche est momentanément indisponible, veuillez réessayer plus tard.',
     empty: 'Aucun résultat, essayez d’autres mots-clés ou élargissez les filtres.',
+    emptyFiltered: 'Aucun résultat avec ces filtres. Essayez d’élargir la catégorie ou l’année.',
+    clearFilters: 'Réinitialiser les filtres',
+    resultsSummary: (total: number, query: string) =>
+      query ? `${total} résultat${total > 1 ? 's' : ''} pour « ${query} »` : `${total} résultat${total > 1 ? 's' : ''}`,
     researcherHint:
       'La recherche par nom d’auteur affiche ses publications publiques.',
   },
@@ -40,6 +44,10 @@ export const searchPageCopy = {
     loading: 'Searching…',
     error: 'Search is temporarily unavailable, please try again later.',
     empty: 'No results, try other keywords or broaden the filters.',
+    emptyFiltered: 'No results with these filters. Try broadening the category or year.',
+    clearFilters: 'Reset filters',
+    resultsSummary: (total: number, query: string) =>
+      query ? `${total} result${total !== 1 ? 's' : ''} for “${query}”` : `${total} result${total !== 1 ? 's' : ''}`,
     researcherHint: 'Searching an author’s name shows their public publications.',
   },
 } as const satisfies Record<Locale, Record<string, unknown>>

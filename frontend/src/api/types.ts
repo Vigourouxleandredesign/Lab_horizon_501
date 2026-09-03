@@ -118,6 +118,7 @@ export type RegisterPayload = {
   name: string
   email: string
   password: string
+  passwordConfirmation: string
 }
 
 /** Élément de veille (alerte mot-clé ou chercheur suivi). */

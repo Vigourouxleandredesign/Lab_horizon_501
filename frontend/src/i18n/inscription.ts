@@ -37,6 +37,9 @@ export const inscriptionCopy = {
     signIn: 'Se connecter',
     backHome: "Retour à l'accueil",
     passwordMismatch: 'Les mots de passe ne correspondent pas.',
+    validationEmail: 'Cet e-mail est déjà utilisé ou invalide.',
+    validationPassword: 'Le mot de passe doit contenir au moins 8 caractères.',
+    validationGeneric: 'Vérifiez les informations saisies.',
     unavailable: 'Inscription indisponible pour le moment, veuillez utiliser la page de connexion.',
     demoNote:
       'L’inscription en ligne sera activée prochainement. En attendant, connectez-vous via la page de connexion.',
@@ -77,6 +80,9 @@ export const inscriptionCopy = {
     signIn: 'Sign in',
     backHome: 'Back to home',
     passwordMismatch: 'Passwords do not match.',
+    validationEmail: 'This email is already in use or invalid.',
+    validationPassword: 'Password must be at least 8 characters.',
+    validationGeneric: 'Please check the information you entered.',
     unavailable: 'Registration is unavailable for now, please use the sign-in page.',
     demoNote:
       'Online registration will be enabled soon. In the meantime, please sign in via the sign-in page.',

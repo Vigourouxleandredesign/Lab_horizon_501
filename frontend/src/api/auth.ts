@@ -6,7 +6,7 @@
  *   POST /api/login             → ouvre la session (cookie httpOnly)
  *   POST /api/logout            → ferme la session
  *   GET  /api/me                → SessionUser ou 401
- *   POST /api/register          → pas encore exposé en JSON côté back (501)
+ *   POST /api/register          → crée le compte + ouvre la session
  *
  * Mode démo (mock/hal) : session simulée côté front, clairement signalée dans
  * l'UI (`isDemoAuth`).
@@ -112,10 +112,35 @@ export async function register(payload: RegisterPayload): Promise<SessionUser> {
       501,
     )
   }
-  // Back : register JSON absent (Blade /register seulement).
-  void payload
-  throw new ApiError(
-    'Inscription API indisponible — le back n’expose pas encore POST /api/register.',
-    501,
-  )
+
+  await apiRequest<void>('/sanctum/csrf-cookie')
+  const response = await apiRequest<LaravelLoginResponse>('/api/register', {
+    method: 'POST',
+    body: {
+      name: payload.name,
+      email: payload.email,
+      password: payload.password,
+      password_confirmation: payload.passwordConfirmation,
+    },
+  })
+  return mapLaravelUser(response.user)
+}
+
+/** Mappe les erreurs Laravel (422) vers un message lisible pour l'utilisateur. */
+export function registerErrorMessage(error: unknown, copy: {
+  unavailable: string
+  validationEmail: string
+  validationPassword: string
+  validationGeneric: string
+}): string {
+  if (!(error instanceof ApiError)) return copy.unavailable
+
+  if (error.status === 422 && error.body?.errors) {
+    const { errors } = error.body
+    if (errors.email?.length) return copy.validationEmail
+    if (errors.password?.length) return copy.validationPassword
+    return copy.validationGeneric
+  }
+
+  return error.message || copy.unavailable
 }

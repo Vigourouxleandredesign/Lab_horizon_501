@@ -20,10 +20,16 @@ export function categorySlugFromDomain(domain: string | null | undefined): Categ
   return cat?.slug ?? ''
 }
 
-/** Paramètre attendu par mock/HAL aujourd'hui — point d'extension unique pour le back. */
+/** Libellés envoyés à l'API — alignés sur la table `domaines` du seed back. */
+const API_CATEGORY_LABEL_BY_SLUG: Partial<Record<CategorySlug, string>> = {
+  'biodiversite-environnement-sante': 'Biodiversité, environnement, santé',
+  geosciences: 'Géosciences',
+}
+
+/** Paramètre `category` pour `GET /api/recherches` (matching normalisé côté Laravel). */
 export function toApiCategoryParam(slug: CategorySlug | ''): string | undefined {
   if (!slug) return undefined
-  return categoryBySlug(slug)?.labelFr
+  return API_CATEGORY_LABEL_BY_SLUG[slug] ?? categoryBySlug(slug)?.labelFr
 }
 
 export function categoryOptions(locale: Locale) {

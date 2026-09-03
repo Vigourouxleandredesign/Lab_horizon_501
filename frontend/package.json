@@ -8,6 +8,8 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "check:colors": "node scripts/check-colors.mjs",
+    "test:search-api": "node scripts/test-search-api.mjs",
+    "test:auth-api": "node scripts/test-auth-api.mjs",
     "preview": "vite preview"
   },
   "dependencies": {

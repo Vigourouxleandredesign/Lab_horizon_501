@@ -103,6 +103,12 @@
   color: var(--lh-src-placeholder);
   font-size: 0.62rem;
   font-weight: 600;
+  cursor: pointer;
+}
+
+.keywordTag:hover {
+  border-color: var(--lh-teal);
+  color: var(--lh-teal);
 }
 
 .sourceTag {

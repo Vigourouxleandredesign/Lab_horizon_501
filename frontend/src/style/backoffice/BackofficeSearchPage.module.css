@@ -1,0 +1,23 @@
+.wrapper {
+  width: 100%;
+}
+
+.banner {
+  max-width: 1120px;
+  margin: 0 auto;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 32px) 0;
+}
+
+.backLink {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--lh-teal);
+  text-decoration: none;
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.backLink:hover {
+  text-decoration: underline;
+}

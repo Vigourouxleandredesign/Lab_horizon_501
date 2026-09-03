@@ -1,0 +1,110 @@
+.page {
+  max-width: 640px;
+  margin: 0 auto;
+  width: 100%;
+  padding: clamp(20px, 4vw, 40px) clamp(16px, 4vw, 32px) 40px;
+}
+
+.header {
+  margin-bottom: 20px;
+}
+
+.header h1 {
+  margin: 0;
+  font-size: clamp(1.4rem, 3vw, 1.75rem);
+  color: var(--lh-heading);
+}
+
+.card {
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-border-light);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.cardTitle {
+  margin: 0 0 12px;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--lh-src-placeholder);
+}
+
+.identityName {
+  margin: 0 0 4px;
+  font-weight: 700;
+  font-size: 1.05rem;
+  color: var(--lh-heading);
+}
+
+.identityEmail {
+  margin: 0;
+  color: var(--lh-body-gray);
+  font-size: 0.9rem;
+}
+
+.demoNote {
+  margin: 12px 0 0;
+  padding: 10px 14px;
+  border-radius: 10px;
+  background: var(--lh-src-hint-cream);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.78rem;
+  line-height: 1.5;
+}
+
+.languageToggle {
+  display: inline-flex;
+  gap: 6px;
+  padding: 4px;
+  border-radius: 999px;
+  background: var(--lh-src-page-100);
+}
+
+.languageOption,
+.languageOptionActive {
+  border: none;
+  border-radius: 999px;
+  padding: 8px 18px;
+  font-size: 0.82rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  background: transparent;
+  color: var(--lh-body-gray);
+}
+
+.languageOptionActive {
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+}
+
+.orcidNote {
+  margin: 0;
+  color: var(--lh-body-gray);
+  font-size: 0.88rem;
+  line-height: 1.55;
+}
+
+.logoutBtn {
+  display: block;
+  width: 100%;
+  margin-top: 8px;
+  border: 1px solid var(--lh-border-light);
+  border-radius: 999px;
+  padding: 12px 20px;
+  background: var(--lh-bg);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+
+.logoutBtn:hover {
+  border-color: var(--lh-src-gold-030);
+  background: var(--lh-src-hint-cream);
+}

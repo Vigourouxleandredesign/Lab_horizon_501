@@ -10,7 +10,7 @@
   align-items: center;
   justify-content: center;
   /* Fluide plutôt qu'un saut net à 899px : suit la largeur d'écran en continu */
-  padding: clamp(2.5rem, 10vw, 7.5rem) 20px calc(88px + env(safe-area-inset-bottom));
+  padding: clamp(2.5rem, 10vw, 7.5rem) 20px var(--lh-mobile-bottom-stack);
   background: var(--lh-not-found-bg);
   color: var(--lh-heading);
 }

@@ -5,7 +5,7 @@ import { useAuth } from '../auth/AuthContext'
 import { useLocale } from '../hooks/useLocale'
 import { connexionCopy } from '../i18n/connexion'
 import { isDemoAuth } from '../lib/config'
-import styles from '../style/pages/SimplePage.module.css'
+import styles from '../style/pages/AuthPage.module.css'
 
 /**
  * Connexion chercheur — branchée sur le contexte d'auth (Sanctum en mode
@@ -49,39 +49,43 @@ export default function ConnexionPage() {
   }
 
   return (
-    <main className={styles.page}>
-      <h1>{t.title}</h1>
-      <p className={styles.lead}>{t.lead}</p>
+    <main className={styles.shell}>
+      <div className={styles.card}>
+        <header className={styles.cardHeader}>
+          <h1 className={styles.title}>{t.title}</h1>
+          <p className={styles.lead}>{t.lead}</p>
+        </header>
 
-      {isDemoAuth && (
-        <p className={styles.highlight} role="note">
-          {t.demoNote(DEMO_EMAIL)}
-        </p>
-      )}
-
-      <form className={styles.form} onSubmit={handleSubmit}>
-        <label>
-          {t.email}
-          <input type="email" name="email" autoComplete="email" required />
-        </label>
-        <label>
-          {t.password}
-          <input type="password" name="password" autoComplete="current-password" required />
-        </label>
-        {error && (
-          <p className={styles.formError} role="alert">
-            {error}
+        {isDemoAuth && (
+          <p className={styles.highlight} role="note">
+            {t.demoNote(DEMO_EMAIL)}
           </p>
         )}
-        <button type="submit" className={styles.primaryBtn} disabled={submitting}>
-          {submitting ? t.submitting : t.submit}
-        </button>
-      </form>
 
-      <p className={styles.lead}>
-        {t.noAccount}{' '}
-        <Link to="/inscription">{t.createAccount}</Link>
-      </p>
+        <form className={styles.form} onSubmit={handleSubmit}>
+          <label>
+            {t.email}
+            <input type="email" name="email" autoComplete="email" required />
+          </label>
+          <label>
+            {t.password}
+            <input type="password" name="password" autoComplete="current-password" required />
+          </label>
+          {error && (
+            <p className={styles.formError} role="alert">
+              {error}
+            </p>
+          )}
+          <button type="submit" className={styles.primaryBtn} disabled={submitting}>
+            {submitting ? t.submitting : t.submit}
+          </button>
+        </form>
+
+        <p className={styles.footerNote}>
+          {t.noAccount}{' '}
+          <Link to="/inscription">{t.createAccount}</Link>
+        </p>
+      </div>
 
       <Link to="/" className={styles.backLink}>
         {t.backHome}

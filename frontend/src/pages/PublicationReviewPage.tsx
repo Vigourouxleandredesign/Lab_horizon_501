@@ -40,7 +40,7 @@ export default function PublicationReviewPage() {
         vulgarizedParagraphs: query.data.vulgarizedParagraphs,
       })
       setSuccess(true)
-      setTimeout(() => navigate('/compte', { replace: true }), 1500)
+      setTimeout(() => navigate('/compte/publications', { replace: true }), 1500)
     } finally {
       setSubmitting(false)
     }
@@ -58,7 +58,7 @@ export default function PublicationReviewPage() {
     return (
       <main className={styles.page}>
         <ErrorState label={t.error} />
-        <Link to="/compte" className={styles.backLink}>
+        <Link to="/compte/publications" className={styles.backLink}>
           ← {t.back}
         </Link>
       </main>
@@ -70,7 +70,7 @@ export default function PublicationReviewPage() {
     return (
       <main className={styles.page}>
         <EmptyState label={t.notFound} />
-        <Link to="/compte" className={styles.backLink}>
+        <Link to="/compte/publications" className={styles.backLink}>
           ← {t.back}
         </Link>
       </main>
@@ -120,7 +120,7 @@ export default function PublicationReviewPage() {
         </button>
       )}
 
-      <Link to="/compte" className={styles.backLink}>
+      <Link to="/compte/publications" className={styles.backLink}>
         ← {t.back}
       </Link>
     </main>

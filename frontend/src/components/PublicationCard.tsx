@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import type { PublicationSummary } from '../api/types'
 import { useLocale } from '../hooks/useLocale'
 import { commonCopy } from '../i18n/common'
@@ -15,12 +15,17 @@ type Props = {
  */
 export default function PublicationCard({ publication }: Props) {
   const { locale } = useLocale()
+  const navigate = useNavigate()
   const t = commonCopy[locale]
   const openExternal = Boolean(publication.sourceUrl)
   const className = [
     styles.card,
     publication.coverUrl ? styles.cardWithCover : styles.cardTextOnly,
   ].join(' ')
+
+  const openKeywordSearch = (keyword: string) => {
+    navigate(`/recherche?q=${encodeURIComponent(keyword)}`)
+  }
 
   const content = (
     <>
@@ -48,7 +53,23 @@ export default function PublicationCard({ publication }: Props) {
         {publication.keywords.length > 0 && (
           <div className={styles.keywords}>
             {publication.keywords.slice(0, 3).map((keyword) => (
-              <span key={keyword} className={styles.keywordTag}>
+              <span
+                key={keyword}
+                role="link"
+                tabIndex={0}
+                className={styles.keywordTag}
+                onClick={(event) => {
+                  event.preventDefault()
+                  event.stopPropagation()
+                  openKeywordSearch(keyword)
+                }}
+                onKeyDown={(event) => {
+                  if (event.key !== 'Enter' && event.key !== ' ') return
+                  event.preventDefault()
+                  event.stopPropagation()
+                  openKeywordSearch(keyword)
+                }}
+              >
                 {keyword}
               </span>
             ))}

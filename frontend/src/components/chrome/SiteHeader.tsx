@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { brandLogoSrc } from '../../assets/figmaHomeAssets'
+import { useAuth } from '../../auth/AuthContext'
 import LanguageMenu from './LanguageMenu'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
@@ -22,6 +23,7 @@ type Props = {
 export default function SiteHeader({ overlay = false }: Props) {
   const { locale } = useLocale()
   const t = siteNavCopy[locale]
+  const { status } = useAuth()
   const mainNavItems = useSiteNavigation('headerDesktop')
 
   const isDesktop = useMediaQuery('(min-width: 900px)')
@@ -65,11 +67,6 @@ export default function SiteHeader({ overlay = false }: Props) {
     <>
       <div className={zoneClass}>
       <div className={chrome.headerStack}>
-        {/*
-          Accès chercheur (connexion / inscription) volontairement absent de la navigation
-          grand public : V1 diffuse l'URL directement au référent chercheur.
-          Voir docs/ux/07-pages-roles-roadmap.md.
-        */}
         <header className={chrome.headerBar}>
           <div className={chrome.headerInner}>
           <NavLink to="/" className={chrome.logo}>
@@ -89,6 +86,15 @@ export default function SiteHeader({ overlay = false }: Props) {
             ))}
           </nav>
           <div className={chrome.headerActions}>
+            {status !== 'authenticated' ? (
+              <NavLink
+                to="/connexion"
+                className={chrome.researcherBtn}
+                aria-label={t.aria.researchersAccess}
+              >
+                {t.researchersAccess}
+              </NavLink>
+            ) : null}
             <LanguageMenu />
           </div>
         </div>
