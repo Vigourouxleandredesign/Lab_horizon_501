@@ -1,6 +1,7 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useNavigate } from 'react-router-dom'
 import { registerErrorMessage } from '../api/auth'
+import PasswordField from '../components/PasswordField'
 import { useAuth } from '../auth/AuthContext'
 import { useLocale } from '../hooks/useLocale'
 import { inscriptionCopy } from '../i18n/inscription'
@@ -117,21 +118,23 @@ export default function InscriptionPage() {
             </label>
             <label>
               {t.fields.password}
-              <input
-                type="password"
+              <PasswordField
                 name="password"
                 autoComplete="new-password"
                 minLength={8}
                 required
+                showLabel={t.showPassword}
+                hideLabel={t.hidePassword}
               />
             </label>
             <label>
               {t.fields.confirmPassword}
-              <input
-                type="password"
+              <PasswordField
                 name="confirmPassword"
                 autoComplete="new-password"
                 required
+                showLabel={t.showPassword}
+                hideLabel={t.hidePassword}
               />
             </label>
             {error && (

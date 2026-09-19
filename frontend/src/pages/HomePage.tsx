@@ -5,6 +5,7 @@ import DomainFieldCarousel, {
   type DomainFieldCarouselHandle,
 } from '../components/DomainFieldCarousel'
 import HomeHero from '../components/HomeHero'
+import LabLogoBadge from '../components/LabLogoBadge'
 import { uncTeams } from '../data/uncResearch'
 import { domainSlides, homeCopy } from '../i18n/home'
 import { useLocale } from '../hooks/useLocale'
@@ -133,13 +134,14 @@ export default function HomePage() {
           <div className={styles.researcherGrid}>
             {uncTeams.map((team) => (
               <article key={team.id} className={styles.researcherCard}>
+                <LabLogoBadge name={team.name} logoUrl={team.logoUrl} />
                 <div className={styles.researcherBody}>
                   <div className={styles.researcherName}>{team.name}</div>
                   <div className={styles.researcherOrg}>{localizedText(team.summary, locale)}</div>
                   <div className={styles.researcherTags}>
-                    {team.websiteUrl ? (
+                    {team.rootUrl ? (
                       <a
-                        href={team.websiteUrl}
+                        href={team.rootUrl}
                         className={styles.tagBlue}
                         target="_blank"
                         rel="noopener noreferrer"
@@ -151,13 +153,6 @@ export default function HomePage() {
                     )}
                   </div>
                 </div>
-                <img
-                  src={A.researcherChevron}
-                  alt=""
-                  width={16}
-                  height={16}
-                  className={styles.cardChevron}
-                />
               </article>
             ))}
           </div>

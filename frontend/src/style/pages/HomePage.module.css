@@ -209,6 +209,17 @@
 
 .searchWrap {
   margin: 36px 0 40px;
+  /* Le bouton "Explorer" du héro scrolle vers cette section : la marge de
+     défilement laisse la barre de recherche visible sous le header fixe
+     desktop (92px, cf. siteChrome.module.css) au lieu de s'arrêter pile
+     dessous. */
+  scroll-margin-top: 24px;
+}
+
+@media (min-width: 900px) {
+  .searchWrap {
+    scroll-margin-top: 116px;
+  }
 }
 
 .searchPill {
@@ -439,46 +450,6 @@
   transform: translateY(-2px);
 }
 
-.researcherAvatarWrap {
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-  padding: 2px;
-  border-radius: 14px;
-  background: linear-gradient(
-    135deg,
-    var(--lh-src-blue-500) 0%,
-    var(--lh-src-indigo-600) 100%
-  );
-}
-
-.researcherAvatar {
-  width: 52px;
-  height: 52px;
-  border-radius: 10px;
-  object-fit: cover;
-  display: block;
-}
-
-.onlineDot {
-  position: absolute;
-  right: -2px;
-  bottom: -2px;
-  width: 16px;
-  height: 16px;
-  background: var(--lh-src-green-dot);
-  border: 1.6px solid var(--lh-src-white);
-  border-radius: 50%;
-  box-shadow: var(--lh-shadow-online-dot);
-}
-
-.cardChevron {
-  position: relative;
-  z-index: 1;
-  flex-shrink: 0;
-  opacity: 0.45;
-}
-
 .researcherBody {
   flex: 1;
   min-width: 0;
@@ -506,10 +477,12 @@
 }
 
 .tagBlue {
-  display: inline-block;
-  padding: 4px 9px;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 0.6rem;
+  font-size: 0.74rem;
   font-weight: 700;
   color: var(--lh-src-white);
   text-decoration: none;
@@ -518,12 +491,19 @@
     var(--lh-src-blue-500) 0%,
     var(--lh-src-blue-600) 100%
   );
+  transition: filter 0.15s ease;
+}
+
+.tagBlue:hover {
+  filter: brightness(1.08);
 }
 
 .tagGreen {
-  padding: 4px 9px;
+  display: inline-flex;
+  align-items: center;
+  padding: 7px 14px;
   border-radius: 999px;
-  font-size: 0.6rem;
+  font-size: 0.74rem;
   font-weight: 700;
   background: var(--lh-src-green-tag-bg);
   color: var(--lh-src-green-tag-text);

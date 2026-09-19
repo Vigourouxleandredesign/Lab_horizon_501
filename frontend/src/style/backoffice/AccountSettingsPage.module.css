@@ -81,11 +81,142 @@
   color: var(--lh-on-navy);
 }
 
-.orcidNote {
+.currentValue {
+  margin: 0 0 14px;
+  font-size: 0.85rem;
+  color: var(--lh-body-gray);
+}
+
+.currentValue strong {
+  color: var(--lh-heading);
+}
+
+.form {
+  display: grid;
+  gap: 14px;
+}
+
+.formLabel {
+  display: grid;
+  gap: 6px;
+  font-size: 0.82rem;
+  color: var(--lh-body-gray);
+}
+
+.formInput {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--lh-bg);
+}
+
+.formInput:disabled {
+  background: var(--lh-src-page-100);
+  color: var(--lh-src-placeholder);
+  cursor: not-allowed;
+}
+
+.fieldNote {
+  margin: -4px 0 0;
+  font-size: 0.78rem;
+  color: var(--lh-src-placeholder);
+}
+
+.formSubmit {
+  justify-self: start;
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 0.85rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background 0.15s;
+}
+
+.formSubmit:hover:not(:disabled) {
+  background: var(--lh-link);
+}
+
+.formSubmit:disabled {
+  opacity: 0.6;
+  cursor: wait;
+}
+
+.formError {
   margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--lh-src-hint-cream);
+  border: 1px solid var(--lh-src-gold-030);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.82rem;
+}
+
+.notReadyBanner {
+  margin: 0;
+  padding: 10px 12px;
+  border-radius: 10px;
+  background: var(--lh-src-teal-010);
+  color: var(--lh-navy);
+  font-size: 0.82rem;
+  line-height: 1.5;
+}
+
+.dangerCard {
+  background: var(--lh-bg);
+  border: 1px solid var(--lh-src-gold-030);
+  border-radius: 16px;
+  padding: 20px;
+  margin-bottom: 16px;
+  box-shadow: 0 1px 3px var(--lh-src-card-shadow);
+}
+
+.dangerBody {
+  margin: 0 0 14px;
   color: var(--lh-body-gray);
   font-size: 0.88rem;
   line-height: 1.55;
+}
+
+.dangerCheckboxLabel {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  margin-bottom: 14px;
+  font-size: 0.84rem;
+  color: var(--lh-body-gray);
+  cursor: pointer;
+}
+
+.dangerCheckboxLabel input {
+  margin-top: 3px;
+}
+
+.dangerSubmit {
+  border: 1px solid var(--lh-src-gold-030);
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: var(--lh-src-hint-cream);
+  color: var(--lh-src-hint-brown);
+  font-size: 0.85rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s;
+}
+
+.dangerSubmit:hover:not(:disabled) {
+  filter: brightness(0.97);
+}
+
+.dangerSubmit:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
 }
 
 .logoutBtn {

@@ -22,7 +22,17 @@
   background: var(--lh-src-hint-cream);
   padding: 10px 14px;
   border-radius: 10px;
+  margin: 0 0 12px;
+}
+
+.stubBanner {
+  font-size: 0.82rem;
+  color: var(--lh-navy);
+  background: var(--lh-src-teal-010);
+  padding: 10px 14px;
+  border-radius: 10px;
   margin: 0 0 24px;
+  line-height: 1.45;
 }
 
 .compare {
@@ -72,23 +82,140 @@
   margin: 0 0 14px;
 }
 
-.validateBtn {
-  display: block;
-  width: 100%;
-  max-width: 320px;
-  margin: 0 auto 24px;
-  padding: 14px 20px;
-  border: none;
-  border-radius: 999px;
-  background: var(--lh-navy);
-  color: var(--lh-on-navy);
-  font-weight: 700;
-  cursor: pointer;
+.editField {
+  display: grid;
+  gap: 6px;
+  margin-top: 8px;
 }
 
-.validateBtn:disabled {
-  opacity: 0.5;
-  cursor: not-allowed;
+.editLabel {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--lh-body-gray);
+}
+
+.dateHint {
+  font-size: 0.72rem;
+  color: var(--lh-src-placeholder);
+}
+
+.editInput,
+.editTextarea {
+  border: 1px solid var(--lh-input-border);
+  border-radius: 12px;
+  padding: 10px 12px;
+  font-size: 0.9rem;
+  font-family: inherit;
+  background: var(--lh-bg);
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.editTextarea {
+  resize: vertical;
+  line-height: 1.55;
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+
+.primaryBtn,
+.secondaryBtn {
+  border-radius: 999px;
+  padding: 12px 22px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  transition: filter 0.15s, background 0.15s;
+}
+
+.primaryBtn {
+  border: none;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+}
+
+.primaryBtn:hover:not(:disabled) {
+  filter: brightness(1.08);
+}
+
+.primaryBtn:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.secondaryBtn {
+  border: 1px solid var(--lh-border-light);
+  background: var(--lh-bg);
+  color: var(--lh-body-gray);
+}
+
+.secondaryBtn:hover:not(:disabled) {
+  background: var(--lh-src-page-100);
+}
+
+.schedule {
+  margin-bottom: 28px;
+}
+
+.scheduleTitle {
+  margin: 0 0 14px;
+  font-size: 1.05rem;
+  color: var(--lh-heading);
+}
+
+.scheduleGrid {
+  display: grid;
+  gap: 12px;
+  margin-bottom: 14px;
+}
+
+@media (min-width: 560px) {
+  .scheduleGrid {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+.scheduleCard {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: 20px;
+  border: 2px solid var(--lh-navy);
+  border-radius: 16px;
+  background: var(--lh-navy);
+  color: var(--lh-on-navy);
+  font-size: 1rem;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  text-align: center;
+}
+
+.scheduleCard:hover:not(:disabled) {
+  filter: brightness(1.06);
+}
+
+.scheduleCard:disabled {
+  opacity: 0.55;
+  cursor: wait;
+}
+
+.scheduleCardDate {
+  display: grid;
+  gap: 12px;
+  align-content: start;
+  min-height: 120px;
+  padding: 16px;
+  border: 2px solid var(--lh-border-light);
+  border-radius: 16px;
+  background: var(--lh-bg);
 }
 
 .success {
@@ -96,6 +223,9 @@
   color: var(--lh-heading);
   font-weight: 600;
   margin-bottom: 24px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: var(--lh-src-teal-010);
 }
 
 .backLink {

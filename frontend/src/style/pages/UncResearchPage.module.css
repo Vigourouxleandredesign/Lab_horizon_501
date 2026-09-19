@@ -43,8 +43,15 @@
   box-shadow: 0 1px 3px var(--lh-src-card-shadow);
 }
 
+.teamCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
 .teamCard h3 {
-  margin: 0 0 8px;
+  margin: 0;
   color: var(--lh-navy);
   font-size: 1.05rem;
 }
@@ -125,9 +132,15 @@
   background: var(--lh-bg);
 }
 
+.umrCardHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 4px;
+}
+
 .umrCard strong {
   display: block;
-  margin-bottom: 4px;
   color: var(--lh-navy);
   font-size: 0.88rem;
 }

@@ -99,3 +99,7 @@ Desktop.ini
 .cursor/mcp.json
 .cursor/**/agent-transcripts/
 .cursor/**/terminals/
+
+# --- Docs archive (assets lourds, backup local uniquement) --------------------
+# Maquettes, PSD, exports bruts — restent sur disque, hors dépôt GitHub.
+docs/archive/

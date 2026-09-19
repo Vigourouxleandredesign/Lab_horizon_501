@@ -33,15 +33,30 @@ export const figmaHomeAssets = {
 export const brandLogoSrc = publicUrl('brand/logo-color-v3.svg')
 export const brandDetectiveLogoSrc = publicUrl('brand/logo-detective.svg')
 
-/** Pillules domaine — PNG dans `public/pillules/` (une image par catégorie UNC). */
+/** Logos réels des laboratoires / unités partenaires — `public/logos/`. */
+const LAB_LOGO_BY_ID: Record<string, string> = {
+  isea: 'logos/logo-isea.svg',
+  larje: 'logos/logo-larje.svg',
+  entropie: 'logos/logo-entropie.webp',
+  'espace-dev': 'logos/logo-espace-dev.webp',
+}
+
+/** Logo d'un labo/UMR, ou `undefined` si non fourni (repli monogramme côté UI). */
+export function getLabLogoSrc(id: string): string | undefined {
+  const path = LAB_LOGO_BY_ID[id]
+  return path ? publicUrl(path) : undefined
+}
+
+/** Pastilles domaine — WebP dans `public/pillules/` (une image par catégorie UNC). */
 const DOMAIN_PILL_BY_SLUG: Record<string, string> = {
-  'biodiversite-environnement-sante': 'pillules/biologie.png',
-  geosciences: 'pillules/geoscience.png',
-  'education-sante': 'pillules/Education.png',
-  'economie-gestion': 'pillules/Economie.png',
-  'droit-sciences-politiques': 'pillules/droit.png',
-  'histoire-archeologie': 'pillules/Histoire.png',
-  'societes-langues-cultures-oceaniennes': 'pillules/Culture.png',
+  'biodiversite-environnement-sante': 'pillules/biologie.webp',
+  geosciences: 'pillules/geoscience.webp',
+  'education-sante': 'pillules/Education.webp',
+  'economie-gestion': 'pillules/Economie.webp',
+  'droit-sciences-politiques': 'pillules/droit.webp',
+  'histoire-archeologie': 'pillules/Histoire.webp',
+  'societes-langues-cultures-oceaniennes': 'pillules/Culture.webp',
+  informatique: 'pillules/Informatique.webp',
 }
 
 const pillFallback = publicUrl(DOMAIN_PILL_BY_SLUG['biodiversite-environnement-sante'])
@@ -55,12 +70,12 @@ export function getDomainPillSrc(id: string): string {
 }
 
 export function getHomeHeroSrc(): string {
-  return publicUrl('hero/hero_lab_horizon.png')
+  return publicUrl('hero/hero_lab_horizon.webp')
 }
 
 /** Héro page /categories — réutilise l'ambiance labo de l'accueil. */
 export function getCategoriesHeroSrc(): string {
-  return publicUrl('hero/hero_lab_horizon.png')
+  return publicUrl('hero/hero_lab_horizon.webp')
 }
 
 /** Héro page /chercheurs — chercheuse en laboratoire (Unsplash, libre de droit). */
@@ -79,27 +94,31 @@ const DOMAIN_HERO_DIR = 'hero/heros avant retravaille'
 const DOMAIN_HERO_BY_SLUG: Record<string, { background: string; layer: string }> = {
   geosciences: {
     background: 'Geoscience zindex0.jpg',
-    layer: 'Geoscience zindex1.png',
+    layer: 'Geoscience zindex1.webp',
   },
   'education-sante': {
     background: 'Education zindex0.jpg',
-    layer: 'Education zindex1.png',
+    layer: 'Education zindex1.webp',
   },
   'economie-gestion': {
     background: 'Economie zindex0.jpg',
-    layer: 'Economie zindex1.png',
+    layer: 'Economie zindex1.webp',
   },
   'droit-sciences-politiques': {
     background: 'Droit zindex0.jpg',
-    layer: 'Droit zindex1.png',
+    layer: 'Droit zindex1.webp',
   },
   'histoire-archeologie': {
     background: 'History zindex0.jpg',
-    layer: 'History zindex1.png',
+    layer: 'History zindex1.webp',
   },
   'societes-langues-cultures-oceaniennes': {
     background: 'Culture zindex0.jpg',
-    layer: 'Culture zindex1.png',
+    layer: 'Culture zindex1.webp',
+  },
+  informatique: {
+    background: 'Informatique zindex0.jpg',
+    layer: 'Informatique zindex1.webp',
   },
 }
 
@@ -111,13 +130,13 @@ function domainHeroAssetUrl(filename: string): string {
 /** Image héro des pages domaine (fond, zindex 0). */
 export function getDomainHeroSrc(slug: string): string {
   const entry = DOMAIN_HERO_BY_SLUG[slug]
-  if (!entry) return publicUrl('hero/hero_biodiversite_ss_arbre.png')
+  if (!entry) return publicUrl('hero/hero_biodiversite_ss_arbre.webp')
   return domainHeroAssetUrl(entry.background)
 }
 
-/** Calque PNG transparent au-dessus du héro (zindex 1). */
+/** Calque WebP transparent au-dessus du héro (zindex 1). */
 export function getDomainHeroLayerSrc(slug: string): string {
   const entry = DOMAIN_HERO_BY_SLUG[slug]
-  if (!entry) return publicUrl('hero/layer-placeholder.png')
+  if (!entry) return publicUrl('hero/layer-placeholder.webp')
   return domainHeroAssetUrl(entry.layer)
 }

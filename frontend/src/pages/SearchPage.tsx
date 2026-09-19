@@ -8,15 +8,13 @@ import PublicationCard from '../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../components/QueryStates'
 import { categoryOptions, categorySlugFromDomain, parseCategorySlug, toApiCategoryParam } from '../lib/categoryFilter'
 import { useApiQuery } from '../hooks/useApiQuery'
+import { useAvailableYears } from '../hooks/useAvailableYears'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
 import { useLocale } from '../hooks/useLocale'
 import { searchPageCopy } from '../i18n/search'
 import styles from '../style/pages/SearchPage.module.css'
 
 type Tab = 'publications' | 'chercheurs'
-
-/** Années proposées au filtre — bornées aux données réellement couvertes. */
-const YEAR_OPTIONS = [2026, 2025, 2024, 2023, 2022, 2021, 2020]
 
 function parseSort(raw: string | null): PublicationSort {
   return raw === 'relevance' ? 'relevance' : 'recent'
@@ -42,6 +40,7 @@ export default function SearchPage() {
   const year = Number(searchParams.get('year')) || undefined
   const sort = parseSort(searchParams.get('sort'))
 
+  const availableYears = useAvailableYears()
   const canSeeResearchers = authStatus === 'authenticated'
   const tab: Tab =
     canSeeResearchers && searchParams.get('tab') === 'chercheurs'
@@ -128,7 +127,7 @@ export default function SearchPage() {
         </div>
 
         <div className={styles.filtersRow}>
-          <label className={styles.filterField}>
+          <label className={[styles.filterField, styles.filterFieldCategory].join(' ')}>
             <span className={styles.filterLabel}>{t.filters.category}</span>
             <select
               value={categorySlug}
@@ -152,7 +151,7 @@ export default function SearchPage() {
               className={styles.filterSelect}
             >
               <option value="">{t.filters.allYears}</option>
-              {YEAR_OPTIONS.map((y) => (
+              {availableYears.map((y) => (
                 <option key={y} value={y}>
                   {y}
                 </option>

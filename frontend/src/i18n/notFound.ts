@@ -10,7 +10,7 @@ export const notFoundCopy = {
     searchPlaceholder: 'Rechercher un thème ou un sujet…',
     searchSubmit: 'Rechercher',
     discoverLead: 'Sinon, pourquoi ne pas découvrir',
-    categoriesCta: 'les catégories',
+    categoriesCta: 'les domaines scientifiques',
     institutesCta: 'les instituts de recherche',
     discoverJoin: 'ou',
     backHome: "Retour à l'accueil",

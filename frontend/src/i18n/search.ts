@@ -8,8 +8,8 @@ export const searchPageCopy = {
     tabPublications: 'Publications',
     tabResearchers: 'Chercheurs',
     filters: {
-      category: 'Catégorie',
-      allCategories: 'Toutes les catégories',
+      category: 'Domaines scientifiques',
+      allCategories: 'Tous les domaines scientifiques',
       year: 'Année',
       allYears: 'Toutes les années',
       sort: 'Tri',
@@ -19,7 +19,7 @@ export const searchPageCopy = {
     loading: 'Recherche en cours…',
     error: 'La recherche est momentanément indisponible, veuillez réessayer plus tard.',
     empty: 'Aucun résultat, essayez d’autres mots-clés ou élargissez les filtres.',
-    emptyFiltered: 'Aucun résultat avec ces filtres. Essayez d’élargir la catégorie ou l’année.',
+    emptyFiltered: 'Aucun résultat avec ces filtres. Essayez d’élargir le domaine scientifique ou l’année.',
     clearFilters: 'Réinitialiser les filtres',
     resultsSummary: (total: number, query: string) =>
       query ? `${total} résultat${total > 1 ? 's' : ''} pour « ${query} »` : `${total} résultat${total > 1 ? 's' : ''}`,
@@ -33,8 +33,8 @@ export const searchPageCopy = {
     tabPublications: 'Publications',
     tabResearchers: 'Researchers',
     filters: {
-      category: 'Category',
-      allCategories: 'All categories',
+      category: 'Scientific fields',
+      allCategories: 'All scientific fields',
       year: 'Year',
       allYears: 'All years',
       sort: 'Sort',

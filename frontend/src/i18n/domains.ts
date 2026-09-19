@@ -57,6 +57,10 @@ export const domainDescriptions: DomainDescriptionMap = {
     fr: 'Ce domaine documente et valorise les langues et cultures océaniennes : les 28 langues kanak, la diversité linguistique, la création et la médiation artistique, ainsi que les mobilités et enjeux identitaires contemporains. À l’UNC, l’équipe ERALO travaille à décrire, transmettre et faire reconnaître ce patrimoine vivant, au service du bi/multilinguisme du territoire.',
     en: 'This field documents and promotes Oceanian languages and cultures: the 28 Kanak languages, linguistic diversity, artistic creation and mediation, along with contemporary mobilities and identity issues. At UNC, the ERALO team works to describe, transmit and gain recognition for this living heritage, in support of the territory’s bi/multilingualism.',
   },
+  informatique: {
+    fr: 'L’informatique à l’UNC couvre la science des données, l’intelligence artificielle, le traitement d’images et la modélisation de systèmes complexes, avec des applications concrètes aux enjeux calédoniens (environnement, santé, langues). À l’ISEA, les équipes associent recherche fondamentale et développements logiciels pour outiller les autres disciplines et accompagner la transformation numérique du territoire.',
+    en: 'Computer science at UNC spans data science, artificial intelligence, image processing and modelling of complex systems, with concrete applications to New Caledonian challenges (environment, health, languages). At ISEA, teams combine fundamental research and software development to support other disciplines and the territory’s digital transformation.',
+  },
 }
 
 export function domainDescription(slug: CategorySlug, locale: Locale): string {

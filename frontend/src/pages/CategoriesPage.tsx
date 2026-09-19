@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { Link, Navigate, useSearchParams } from 'react-router-dom'
 import ContentHero from '../components/chrome/ContentHero'
-import { getCategoriesHeroSrc } from '../assets/figmaHomeAssets'
+import { getCategoriesHeroSrc, getDomainHeroSrc } from '../assets/figmaHomeAssets'
 import { UNC_CATEGORIES } from '../data/categories'
 import { useLocale } from '../hooks/useLocale'
 import { categoriesPageCopy } from '../i18n/categoriesPage'
@@ -35,12 +35,27 @@ export default function CategoriesPage() {
             const label = locale === 'fr' ? category.labelFr : category.labelEn
             return (
               <article key={category.slug} className={styles.card}>
-                <h2 className={styles.cardTitle}>{label}</h2>
-                <div className={styles.cardLinks}>
-                  <Link to={`/categories/${category.slug}`}>{t.exploreDomain}</Link>
-                  <Link to={`/recherche?category=${encodeURIComponent(category.slug)}`}>
-                    {t.allPublications}
-                  </Link>
+                <div className={styles.cardMedia}>
+                  <img
+                    src={getDomainHeroSrc(category.slug)}
+                    alt=""
+                    className={styles.cardMediaImg}
+                    loading="lazy"
+                  />
+                </div>
+                <div className={styles.cardContent}>
+                  <h2 className={styles.cardTitle}>{label}</h2>
+                  <div className={styles.cardActions}>
+                    <Link to={`/categories/${category.slug}`} className={styles.cardBtnPrimary}>
+                      {t.exploreDomain}
+                    </Link>
+                    <Link
+                      to={`/recherche?category=${encodeURIComponent(category.slug)}`}
+                      className={styles.cardBtnSecondary}
+                    >
+                      {t.allPublications}
+                    </Link>
+                  </div>
                 </div>
               </article>
             )

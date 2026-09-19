@@ -37,6 +37,12 @@
   max-width: 260px;
 }
 
+/* Espace ciblé entre le champ Domaines scientifiques et le champ Année,
+   sans toucher au gap global de .filtersRow (partagé avec tri/reset). */
+.filterFieldCategory {
+  margin-right: 18px;
+}
+
 .filterLabel {
   font-size: 0.68rem;
   font-weight: 700;

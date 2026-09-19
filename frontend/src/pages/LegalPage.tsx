@@ -23,7 +23,18 @@ export default function LegalPage({ kind }: LegalPageProps) {
   return (
     <main className={styles.page}>
       <h1>{content.title}</h1>
-      <p className={styles.lead}>{content.body}</p>
+      <p className={styles.lead}>{content.intro}</p>
+
+      {content.sections.map((section) => (
+        <section key={section.heading} className={styles.legalSection}>
+          <h2 className={styles.legalSectionHeading}>{section.heading}</h2>
+          {section.paragraphs.map((paragraph) => (
+            <p key={paragraph} className={styles.legalParagraph}>
+              {paragraph}
+            </p>
+          ))}
+        </section>
+      ))}
 
       <Link to="/" className={styles.backLink}>
         {common.backHome}

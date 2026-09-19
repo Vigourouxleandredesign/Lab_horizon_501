@@ -221,6 +221,11 @@ export function mapRechercheToSummary(recherche: LaravelRecherche): PublicationS
     sourceUrl: pickSourceUrl(recherche),
     coverUrl: coverUrls[0] ?? null,
     keywords: pickKeywords(recherche.mots_cles),
+    // Heuristique V1/V2 : présence de vulgarisations — le back devra exposer
+    // un vrai statut PENDING_AI_VALIDATION / review_seen pour remplacer ceci.
+    reviewPending:
+      (recherche.vulgarisations_count ?? 0) > 0 ||
+      (recherche.vulgarisations?.length ?? 0) > 0,
   }
 }
 
