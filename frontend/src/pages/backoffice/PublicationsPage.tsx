@@ -7,6 +7,7 @@ import { EmptyState, ErrorState, LoadingState } from '../../components/QueryStat
 import { useApiQuery } from '../../hooks/useApiQuery'
 import { useLocale } from '../../hooks/useLocale'
 import { publicationsPageCopy } from '../../i18n/backoffice'
+import { isReviewPendingUnread } from '../../lib/reviewSeen'
 import styles from '../../style/backoffice/PublicationsPage.module.css'
 
 /**
@@ -101,19 +102,67 @@ export default function PublicationsPage() {
                   <article key={pub.id} className={styles.listItem}>
                     <PublicationCard publication={pub} />
                     <div className={styles.itemActions}>
-                      <Link to={`/compte/publications/${pub.id}/modifier`} className={styles.itemLink}>
-                        {t.editCta}
+                      {pub.sourceUrl ? (
+                        <a
+                          href={pub.sourceUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={styles.itemActionBtn}
+                          title={t.openCta}
+                        >
+                          <img src="/ui/action-open.svg" alt="" width={16} height={16} />
+                          <span className="visually-hidden">{t.openCta}</span>
+                        </a>
+                      ) : (
+                        <Link
+                          to={`/publications/${pub.id}`}
+                          className={styles.itemActionBtn}
+                          title={t.openCta}
+                        >
+                          <img src="/ui/action-open.svg" alt="" width={16} height={16} />
+                          <span className="visually-hidden">{t.openCta}</span>
+                        </Link>
+                      )}
+                      <Link
+                        to={`/compte/publications/${pub.id}/review`}
+                        className={
+                          isReviewPendingUnread(pub.id, pub.reviewPending)
+                            ? `${styles.itemActionBtn} ${styles.itemActionBtnPending}`
+                            : styles.itemActionBtn
+                        }
+                        title={t.reviewCta}
+                      >
+                        <img
+                          src={
+                            isReviewPendingUnread(pub.id, pub.reviewPending)
+                              ? '/ui/action-review-pending.svg'
+                              : '/ui/action-review.svg'
+                          }
+                          alt=""
+                          width={16}
+                          height={16}
+                        />
+                        <span className="visually-hidden">{t.reviewCta}</span>
                       </Link>
-                      <Link to={`/compte/publications/${pub.id}/review`} className={styles.itemLink}>
-                        {t.reviewCta}
+                      <Link
+                        to={`/compte/publications/${pub.id}/modifier`}
+                        className={styles.itemActionBtn}
+                        title={t.editCta}
+                      >
+                        <img src="/ui/action-edit.svg" alt="" width={16} height={16} />
+                        <span className="visually-hidden">{t.editCta}</span>
                       </Link>
                       <button
                         type="button"
-                        className={styles.itemDeleteBtn}
+                        className={styles.itemActionBtn}
                         disabled={deletingId === pub.id}
                         onClick={() => handleDelete(pub.id)}
+                        title={deletingId === pub.id ? t.deleting : t.deleteCta}
                       >
-                        {deletingId === pub.id ? t.deleting : t.deleteCta}
+                        <img src="/ui/action-delete.svg" alt="" width={16} height={16} />
+                        <span className="visually-hidden">
+                          {deletingId === pub.id ? t.deleting : t.deleteCta}
+                        </span>
                       </button>
                     </div>
                   </article>

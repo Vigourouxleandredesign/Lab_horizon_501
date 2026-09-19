@@ -84,6 +84,7 @@ export const publicationsPageCopy = {
     loading: 'Chargement de vos publications…',
     error: 'Impossible de charger vos publications.',
     empty: 'Vous n’avez pas encore de publication. Ajoutez-en une !',
+    openCta: 'Ouvrir',
     reviewCta: 'Valider la vulgarisation',
     editCta: 'Modifier',
     deleteCta: 'Supprimer',
@@ -105,6 +106,7 @@ export const publicationsPageCopy = {
     loading: 'Loading your publications…',
     error: 'Unable to load your publications.',
     empty: 'You don’t have any publication yet. Add one!',
+    openCta: 'Open',
     reviewCta: 'Review plain-language version',
     editCta: 'Edit',
     deleteCta: 'Delete',
@@ -158,6 +160,7 @@ export const editPublicationPageCopy = {
     },
     submit: 'Enregistrer',
     submitting: 'Enregistrement…',
+    cancel: 'Annuler',
     loading: 'Chargement…',
     error: 'Impossible de charger cette publication.',
     errorGeneric: 'Impossible d’enregistrer les modifications, réessayez.',
@@ -171,6 +174,7 @@ export const editPublicationPageCopy = {
     },
     submit: 'Save',
     submitting: 'Saving…',
+    cancel: 'Cancel',
     loading: 'Loading…',
     error: 'Unable to load this publication.',
     errorGeneric: 'Unable to save changes, please try again.',
@@ -183,22 +187,121 @@ export const accountSettingsPageCopy = {
     title: 'Votre compte',
     identity: 'Identité',
     demoNote:
-      'Mode démo : profil en lecture seule, la modification arrivera avec la plateforme institutionnelle.',
+      'Mode démo : les modifications ci-dessous sont préparées côté interface, en attendant leur branchement à la plateforme institutionnelle.',
     language: 'Langue',
-    orcidTitle: 'ORCID',
-    orcidNote:
-      'La liaison ORCID se gère depuis l’espace administrateur en attendant son arrivée ici.',
     logout: 'Déconnexion',
+
+    notReadyBanner:
+      'Fonctionnalité bientôt disponible : cette action sera connectée au serveur avec la plateforme institutionnelle. Rien n’a été modifié pour l’instant.',
+
+    identitySection: {
+      title: 'Identité',
+      firstNameLabel: 'Prénom',
+      lastNameLabel: 'Nom',
+      submit: 'Enregistrer l’identité',
+    },
+    emailSection: {
+      title: 'Adresse email',
+      currentLabel: 'Adresse actuelle',
+      newLabel: 'Nouvelle adresse email',
+      passwordLabel: 'Mot de passe actuel (confirmation)',
+      submit: 'Changer l’adresse email',
+      errorInvalidEmail: 'Merci de saisir une adresse email valide.',
+      errorMissingPassword: 'Le mot de passe actuel est requis pour changer d’adresse email.',
+    },
+    passwordSection: {
+      title: 'Mot de passe',
+      currentLabel: 'Mot de passe actuel',
+      newLabel: 'Nouveau mot de passe',
+      confirmLabel: 'Confirmer le nouveau mot de passe',
+      submit: 'Changer le mot de passe',
+      errorTooShort: 'Le nouveau mot de passe doit contenir au moins 8 caractères.',
+      errorMismatch: 'Les deux mots de passe ne correspondent pas.',
+      errorMissingCurrent: 'Le mot de passe actuel est requis.',
+    },
+    orcidSection: {
+      title: 'Identifiant ORCID',
+      label: 'ORCID',
+      placeholder: '0000-0000-0000-0000',
+      note: 'Format attendu : 0000-0000-0000-0000.',
+      submit: 'Enregistrer l’ORCID',
+      errorFormat: 'Format ORCID invalide (attendu : 0000-0000-0000-0000).',
+    },
+    pseudonymSection: {
+      title: 'Pseudonyme',
+      label: 'Pseudonyme',
+      placeholder: 'Non défini',
+      note: 'Modifiable uniquement par un administrateur — fonctionnalité à venir.',
+    },
+    dangerSection: {
+      title: 'Suppression du compte',
+      body:
+        'Conformément au RGPD, vous pouvez demander la suppression définitive de votre compte et de vos données personnelles. Cette action est irréversible.',
+      confirmLabel: 'Je comprends que cette action est irréversible.',
+      submit: 'Supprimer mon compte',
+      confirmPrompt:
+        'Confirmer la suppression définitive de votre compte ? Cette action ne peut pas être annulée.',
+    },
   },
   en: {
     metaTitle: 'Your account, Lab Horizon',
     title: 'Your account',
     identity: 'Identity',
     demoNote:
-      'Demo mode: read-only profile, editing will arrive with the institutional platform.',
+      'Demo mode: the changes below are prepared on the interface side, pending their connection to the institutional platform.',
     language: 'Language',
-    orcidTitle: 'ORCID',
-    orcidNote: 'ORCID linking is managed from the admin area until it lands here.',
     logout: 'Sign out',
+
+    notReadyBanner:
+      'Coming soon: this action will be connected to the server with the institutional platform. Nothing was changed for now.',
+
+    identitySection: {
+      title: 'Identity',
+      firstNameLabel: 'First name',
+      lastNameLabel: 'Last name',
+      submit: 'Save identity',
+    },
+    emailSection: {
+      title: 'Email address',
+      currentLabel: 'Current address',
+      newLabel: 'New email address',
+      passwordLabel: 'Current password (confirmation)',
+      submit: 'Change email address',
+      errorInvalidEmail: 'Please enter a valid email address.',
+      errorMissingPassword: 'Your current password is required to change your email address.',
+    },
+    passwordSection: {
+      title: 'Password',
+      currentLabel: 'Current password',
+      newLabel: 'New password',
+      confirmLabel: 'Confirm new password',
+      submit: 'Change password',
+      errorTooShort: 'The new password must be at least 8 characters long.',
+      errorMismatch: 'The two passwords do not match.',
+      errorMissingCurrent: 'Your current password is required.',
+    },
+    orcidSection: {
+      title: 'ORCID identifier',
+      label: 'ORCID',
+      placeholder: '0000-0000-0000-0000',
+      note: 'Expected format: 0000-0000-0000-0000.',
+      submit: 'Save ORCID',
+      errorFormat: 'Invalid ORCID format (expected: 0000-0000-0000-0000).',
+    },
+    pseudonymSection: {
+      title: 'Pseudonym',
+      label: 'Pseudonym',
+      placeholder: 'Not set',
+      note: 'Editable only by an administrator — coming soon.',
+    },
+    dangerSection: {
+      title: 'Account deletion',
+      body:
+        'Under GDPR, you can request the permanent deletion of your account and personal data. This action is irreversible.',
+      confirmLabel: 'I understand this action is irreversible.',
+      submit: 'Delete my account',
+      confirmPrompt:
+        'Confirm permanent deletion of your account? This action cannot be undone.',
+    },
   },
 } as const satisfies Record<Locale, Record<string, unknown>>

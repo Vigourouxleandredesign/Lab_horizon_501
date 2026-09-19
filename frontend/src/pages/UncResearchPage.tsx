@@ -1,6 +1,7 @@
 import { useEffect } from 'react'
 import ContentHero from '../components/chrome/ContentHero'
 import { getUncResearchHeroSrc } from '../assets/figmaHomeAssets'
+import LabLogoBadge from '../components/LabLogoBadge'
 import { directoryIntro, externalUmrs, uncTeams } from '../data/uncResearch'
 import { useLocale } from '../hooks/useLocale'
 import { localizedText } from '../lib/localizedText'
@@ -29,17 +30,20 @@ export default function UncResearchPage() {
         <div className={styles.teamGrid}>
           {uncTeams.map((team) => (
             <article key={team.id} className={styles.teamCard}>
-              <h3>{team.name}</h3>
+              <div className={styles.teamCardHeader}>
+                <LabLogoBadge name={team.name} logoUrl={team.logoUrl} />
+                <h3>{team.name}</h3>
+              </div>
               <p>{localizedText(team.summary, locale)}</p>
-              {team.websiteUrl ? (
+              {team.teamUrl ? (
                 <a
-                  href={team.websiteUrl}
+                  href={team.teamUrl}
                   className={styles.teamLink}
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  {team.websiteLabel
-                    ? localizedText(team.websiteLabel, locale)
+                  {team.teamUrlLabel
+                    ? localizedText(team.teamUrlLabel, locale)
                     : t.visitSite}
                 </a>
               ) : (
@@ -72,7 +76,10 @@ export default function UncResearchPage() {
             <h3>{t.externalLabsHeading}</h3>
             {externalUmrs.map((umr) => (
               <div key={umr.id} className={styles.umrCard}>
-                <strong>{umr.name}</strong>
+                <div className={styles.umrCardHeader}>
+                  <LabLogoBadge name={umr.name} logoUrl={umr.logoUrl} />
+                  <strong>{umr.name}</strong>
+                </div>
                 <p>{localizedText(umr.summary, locale)}</p>
                 <a
                   href={umr.websiteUrl}

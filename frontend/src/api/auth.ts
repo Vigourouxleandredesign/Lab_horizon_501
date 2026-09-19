@@ -25,6 +25,7 @@ const DEMO_USER: SessionUser = {
   email: DEMO_EMAIL,
   role: 'RESEARCHER',
   researcherId: '1',
+  orcid: null,
 }
 
 /** sessionStorage (pas localStorage) : la session démo meurt avec l'onglet. */
@@ -52,6 +53,7 @@ function mapLaravelUser(user: LaravelUser): SessionUser {
     // Absents du modèle User back — défauts assumés jusqu'à livraison rôle / profil.
     role: 'RESEARCHER',
     researcherId: id,
+    orcid: user.orcid ?? null,
   }
 }
 

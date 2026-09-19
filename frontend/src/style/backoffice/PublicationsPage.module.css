@@ -86,47 +86,73 @@
 }
 
 .listItem {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
+  position: relative;
 }
 
+/* Barre d'actions superposée au coin de la card, révélée au survol/focus.
+   Icônes plutôt que texte (cf. plan) ; libellés conservés en visually-hidden
+   pour l'accessibilité clavier/lecteur d'écran. */
 .itemActions {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  padding: 0 4px;
+  gap: 6px;
+  padding: 6px;
+  border-radius: 999px;
+  background: var(--lh-src-white-097);
+  box-shadow: 0 4px 12px var(--lh-src-card-hover-shadow);
+  opacity: 0;
+  transform: translateY(-4px);
+  transition: opacity 0.15s ease, transform 0.15s ease;
 }
 
-.itemLink {
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--lh-teal);
-  text-decoration: none;
+.listItem:hover .itemActions,
+.listItem:focus-within .itemActions {
+  opacity: 1;
+  transform: translateY(0);
 }
 
-.itemLink:hover {
-  text-decoration: underline;
-}
-
-.itemDeleteBtn {
+.itemActionBtn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 32px;
+  height: 32px;
   border: none;
-  background: none;
-  padding: 0;
-  font-size: 0.8rem;
-  font-weight: 600;
-  color: var(--lh-src-hint-brown);
+  border-radius: 50%;
+  background: transparent;
   cursor: pointer;
   font-family: inherit;
+  transition: background-color 0.15s ease;
 }
 
-.itemDeleteBtn:hover:not(:disabled) {
-  text-decoration: underline;
+.itemActionBtn:hover:not(:disabled) {
+  background: var(--lh-src-teal-010);
 }
 
-.itemDeleteBtn:disabled {
-  opacity: 0.6;
+.itemActionBtnPending {
+  background: var(--lh-src-teal-010);
+  box-shadow: 0 0 0 2px var(--lh-teal);
+}
+
+.itemActionBtn:disabled {
+  opacity: 0.5;
   cursor: wait;
+}
+
+/* Écrans tactiles : pas de notion de survol → actions toujours visibles. */
+@media (hover: none) {
+  .itemActions {
+    position: static;
+    opacity: 1;
+    transform: none;
+    box-shadow: none;
+    background: none;
+    padding: 8px 4px 0;
+    justify-content: flex-end;
+  }
 }
 
 .formError {

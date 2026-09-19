@@ -85,6 +85,14 @@ export default function EditPublicationPage() {
         )}
 
         <div className={styles.actions}>
+          <button
+            type="button"
+            className={styles.cancelBtn}
+            disabled={submitting}
+            onClick={() => navigate('/compte/publications')}
+          >
+            {t.cancel}
+          </button>
           <button type="submit" className={styles.submitBtn} disabled={submitting}>
             {submitting ? t.submitting : t.submit}
           </button>

@@ -1,13 +1,19 @@
 /** Données mock, équipes de recherche UNC (en attendant l’API). */
 
+import { getLabLogoSrc } from '../assets/figmaHomeAssets'
 import type { LocalizedString } from '../lib/localizedText'
 
 export type UncTeam = {
   id: string
   name: string
   summary: LocalizedString
-  websiteUrl?: string
-  websiteLabel?: LocalizedString
+  /** Logo réel (public/logos/…) ; absent pour ISLE → repli monogramme. */
+  logoUrl?: string
+  /** Site institutionnel racine — utilisé par le bouton « Voir le site » (accueil). */
+  rootUrl?: string
+  /** Page équipe/membres — utilisée sur la page Recherche UNC. */
+  teamUrl?: string
+  teamUrlLabel?: LocalizedString
   status?: 'active' | 'coming_soon'
 }
 
@@ -16,6 +22,7 @@ export type ExternalLab = {
   name: string
   summary: LocalizedString
   websiteUrl: string
+  logoUrl?: string
 }
 
 export const uncTeams: UncTeam[] = [
@@ -26,8 +33,10 @@ export const uncTeams: UncTeam[] = [
       fr: 'Ingénierie des Systèmes Écologiques et Anthropisés, recherche sur les écosystèmes terrestres et marins, les interactions homme-environnement et la durabilité des territoires calédoniens.',
       en: 'Ecological and Anthropized Systems Engineering, research on terrestrial and marine ecosystems, human-environment interactions and sustainability in New Caledonian territories.',
     },
-    websiteUrl: 'https://www.isea.unc.nc/membres_isea',
-    websiteLabel: { fr: 'Membres ISEA', en: 'ISEA members' },
+    logoUrl: getLabLogoSrc('isea'),
+    rootUrl: 'https://www.isea.unc.nc/',
+    teamUrl: 'https://isea.unc.nc/membres_isea/',
+    teamUrlLabel: { fr: 'Membres ISEA', en: 'ISEA members' },
     status: 'active',
   },
   {
@@ -37,8 +46,10 @@ export const uncTeams: UncTeam[] = [
       fr: 'Laboratoire Agronomique, Ressources, Justice et Environnement, travaux sur l’agronomie tropicale, la justice environnementale, les ressources naturelles et les dynamiques rurales.',
       en: 'Agronomic, Resources, Justice and Environment Laboratory, work on tropical agronomy, environmental justice, natural resources and rural dynamics.',
     },
-    websiteUrl: 'https://larje.unc.nc/',
-    websiteLabel: { fr: 'Site du LARJE', en: 'LARJE website' },
+    logoUrl: getLabLogoSrc('larje'),
+    rootUrl: 'https://larje.unc.nc/',
+    teamUrl: 'https://larje.unc.nc/membres-larje/',
+    teamUrlLabel: { fr: 'Équipe LARJE', en: 'LARJE team' },
     status: 'active',
   },
   {
@@ -56,11 +67,11 @@ export const directoryIntro = {
   links: [
     {
       label: { fr: 'Membres ISEA', en: 'ISEA members' },
-      url: 'https://www.isea.unc.nc/membres_isea',
+      url: 'https://isea.unc.nc/membres_isea/',
     },
     {
       label: { fr: 'LARJE, équipe et contacts', en: 'LARJE, team and contacts' },
-      url: 'https://larje.unc.nc/',
+      url: 'https://larje.unc.nc/membres-larje/',
     },
   ],
 }
@@ -74,6 +85,7 @@ export const externalUmrs: ExternalLab[] = [
       en: 'Partner joint research unit, profiles of affiliated UNC faculty researchers will be enriched soon.',
     },
     websiteUrl: 'https://umr-entropie.ird.nc',
+    logoUrl: getLabLogoSrc('entropie'),
   },
   {
     id: 'espace-dev',
@@ -83,5 +95,6 @@ export const externalUmrs: ExternalLab[] = [
       en: 'International joint research unit, UNC faculty researcher profiles will be completed soon.',
     },
     websiteUrl: 'https://www.espace-dev.fr',
+    logoUrl: getLabLogoSrc('espace-dev'),
   },
 ]

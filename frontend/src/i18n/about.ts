@@ -41,7 +41,7 @@ export const aboutCopy = {
       lorenzo: 'Développeur LLM et création',
     },
     discoverLead: 'Pour continuer, découvrez',
-    categoriesCta: 'les catégories',
+    categoriesCta: 'les domaines scientifiques',
     institutesCta: 'les instituts de recherche',
     discoverJoin: 'ou',
     backHome: "Retour à l'accueil",

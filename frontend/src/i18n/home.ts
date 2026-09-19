@@ -17,7 +17,7 @@ export const homeCopy = {
       placeholder: 'Rechercher un thème ou un sujet…',
       submit: 'Rechercher',
       advanced: 'Filtres avancés',
-      advancedHint: '(catégorie, année, tri)',
+      advancedHint: '(domaine scientifique, année, tri)',
     },
     categories: {
       title: 'Explorez par domaine',

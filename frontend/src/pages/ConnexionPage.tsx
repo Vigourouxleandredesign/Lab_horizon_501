@@ -1,6 +1,8 @@
 import { useEffect, useState, type FormEvent } from 'react'
 import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
+import { ApiError } from '../api/http'
 import { DEMO_EMAIL } from '../api/auth'
+import PasswordField from '../components/PasswordField'
 import { useAuth } from '../auth/AuthContext'
 import { useLocale } from '../hooks/useLocale'
 import { connexionCopy } from '../i18n/connexion'
@@ -41,8 +43,10 @@ export default function ConnexionPage() {
         password: String(formData.get('password') ?? ''),
       })
       navigate(from, { replace: true })
-    } catch {
-      setError(t.error)
+    } catch (err) {
+      const networkDown =
+        !(err instanceof ApiError) || err.status === 0 || err.status >= 500
+      setError(networkDown ? t.unavailable : t.error)
     } finally {
       setSubmitting(false)
     }
@@ -69,7 +73,13 @@ export default function ConnexionPage() {
           </label>
           <label>
             {t.password}
-            <input type="password" name="password" autoComplete="current-password" required />
+            <PasswordField
+              name="password"
+              autoComplete="current-password"
+              required
+              showLabel={t.showPassword}
+              hideLabel={t.hidePassword}
+            />
           </label>
           {error && (
             <p className={styles.formError} role="alert">

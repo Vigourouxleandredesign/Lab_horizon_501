@@ -34,6 +34,11 @@ export type PublicationSummary = {
   coverUrl?: string | null
   /** Mots-clés — utilisés par la recherche (q) et affichés en tags. */
   keywords: string[]
+  /**
+   * Vulgarisation IA en attente de relecture (V2).
+   * Absent / false tant que le back n'expose pas le statut workflow.
+   */
+  reviewPending?: boolean
 }
 
 /** Grille méta Quoi / Qui / Quand / Lab (cf. docs/ux/03). */
@@ -107,6 +112,8 @@ export type SessionUser = {
   role: 'RESEARCHER' | 'ADMIN'
   /** Profil chercheur associé (1–1 pour le rôle RESEARCHER). */
   researcherId: string | null
+  /** Identifiant ORCID — déjà renvoyé par `/api/me`, non modifiable ici (RGPD UI-only). */
+  orcid: string | null
 }
 
 export type LoginPayload = {
@@ -166,4 +173,8 @@ export type ValidatePublicationPayload = {
   vulgarizedTitle?: string
   vulgarizedLead?: string
   vulgarizedParagraphs?: string[]
+  /** V2 — publication immédiate ou différée. */
+  publishMode?: 'now' | 'scheduled'
+  /** ISO date (jour) si `publishMode === 'scheduled'`. */
+  publishAt?: string
 }

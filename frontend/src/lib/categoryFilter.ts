@@ -24,6 +24,7 @@ export function categorySlugFromDomain(domain: string | null | undefined): Categ
 const API_CATEGORY_LABEL_BY_SLUG: Partial<Record<CategorySlug, string>> = {
   'biodiversite-environnement-sante': 'Biodiversité, environnement, santé',
   geosciences: 'Géosciences',
+  informatique: 'Informatique',
 }
 
 /** Paramètre `category` pour `GET /api/recherches` (matching normalisé côté Laravel). */

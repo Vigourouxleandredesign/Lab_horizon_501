@@ -126,6 +126,48 @@
   box-shadow: 0 0 0 3px var(--lh-src-teal-010);
 }
 
+.passwordField {
+  position: relative;
+  display: grid;
+}
+
+.passwordField input {
+  width: 100%;
+  padding-right: 48px;
+  box-sizing: border-box;
+}
+
+.passwordToggle {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  margin: 0;
+  padding: 0;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: var(--lh-body-gray);
+  cursor: pointer;
+  transition: color 0.15s, background 0.15s;
+}
+
+.passwordToggle:hover {
+  color: var(--lh-heading);
+  background: var(--lh-src-teal-010);
+}
+
+.passwordToggle:focus-visible {
+  outline: none;
+  color: var(--lh-link);
+  box-shadow: 0 0 0 3px var(--lh-src-teal-010);
+}
+
 .primaryBtn {
   margin-top: 8px;
   border: none;

@@ -8,6 +8,7 @@ export type CategorySlug =
   | 'droit-sciences-politiques'
   | 'histoire-archeologie'
   | 'societes-langues-cultures-oceaniennes'
+  | 'informatique'
 
 export type UncCategory = {
   slug: CategorySlug
@@ -50,6 +51,11 @@ export const UNC_CATEGORIES: UncCategory[] = [
     slug: 'societes-langues-cultures-oceaniennes',
     labelFr: 'Sociétés, langues & cultures océaniennes',
     labelEn: 'Oceanian societies, languages & cultures',
+  },
+  {
+    slug: 'informatique',
+    labelFr: 'Informatique',
+    labelEn: 'Computer Science',
   },
 ]
 
