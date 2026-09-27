@@ -11,6 +11,16 @@
   border: 1px solid var(--lh-card-border);
 }
 
+/* Logos blancs + monogrammes (ISLE…) — même dégradé navy / bleu DA */
+.badgeOnNavy {
+  background: linear-gradient(
+    145deg,
+    var(--lh-navy) 0%,
+    var(--lh-src-blue-600, #1e4a8c) 100%
+  );
+  border-color: transparent;
+}
+
 .logoImg {
   width: 100%;
   height: 100%;
@@ -28,5 +38,5 @@
   font-weight: 700;
   font-size: 0.95rem;
   color: var(--lh-src-white);
-  background: linear-gradient(135deg, var(--lh-src-blue-500) 0%, var(--lh-src-indigo-600) 100%);
+  background: transparent;
 }

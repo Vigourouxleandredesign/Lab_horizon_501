@@ -16,12 +16,20 @@ function initialsFrom(name: string): string {
   return (words[0][0] + words[1][0]).toUpperCase()
 }
 
+/** Logos blancs / clairs qui disparaissent sur fond blanc → fond navy DA. */
+function needsNavyBackdrop(logoUrl: string): boolean {
+  return /logo-isea|logo-larje/i.test(logoUrl)
+}
+
 /**
  * Badge logo labo/UMR — image réelle si `logoUrl` est fourni, sinon
- * monogramme coloré (ex. équipe ISLE, pas encore de site/logo officiel).
+ * monogramme (ex. ISLE). Même dégradé navy DA pour logos blancs et initiales.
  */
 export default function LabLogoBadge({ name, logoUrl, className }: Props) {
-  const badgeClassName = [styles.badge, className].filter(Boolean).join(' ')
+  const onNavy = !logoUrl || needsNavyBackdrop(logoUrl)
+  const badgeClassName = [styles.badge, onNavy ? styles.badgeOnNavy : '', className]
+    .filter(Boolean)
+    .join(' ')
 
   return (
     <div className={badgeClassName}>
