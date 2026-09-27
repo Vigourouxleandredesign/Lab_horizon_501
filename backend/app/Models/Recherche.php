@@ -41,4 +41,9 @@ class Recherche extends Model
     {
         return $this->belongsToMany(Structure::class, 'recherche_structure');
     }
+
+    public function motsCles()
+    {
+        return $this->belongsToMany(MotCle::class, 'recherche_mot_cle');
+    }
 }

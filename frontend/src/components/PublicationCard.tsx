@@ -45,6 +45,15 @@ export default function PublicationCard({ publication }: Props) {
           )}
           {publication.source === 'hal' && <span className={styles.sourceTag}>HAL</span>}
         </div>
+        {publication.keywords.length > 0 && (
+          <div className={styles.keywords}>
+            {publication.keywords.slice(0, 3).map((keyword) => (
+              <span key={keyword} className={styles.keywordTag}>
+                {keyword}
+              </span>
+            ))}
+          </div>
+        )}
         <span className={styles.cta}>
           {openExternal ? t.openDocument : t.viewDetail}
         </span>

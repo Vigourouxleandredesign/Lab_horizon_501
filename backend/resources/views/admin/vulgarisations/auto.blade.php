@@ -11,7 +11,7 @@
         <div class="alert alert-warning">⚠️ Pas de PDF — le LLM utilisera l'abstract.</div>
     @endif
 
-    <form action="{{ route('admin.vulgarisations.generate', $recherche) }}" method="POST">
+    <form action="{{ route('admin.vulgarisations.preview', $recherche) }}" method="POST">
         @csrf
         <div class="mb-3">
             <label class="form-label">Niveau du public cible *</label>

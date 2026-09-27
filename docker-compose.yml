@@ -10,6 +10,14 @@
 # LM Studio (image lourde, ~plusieurs Go) — profil optionnel :
 #   docker compose --profile llm up -d lm-studio
 # Puis relier au réseau si conteneur externe, cf. .env.docker.example (LLM_URL).
+#
+# lm-studio : image bureau distant (noVNC, port 3001) — modeles geres a la
+# main via l'UI ou `docker compose exec lm-studio lms ...`. L'appli LM Studio
+# ne se relance pas seule au demarrage du conteneur (pas de hook autostart
+# dans l'image) : le healthcheck relance le serveur `lms` ET recharge
+# LMSTUDIO_MODEL si besoin (le modele doit deja avoir ete telecharge une fois
+# via `docker compose exec lm-studio lms get <model>` ou l'UI — `lms load`
+# ne fait que charger un modele deja present sur le volume lmstudio-config).
 
 services:
   lm-studio:
@@ -19,24 +27,29 @@ services:
     restart: unless-stopped
     environment:
       TITLE: LM Studio
+      LMSTUDIO_MODEL: mistral-7b-instruct-v0.3
     volumes:
       - lmstudio-config:/config
     ports:
       - "3001:3000" # UI (noVNC, http) — http://localhost:3001
       - "3000:3001" # UI (noVNC, https)
+      - "1234:1234" # API LM Studio (OpenAI-compatible) — http://localhost:1234
     healthcheck:
       # Le conteneur ne relance pas l'appli LM Studio tout seul au boot :
-      # si le serveur local est injoignable, on le (re)demarre via `lms`.
+      # si le serveur/modele n'est pas pret, on (re)demarre le serveur et on
+      # charge LMSTUDIO_MODEL via `lms`. Idempotent : ne fait rien si le
+      # modele demande apparait deja dans /v1/models.
       test:
         - CMD-SHELL
         - >-
-          curl -sf http://127.0.0.1:1234/v1/models ||
-          (lms server start --port 1234 --bind 0.0.0.0 --cors &&
-          sleep 2 && curl -sf http://127.0.0.1:1234/v1/models)
-      interval: 10s
-      timeout: 20s
-      retries: 12
-      start_period: 30s
+          curl -sf http://127.0.0.1:1234/v1/models | grep -q "$$LMSTUDIO_MODEL" ||
+          (lms server start --port 1234 --bind 0.0.0.0 --cors;
+          lms load "$$LMSTUDIO_MODEL" --yes;
+          sleep 2 && curl -sf http://127.0.0.1:1234/v1/models | grep -q "$$LMSTUDIO_MODEL")
+      interval: 15s
+      timeout: 90s
+      retries: 20
+      start_period: 60s
     networks:
       - labhorizon
 
@@ -143,7 +156,7 @@ services:
     volumes:
       - lh-mysql-data:/var/lib/mysql
     ports:
-      - "3306:3306"
+      - "3307:3306" # 3306 hôte déjà pris par un MySQL natif (mysqld.exe local) — le réseau interne Docker reste sur 3306
     healthcheck:
       # 127.0.0.1 force le TCP (pas le socket Unix) : mysqladmin ping via socket
       # peut renvoyer 0 même si le mot de passe est faux.

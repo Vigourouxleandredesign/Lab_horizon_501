@@ -5,10 +5,12 @@ use App\Http\Controllers\Api\RechercheApiController;
 use App\Http\Controllers\Api\AuthApiController;
 
 // Auth JSON
-Route::post('/login',  [AuthApiController::class, 'login']);
-Route::post('/logout', [AuthApiController::class, 'logout'])->middleware('auth');
-Route::get('/me',      [AuthApiController::class, 'me'])->middleware('auth');
-Route::post('/register', [AuthApiController::class, 'register']);
+Route::middleware('web')->group(function () {
+    Route::post('/register', [AuthApiController::class, 'register']);
+    Route::post('/login',    [AuthApiController::class, 'login']);
+    Route::post('/logout',   [AuthApiController::class, 'logout'])->middleware('auth');
+    Route::get('/me',        [AuthApiController::class, 'me'])->middleware('auth');
+});
 
 // Publiques
 Route::get('/recherches',            [RechercheApiController::class, 'index']);

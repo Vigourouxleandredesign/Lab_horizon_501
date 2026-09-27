@@ -32,6 +32,8 @@ export type PublicationSummary = {
   sourceUrl: string | null
   /** Première image de couverture si disponible (rest / extract local). */
   coverUrl?: string | null
+  /** Mots-clés — utilisés par la recherche (q) et affichés en tags. */
+  keywords: string[]
 }
 
 /** Grille méta Quoi / Qui / Quand / Lab (cf. docs/ux/03). */

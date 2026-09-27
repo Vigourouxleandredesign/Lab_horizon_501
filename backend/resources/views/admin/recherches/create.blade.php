@@ -25,6 +25,12 @@
             <textarea name="description" class="form-control" rows="4">{{ old('description') }}</textarea>
         </div>
         <div class="mb-3">
+            <label class="form-label">Mots-clés</label>
+            <input type="text" name="mots_cles" class="form-control" value="{{ old('mots_cles') }}"
+                   placeholder="ex: biodiversité, climat, santé publique">
+            <small class="text-muted">Séparés par des virgules — utilisés par la recherche et les filtres du site public.</small>
+        </div>
+        <div class="mb-3">
             <label class="form-label">PDF de la recherche *</label>
             <input type="file" name="pdf" class="form-control @error('pdf') is-invalid @enderror" accept=".pdf">
             @error('pdf')<div class="invalid-feedback">{{ $message }}</div>@enderror

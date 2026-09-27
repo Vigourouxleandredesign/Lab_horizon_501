@@ -115,6 +115,23 @@ export default function PublicationPage() {
         )}
       </article>
 
+      {publication.keywords.length > 0 && (
+        <section className={styles.keywords} aria-label={t.keywordsLabel}>
+          <h2 className={styles.keywordsTitle}>{t.keywordsLabel}</h2>
+          <div className={styles.keywordList}>
+            {publication.keywords.map((keyword) => (
+              <Link
+                key={keyword}
+                to={`/recherche?q=${encodeURIComponent(keyword)}`}
+                className={styles.keywordTag}
+              >
+                {keyword}
+              </Link>
+            ))}
+          </div>
+        </section>
+      )}
+
       {metaRows.length > 0 && (
         <section className={styles.metaGrid} aria-label={t.metaLabel}>
           {metaRows.map((row) => (

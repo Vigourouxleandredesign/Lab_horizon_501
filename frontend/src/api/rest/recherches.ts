@@ -1,8 +1,9 @@
 /**
  * Client REST Laravel — endpoint `/api/recherches`.
  *
- * Les filtres front (q, category, year, sort, pageSize) ne sont pas envoyés :
- * l'API n'accepte que `page` pour l'instant (voir docs/front-back-status-v1.md).
+ * Filtres front (q, category, year, sort, pageSize) envoyés en query params ;
+ * le back filtre côté serveur (titre/résumé/mots-clés/auteurs pour `q`,
+ * domaine pour `category`, année pour `year`). Voir docs/api-contract-v1.md.
  */
 
 import { apiRequest, ApiError } from '../http'
@@ -19,7 +20,14 @@ export async function restSearchPublications(
   signal?: AbortSignal,
 ): Promise<SearchResult<PublicationSummary>> {
   const page = await apiRequest<LaravelPaginator<LaravelRecherche>>('/api/recherches', {
-    params: { page: params.page ?? 1 },
+    params: {
+      q: params.query || undefined,
+      category: params.category,
+      year: params.year,
+      sort: params.sort,
+      page: params.page ?? 1,
+      pageSize: params.pageSize,
+    },
     signal,
   })
   return mapRecherchePaginator(page)

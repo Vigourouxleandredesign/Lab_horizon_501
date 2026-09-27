@@ -34,6 +34,11 @@ export type LaravelStructure = {
   nom?: string
 }
 
+export type LaravelMotCle = {
+  id: number
+  label?: string
+}
+
 export type LaravelVulgarisation = {
   id: number
   titre?: string
@@ -60,6 +65,7 @@ export type LaravelRecherche = {
   domaines?: LaravelDomaine[]
   auteurs?: LaravelAuteur[]
   structures?: LaravelStructure[]
+  mots_cles?: LaravelMotCle[]
   vulgarisations?: LaravelVulgarisation[]
 }
 
@@ -109,6 +115,12 @@ function pickPrimaryAuteur(auteurs: LaravelAuteur[] | undefined): {
 
 function pickInstitution(structures: LaravelStructure[] | undefined): string | null {
   return structures?.[0]?.nom ?? null
+}
+
+function pickKeywords(motsCles: LaravelMotCle[] | undefined): string[] {
+  return (motsCles ?? [])
+    .map((mc) => mc.label?.trim())
+    .filter((label): label is string => Boolean(label))
 }
 
 /** Construit une URL absolue vers un fichier servi par Laravel (`/files/...`). */
@@ -206,6 +218,7 @@ export function mapRechercheToSummary(recherche: LaravelRecherche): PublicationS
     lead,
     sourceUrl: pickSourceUrl(recherche),
     coverUrl: coverUrls[0] ?? null,
+    keywords: pickKeywords(recherche.mots_cles),
   }
 }
 

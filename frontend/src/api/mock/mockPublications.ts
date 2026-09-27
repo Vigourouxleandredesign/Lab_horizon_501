@@ -59,6 +59,8 @@ function toSummary(pub: (typeof publications)[number]): PublicationSummary {
     source: 'local',
     lead: `${pub.title} — étude présentée pour le grand public dans le domaine « ${pub.category} ».`,
     sourceUrl: `https://hal.science/search/index/?q=${encodeURIComponent(pub.title)}`,
+    // Pas de mots-clés en mock — fonctionnalité backend uniquement pour l'instant.
+    keywords: [],
   }
 }
 
