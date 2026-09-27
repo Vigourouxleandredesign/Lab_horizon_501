@@ -36,6 +36,7 @@ class GenerateVulgarisationJob implements ShouldQueue
             'titre'         => 'Vulgarisation — ' . $this->niveau,
             'resume'        => $resume,
             'niveau_public' => $this->niveau,
+            'pdf_path'      => '',
             'langue'        => $this->langue,
         ]);
     }
