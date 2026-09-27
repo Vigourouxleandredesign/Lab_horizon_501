@@ -2,6 +2,8 @@
 
 namespace App\Jobs;
 
+use App\Models\Recherche;
+use App\Services\LlmService;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -12,10 +14,11 @@ class GenerateVulgarisationJob implements ShouldQueue
     /**
      * Create a new job instance.
      */
-    public function __construct()
-    {
-        //
-    }
+    public function __construct(
+        protected Recherche $recherche,
+        protected string $niveau,
+        protected string $langue,
+    ) {}
 
     /**
      * Execute the job.
