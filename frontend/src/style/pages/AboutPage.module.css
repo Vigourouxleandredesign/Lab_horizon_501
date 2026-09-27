@@ -12,7 +12,8 @@
 .main {
   max-width: 1120px;
   margin: 0 auto;
-  padding: clamp(0.5rem, 1.5vw, 1rem) 16px clamp(2rem, 5vw, 3rem);
+  /* Espace entre le ContentHero et « Le projet » */
+  padding: 5rem 16px clamp(2rem, 5vw, 3rem);
 }
 
 .section {
