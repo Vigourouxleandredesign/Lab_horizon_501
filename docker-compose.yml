@@ -18,7 +18,8 @@ services:
     restart: unless-stopped
     environment:
       TITLE: LM Studio
-      LMSTUDIO_MODEL: mistral-7b-instruct-v0.3
+      # Même valeur que LLM_MODEL côté backend (chargé par le healthcheck).
+      LMSTUDIO_MODEL: ${LLM_MODEL:-mistral-7b-instruct-v0.3}
     volumes:
       - lmstudio-config:/config
     ports:
@@ -95,12 +96,24 @@ services:
       REDIS_PORT: 6379
       REDIS_PASSWORD: ${REDIS_PASSWORD:-}
       PDF_QUEUE_NAME: ${PDF_QUEUE_NAME:-pdf-processing}
+      # Doit dépasser le timeout du job de vulgarisation (300 s), sinon Redis
+      # redistribue le job pendant qu'il tourne → MaxAttemptsExceededException.
+      REDIS_QUEUE_RETRY_AFTER: ${REDIS_QUEUE_RETRY_AFTER:-330}
+
+      # Service IA (LM Studio, API OpenAI-compatible). Entre conteneurs on passe
+      # par le nom du service Compose "lm-studio", jamais par localhost.
+      # Valeurs surchargées par le .env racine (LLM_URL / LLM_MODEL / LLM_ENABLED).
+      LLM_ENABLED: ${LLM_ENABLED:-false}
+      LLM_URL: ${LLM_URL:-http://lm-studio:1234/v1}
+      LLM_MODEL: ${LLM_MODEL:-mistral-7b-instruct-v0.3}
+      LLM_TIMEOUT: ${LLM_TIMEOUT:-240}
 
       SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost:8080,127.0.0.1:8080,localhost:5173,127.0.0.1:5173}
       CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173}
 
       LOG_CHANNEL: stderr
-      LOG_LEVEL: warning
+      # info : trace les étapes de la vulgarisation IA (requête, durée, sauvegarde).
+      LOG_LEVEL: ${LOG_LEVEL:-info}
 
       RUN_MIGRATIONS: "true"
       RUN_SEED: "true"
