@@ -1,7 +1,15 @@
-# Lab Horizon — front React + back Laravel + MySQL + Redis + LM Studio
+# Lab Horizon — front React + back Laravel + MySQL + Redis (+ LM Studio optionnel)
 # Stack back reprise du Docker.zip (php-fpm/nginx, MySQL 8.4, Redis 7).
 # Usage : copier .env.docker.example vers .env, renseigner APP_KEY, puis
 #   docker compose up --build
+#
+# Sans LLM (machine légère) : front + back + mysql + redis uniquement —
+#   docker compose build frontend backend
+#   docker compose up -d frontend backend mysql redis
+#
+# LM Studio (image lourde, ~plusieurs Go) — profil optionnel :
+#   docker compose --profile llm up -d lm-studio
+# Puis relier au réseau si conteneur externe, cf. .env.docker.example (LLM_URL).
 #
 # lm-studio : image bureau distant (noVNC, port 3001) — modeles geres a la
 # main via l'UI ou `docker compose exec lm-studio lms ...`. L'appli LM Studio
@@ -13,6 +21,7 @@
 
 services:
   lm-studio:
+    profiles: ["llm"]
     image: linuxserver/lm-studio:latest
     container_name: lm-studio
     restart: unless-stopped
@@ -124,8 +133,6 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-      lm-studio:
-        condition: service_started
     healthcheck:
       test: ["CMD", "curl", "-f", "http://127.0.0.1/up"]
       interval: 10s

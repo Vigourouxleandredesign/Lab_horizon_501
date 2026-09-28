@@ -34,6 +34,7 @@ export default function HomePage() {
     <div className={styles.page}>
       <HomeHero
         title={t.hero.title}
+        titleKey={`${locale}:home-hero`}
         platformBadge={t.platformBadge}
         imageSrc={getHomeHeroSrc()}
         scrollCta={t.hero.scrollCta}
@@ -119,16 +120,6 @@ export default function HomePage() {
               />
             ))}
           </div>
-          <p className={styles.carouselHints}>
-            <span>
-              <img src={A.carouselChevronLeft} alt="" width={12} height={12} />{' '}
-              {prevDomainSlide.label}
-            </span>
-            <span>
-              {nextDomainSlide.label}{' '}
-              <img src={A.carouselChevronRight} alt="" width={12} height={12} />
-            </span>
-          </p>
         </section>
 
         <section className={styles.sectionResearchers} aria-labelledby="unc-teams-heading">

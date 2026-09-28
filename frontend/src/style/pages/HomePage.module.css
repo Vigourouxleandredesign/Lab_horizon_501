@@ -395,15 +395,6 @@
   transform: none;
 }
 
-.carouselHints {
-  display: flex;
-  justify-content: space-between;
-  margin: 10px 44px 0;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: var(--lh-src-ink-038);
-}
-
 .sectionResearchers {
   margin-bottom: 44px;
 }

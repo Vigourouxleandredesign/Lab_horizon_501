@@ -1,7 +1,8 @@
 .page {
   max-width: 1120px;
   margin: 0 auto;
-  padding: 4px 16px 120px;
+  /* Haut fluide (respire après ContentHero, sans saut de breakpoint) ; pas de padding bas */
+  padding: clamp(1.25rem, 4vw, 2rem) 16px 0;
 }
 
 .page h1 {

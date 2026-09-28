@@ -1,10 +1,10 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
-import { brandLogoSrc, figmaHomeAssets as A } from '../../assets/figmaHomeAssets'
+import { brandLogoSrc } from '../../assets/figmaHomeAssets'
+import LanguageMenu from './LanguageMenu'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
 import { useMediaQuery } from '../../hooks/useMediaQuery'
-import { commonCopy } from '../../i18n/common'
 import { siteNavCopy } from '../../i18n/navigation'
 import chrome from '../../style/chrome/siteChrome.module.css'
 
@@ -20,7 +20,7 @@ type Props = {
  * navigation basse est présente (voir .headerZone / .bottomNav).
  */
 export default function SiteHeader({ overlay = false }: Props) {
-  const { locale, toggleLocale } = useLocale()
+  const { locale } = useLocale()
   const t = siteNavCopy[locale]
   const mainNavItems = useSiteNavigation('headerDesktop')
 
@@ -89,15 +89,7 @@ export default function SiteHeader({ overlay = false }: Props) {
             ))}
           </nav>
           <div className={chrome.headerActions}>
-            <button
-              type="button"
-              className={chrome.langBtn}
-              onClick={toggleLocale}
-              aria-label={commonCopy[locale].langToggle(locale)}
-            >
-              <img src={A.langGlobe} alt="" width={14} height={14} />
-              <span>{locale.toUpperCase()}</span>
-            </button>
+            <LanguageMenu />
           </div>
         </div>
         </header>

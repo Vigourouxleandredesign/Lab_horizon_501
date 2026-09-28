@@ -24,10 +24,11 @@ export default function DomainPage() {
   const typedSlug = category?.slug as CategorySlug | undefined
   const description =
     typedSlug !== undefined ? domainDescription(typedSlug, locale) : ''
+  const descriptionKey = `${locale}:${typedSlug ?? ''}`
 
   useTextReveal(descriptionRef, {
     active: Boolean(category),
-    contentKey: description,
+    contentKey: descriptionKey,
   })
 
   const scrollToPublications = useCallback(() => {
@@ -53,6 +54,7 @@ export default function DomainPage() {
     <main className={styles.page}>
       <DomainHero
         title={label}
+        titleKey={`${locale}:${typedSlug}`}
         imageSrc={getDomainHeroSrc(typedSlug)}
         layerSrc={getDomainHeroLayerSrc(typedSlug)}
         scrollCta={copy.scrollCta}
@@ -61,7 +63,11 @@ export default function DomainPage() {
 
       <div className={styles.body}>
         <div className={styles.descriptionBlock}>
-          <p ref={descriptionRef} className={`${styles.descriptionText} ${styles.textReveal}`}>
+          <p
+            key={descriptionKey}
+            ref={descriptionRef}
+            className={`${styles.descriptionText} ${styles.textReveal}`}
+          >
             {description}
           </p>
         </div>
