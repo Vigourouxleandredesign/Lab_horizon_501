@@ -38,13 +38,27 @@
         </a>
     </div>
 
+    @if(($vulgarisationStatus['state'] ?? null) === 'pending')
+        {{-- Rafraîchit la page jusqu'à ce que le job ait sauvegardé le résultat --}}
+        <meta http-equiv="refresh" content="10">
+        <div class="alert alert-info d-flex align-items-center gap-2">
+            <span class="spinner-border spinner-border-sm" role="status"></span>
+            Génération IA en cours… cette page se met à jour automatiquement.
+        </div>
+    @elseif(($vulgarisationStatus['state'] ?? null) === 'failed')
+        <div class="alert alert-danger">
+            ❌ La génération IA a échoué : {{ $vulgarisationStatus['message'] ?? 'erreur inconnue' }}
+        </div>
+    @endif
+
     @forelse($recherche->vulgarisations as $v)
     <div class="card mb-3">
         <div class="card-body d-flex justify-content-between align-items-start">
             <div>
                 <h5>{{ $v->titre }}</h5>
                 <span class="badge bg-secondary">{{ $v->niveau_public }}</span>
-                <p class="mt-2 mb-0">{{ $v->resume }}</p>
+                <span class="badge bg-light text-dark">{{ strtoupper($v->langue ?? 'fr') }}</span>
+                <p class="mt-2 mb-0">{!! nl2br(e($v->resume)) !!}</p>
             </div>
             <div class="d-flex gap-2">
                 {{-- Bouton PDF de la vulgarisation --}}

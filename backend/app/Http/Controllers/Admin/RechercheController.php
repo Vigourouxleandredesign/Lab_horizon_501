@@ -3,8 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateVulgarisationJob;
 use App\Models\Recherche;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Storage;
 
 class RechercheController extends Controller
@@ -72,8 +74,17 @@ class RechercheController extends Controller
     {
         abort_if($recherche->user_id !== auth()->id(), 403);
 
-        $recherche->load(['vulgarisations', 'motsCles']);
-        return view('admin.recherches.show', compact('recherche'));
+        $recherche->load(['vulgarisations' => fn ($q) => $q->latest(), 'motsCles']);
+
+        // État de la génération IA en arrière-plan : "pending" reste tant que le
+        // job tourne ; "failed" n'est affiché qu'une fois.
+        $statusKey = GenerateVulgarisationJob::statusKey($recherche->id);
+        $vulgarisationStatus = Cache::get($statusKey);
+        if (($vulgarisationStatus['state'] ?? null) === 'failed') {
+            Cache::forget($statusKey);
+        }
+
+        return view('admin.recherches.show', compact('recherche', 'vulgarisationStatus'));
     }
 
     public function edit(Recherche $recherche)
