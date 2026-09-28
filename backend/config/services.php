@@ -36,8 +36,13 @@ return [
     ],
 
     'llm' => [
-        'url'   => env('LLM_URL', 'http://localhost:1234/v1'),
-        'model' => env('LLM_MODEL', 'local-model'),
+        'enabled' => (bool) env('LLM_ENABLED', true),
+        // En Docker : nom du service Compose (http://lm-studio:1234/v1), jamais localhost.
+        'url'     => env('LLM_URL', 'http://localhost:1234/v1'),
+        // Identifiant du modèle tel qu'exposé par GET {LLM_URL}/models.
+        'model'   => env('LLM_MODEL', 'local-model'),
+        // Durée max d'une requête de génération (s). Doit rester < timeout du job.
+        'timeout' => (int) env('LLM_TIMEOUT', 240),
     ],
 
 ];
