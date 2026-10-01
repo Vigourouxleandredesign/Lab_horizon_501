@@ -12,6 +12,7 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         $this->call(LocalContentSeeder::class);
+        $this->call(DomainesSeeder::class);
         $this->call(MotsClesSeeder::class);
     }
 }

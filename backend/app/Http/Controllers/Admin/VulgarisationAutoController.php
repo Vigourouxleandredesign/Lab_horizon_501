@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Jobs\GenerateVulgarisationJob;
 use App\Models\Recherche;
 use App\Models\Vulgarisation;
 use App\Services\LlmService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\Log;
 
 class VulgarisationAutoController extends Controller
 {
@@ -54,11 +57,28 @@ class VulgarisationAutoController extends Controller
             'langue'        => 'required|in:fr,en',
         ]);
 
-        \App\Jobs\GenerateVulgarisationJob::dispatch(
+        if (!config('services.llm.enabled')) {
+            return back()->with('error', 'La génération IA est désactivée (LLM_ENABLED=false).');
+        }
+
+        // État affiché sur la fiche recherche tant que le job n'a pas abouti
+        // (TTL > durée max du job, au cas où le worker serait arrêté).
+        Cache::put(GenerateVulgarisationJob::statusKey($recherche->id), [
+            'state' => 'pending',
+            'since' => now()->timestamp,
+        ], now()->addMinutes(15));
+
+        GenerateVulgarisationJob::dispatch(
             $recherche,
             $request->niveau_public,
             $request->langue
         );
+
+        Log::info('Vulgarisation IA : job mis en file', [
+            'recherche_id' => $recherche->id,
+            'niveau'       => $request->niveau_public,
+            'langue'       => $request->langue,
+        ]);
 
         return redirect()->route('admin.recherches.show', $recherche)
                          ->with('success', 'Génération en cours — la vulgarisation apparaîtra dans quelques instants.');

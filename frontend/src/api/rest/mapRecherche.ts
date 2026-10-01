@@ -199,7 +199,9 @@ function pickVulgarisation(
   list: LaravelVulgarisation[] | undefined,
 ): LaravelVulgarisation | undefined {
   if (!list?.length) return undefined
-  return list.find((v) => v.niveau_public === 'grand_public') ?? list[0]
+  // La plus récente d'abord : une nouvelle génération IA remplace l'ancienne.
+  const newestFirst = [...list].sort((a, b) => b.id - a.id)
+  return newestFirst.find((v) => v.niveau_public === 'grand_public') ?? newestFirst[0]
 }
 
 export function mapRechercheToSummary(recherche: LaravelRecherche): PublicationSummary {
