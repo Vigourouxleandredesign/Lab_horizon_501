@@ -105,10 +105,39 @@
 
 @media (max-width: 899px) {
   .hero {
-    min-height: min(52dvh, 26rem);
+    /* Un peu plus bas : le header desktop est masqué, on évite un vide trop grand */
+    min-height: min(44dvh, 22rem);
+    min-height: min(44svh, 22rem);
   }
 
   .content {
-    padding: 0 18px 36px;
+    /* Safe-area haut (encoche) + air bas avant les cartes */
+    padding:
+      calc(12px + env(safe-area-inset-top, 0px))
+      18px
+      28px;
+  }
+
+  .title {
+    max-width: none;
+    margin: 0 0 10px;
+    font-size: clamp(1.65rem, 7.5vw, 2.15rem);
+    line-height: 1.12;
+  }
+
+  .subtitle {
+    max-width: 36ch;
+    font-size: clamp(0.92rem, 3.8vw, 1.02rem);
+    line-height: 1.55;
+  }
+
+  .badge {
+    margin: 0 0 10px;
+    font-size: 0.68rem;
+  }
+
+  .cta {
+    margin-top: 18px;
+    padding: 12px 20px;
   }
 }

@@ -3,6 +3,7 @@ import { useLocale } from '../../hooks/useLocale'
 import { backofficeShellCopy } from '../../i18n/backoffice'
 import { isDemoAuth } from '../../lib/config'
 import styles from '../../style/backoffice/backoffice.module.css'
+import ScrollToTop from '../ScrollToTop'
 import BackofficeBottomNav from './BackofficeBottomNav'
 import BackofficeSidebar from './BackofficeSidebar'
 
@@ -19,6 +20,7 @@ export default function BackofficeLayout() {
 
   return (
     <div className={styles.shell}>
+      <ScrollToTop />
       <BackofficeSidebar />
 
       <div className={styles.content}>

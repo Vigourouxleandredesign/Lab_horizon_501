@@ -4,6 +4,7 @@ import { useLocale } from '../hooks/useLocale'
 import { commonCopy } from '../i18n/common'
 import SiteBottomNav from './chrome/SiteBottomNav'
 import SiteHeader from './chrome/SiteHeader'
+import ScrollToTop from './ScrollToTop'
 import chrome from '../style/chrome/siteChrome.module.css'
 
 export default function AppFrame() {
@@ -18,6 +19,7 @@ export default function AppFrame() {
 
   return (
     <div className={headerOverHero ? chrome.frameCategoryDomain : undefined}>
+      <ScrollToTop />
       <SiteHeader overlay={headerOverHero} />
 
       <Outlet />
