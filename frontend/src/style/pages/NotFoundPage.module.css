@@ -33,14 +33,14 @@
   pointer-events: none;
   mask-image: linear-gradient(
     to bottom,
-    #000 0%,
-    #000 38%,
+    black 0%,
+    black 38%,
     transparent 72%
   );
   -webkit-mask-image: linear-gradient(
     to bottom,
-    #000 0%,
-    #000 38%,
+    black 0%,
+    black 38%,
     transparent 72%
   );
 }

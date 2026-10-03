@@ -3,6 +3,21 @@
   "scripts": {
     "dev": "npm run dev --prefix frontend",
     "build": "npm run build --prefix frontend",
-    "preview": "npm run preview --prefix frontend"
+    "preview": "npm run preview --prefix frontend",
+    "typecheck": "npm run typecheck --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "test": "npm run test --prefix frontend",
+    "check:secrets": "node scripts/check-no-secrets.mjs",
+    "check:colors": "npm run check:colors --prefix frontend",
+    "check:domains": "node scripts/check-domain-contract.mjs",
+    "test:api": "npm run test:search-api --prefix frontend && npm run test:auth-api --prefix frontend",
+    "test:backend": "composer test --working-dir=backend",
+    "gate": "node scripts/gate.mjs",
+    "gate:full": "node scripts/gate.mjs --full",
+    "gate:llm": "node scripts/llm-gate.mjs",
+    "gate:llm:l0": "node scripts/llm-gate.mjs --static",
+    "gate:llm:l1": "node scripts/llm-gate.mjs --with-backend --skip-api",
+    "gate:llm:l2": "npm run test:api",
+    "gate:llm:full": "node scripts/llm-gate.mjs --full"
   }
 }

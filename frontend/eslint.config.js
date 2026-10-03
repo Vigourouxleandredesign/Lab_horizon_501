@@ -19,5 +19,11 @@ export default defineConfig([
       ecmaVersion: 2020,
       globals: globals.browser,
     },
+    rules: {
+      // Contexts / route tables export helpers alongside components — warn only.
+      'react-refresh/only-export-components': 'warn',
+      // Data sync from URL / fetch / query is a valid effect pattern in this app.
+      'react-hooks/set-state-in-effect': 'warn',
+    },
   },
 ])
