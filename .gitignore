@@ -94,11 +94,23 @@ Desktop.ini
 !.vscode/extensions.json
 
 # --- Cursor -------------------------------------------------------------------
-# Les règles projet (.cursor/rules/*.mdc) sont VERSIONNÉES — charte d'équipe.
-# Seule la config agent locale (MCP, transcripts) est ignorée :
+# Les règles (.cursor/rules/*.mdc) sont versionnées.
+# Le protocole de revue (.cursor/skills/) reste sur la machine :
+# son corpus de test et son script de reconnaissance ne vont pas sur le dépôt.
+.cursor/skills/
 .cursor/mcp.json
 .cursor/**/agent-transcripts/
 .cursor/**/terminals/
+
+# Archives du protocole et exports ponctuels, conservés hors Git.
+/v2.zip
+/v2.1.zip
+/redteam-preprod-audit.zip
+/lab_horizon_501.bundle
+/lab_horizon_501.txt
+
+# Verrous Word
+~$*
 
 # --- Docs archive (assets lourds, backup local uniquement) --------------------
 # Maquettes, PSD, exports bruts — restent sur disque, hors dépôt GitHub.
