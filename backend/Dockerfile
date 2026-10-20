@@ -87,6 +87,7 @@ COPY --from=composer-build /app /var/www/html
 COPY --from=node-build /app/public/build /var/www/html/public/build
 
 COPY docker/nginx.conf /etc/nginx/http.d/default.conf
+COPY docker/php-fpm.conf /usr/local/etc/php-fpm.d/docker.conf
 COPY docker/supervisord.conf /etc/supervisor/conf.d/supervisord.conf
 COPY docker/entrypoint.sh /usr/local/bin/entrypoint.sh
 RUN chmod +x /usr/local/bin/entrypoint.sh

@@ -115,3 +115,8 @@ Desktop.ini
 # --- Docs archive (assets lourds, backup local uniquement) --------------------
 # Maquettes, PSD, exports bruts — restent sur disque, hors dépôt GitHub.
 docs/archive/
+
+# --- Revues de sécurité générées ----------------------------------------------
+# Rapports, reconnaissance et registres produits par une revue.
+/revues/
+/revue-CH-*/
