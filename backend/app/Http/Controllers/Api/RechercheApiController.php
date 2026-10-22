@@ -130,7 +130,7 @@ class RechercheApiController extends Controller
             'pdf_path'    => $pdfPath,
         ]);
 
-        return response()->json($recherche, 201);
+        return response()->json($recherche->load('domaines', 'auteurs', 'motsCles'), 201);
     }
 
     public function update(Request $request, Recherche $recherche)
