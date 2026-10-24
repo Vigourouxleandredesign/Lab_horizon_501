@@ -55,12 +55,7 @@ export default function DomainHero({
   })
 
   return (
-    <section
-      ref={heroRef}
-      className={styles.hero}
-      data-lh-domain-hero
-      aria-label={title}
-    >
+    <section ref={heroRef} className={styles.hero} data-lh-domain-hero aria-label={title}>
       <div ref={distortStackRef} className={styles.heroDistortStack}>
         <HeroGlassBackground imageSrc={imageSrc} heroRef={heroRef} />
       </div>

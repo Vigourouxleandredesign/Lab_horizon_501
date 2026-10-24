@@ -7,7 +7,12 @@
  */
 
 import { apiRequest, ApiError } from '../http'
-import type { PublicationDetail, PublicationSearchParams, PublicationSummary, SearchResult } from '../types'
+import type {
+  PublicationDetail,
+  PublicationSearchParams,
+  PublicationSummary,
+  SearchResult,
+} from '../types'
 import {
   mapRecherchePaginator,
   mapRechercheToDetail,

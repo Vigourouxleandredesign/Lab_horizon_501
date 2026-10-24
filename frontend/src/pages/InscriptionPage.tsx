@@ -87,15 +87,13 @@ export default function InscriptionPage() {
 
           <div className={styles.freeBanner} role="note">
             <p className={styles.freeText}>
-              {t.freeBadge}{' '}
-              <span className={styles.freeHighlight}>{t.freeHighlight}</span>
+              {t.freeBadge} <span className={styles.freeHighlight}>{t.freeHighlight}</span>
             </p>
           </div>
 
           {isDemoAuth && (
             <p className={styles.demoNote} role="note">
-              {t.demoNote}{' '}
-              <Link to="/connexion">{t.signIn}</Link>.
+              {t.demoNote} <Link to="/connexion">{t.signIn}</Link>.
             </p>
           )}
         </section>
@@ -148,8 +146,7 @@ export default function InscriptionPage() {
           </form>
 
           <p className={styles.footerLinks}>
-            {t.hasAccount}{' '}
-            <Link to="/connexion">{t.signIn}</Link>
+            {t.hasAccount} <Link to="/connexion">{t.signIn}</Link>
           </p>
         </aside>
       </div>

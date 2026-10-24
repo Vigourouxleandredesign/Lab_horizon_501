@@ -6,7 +6,12 @@ import type { PublicationSort } from '../api/types'
 import { useAuth } from '../auth/AuthContext'
 import PublicationCard from '../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../components/QueryStates'
-import { categoryOptions, categorySlugFromDomain, parseCategorySlug, toApiCategoryParam } from '../lib/categoryFilter'
+import {
+  categoryOptions,
+  categorySlugFromDomain,
+  parseCategorySlug,
+  toApiCategoryParam,
+} from '../lib/categoryFilter'
 import { useApiQuery } from '../hooks/useApiQuery'
 import { useAvailableYears } from '../hooks/useAvailableYears'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
@@ -43,9 +48,7 @@ export default function SearchPage() {
   const availableYears = useAvailableYears()
   const canSeeResearchers = authStatus === 'authenticated'
   const tab: Tab =
-    canSeeResearchers && searchParams.get('tab') === 'chercheurs'
-      ? 'chercheurs'
-      : 'publications'
+    canSeeResearchers && searchParams.get('tab') === 'chercheurs' ? 'chercheurs' : 'publications'
 
   // Saisie immédiate à l'écran, requête (et URL) retardées.
   const [inputValue, setInputValue] = useState(urlQuery)
@@ -96,11 +99,7 @@ export default function SearchPage() {
   }
 
   const publicationsQuery = useApiQuery(
-    (signal) =>
-      searchPublications(
-        { query: urlQuery, category: apiCategory, year, sort },
-        signal,
-      ),
+    (signal) => searchPublications({ query: urlQuery, category: apiCategory, year, sort }, signal),
     [urlQuery, apiCategory, year, sort],
   )
 

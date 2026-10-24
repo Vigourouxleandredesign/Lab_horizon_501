@@ -43,10 +43,7 @@ export default function PublicationReviewPage() {
   /** Snapshot pour Annuler (repartir de 0 sur le texte affiché). */
   const [baseline, setBaseline] = useState({ title: '', lead: '', body: '' })
 
-  const query = useApiQuery(
-    (signal) => getPublicationReview(id ?? '', signal),
-    [id],
-  )
+  const query = useApiQuery((signal) => getPublicationReview(id ?? '', signal), [id])
 
   useEffect(() => {
     document.title = t.metaTitle

@@ -1,0 +1,9 @@
+# Artefacts et dépendances
+dist/
+.netlify/
+node_modules/
+package-lock.json
+# Assets statiques (images, manifestes générés)
+public/
+# Prose : mise en forme libre
+*.md

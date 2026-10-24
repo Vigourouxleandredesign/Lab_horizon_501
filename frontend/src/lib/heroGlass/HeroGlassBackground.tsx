@@ -3,12 +3,7 @@ import { useMediaQuery } from '../../hooks/useMediaQuery'
 import { getHeroGlassConfig, heroGlassConfig, MAX_SPLASHES } from './config'
 import styles from './HeroGlassBackground.module.css'
 import { useHeroGlassCursor } from './useHeroGlassCursor'
-import {
-  createFullscreenQuad,
-  createGlassProgram,
-  getGlassUniforms,
-  loadTexture,
-} from './webgl'
+import { createFullscreenQuad, createGlassProgram, getGlassUniforms, loadTexture } from './webgl'
 
 type Props = {
   imageSrc: string

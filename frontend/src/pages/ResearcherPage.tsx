@@ -18,10 +18,7 @@ export default function ResearcherPage() {
   const t = researcherPageCopy[locale]
   const [followed, setFollowed] = useState(false)
 
-  const query = useApiQuery(
-    (signal) => getResearcher(id ?? '', signal),
-    [id],
-  )
+  const query = useApiQuery((signal) => getResearcher(id ?? '', signal), [id])
 
   useEffect(() => {
     if (query.status === 'success' && query.data) {
@@ -67,11 +64,7 @@ export default function ResearcherPage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        <img
-          src={researcher.photoUrl}
-          alt={researcher.displayName}
-          className={styles.avatar}
-        />
+        <img src={researcher.photoUrl} alt={researcher.displayName} className={styles.avatar} />
         <div className={styles.identity}>
           <h1 className={styles.name}>{researcher.displayName}</h1>
           <p className={styles.domain}>{researcher.domain}</p>

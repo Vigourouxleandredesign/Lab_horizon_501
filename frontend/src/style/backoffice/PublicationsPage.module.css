@@ -105,7 +105,9 @@
   box-shadow: 0 4px 12px var(--lh-src-card-hover-shadow);
   opacity: 0;
   transform: translateY(-4px);
-  transition: opacity 0.15s ease, transform 0.15s ease;
+  transition:
+    opacity 0.15s ease,
+    transform 0.15s ease;
 }
 
 .listItem:hover .itemActions,

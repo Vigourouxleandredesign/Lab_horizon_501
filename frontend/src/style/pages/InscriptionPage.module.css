@@ -103,11 +103,7 @@
   gap: 8px;
   padding: clamp(18px, 2.5vw, 22px) clamp(18px, 2.5vw, 24px);
   border-radius: 18px;
-  background: linear-gradient(
-    135deg,
-    var(--lh-src-gold-022) 0%,
-    var(--lh-src-beige-100) 100%
-  );
+  background: linear-gradient(135deg, var(--lh-src-gold-022) 0%, var(--lh-src-beige-100) 100%);
   border: 1px solid var(--lh-src-beige-border);
 }
 
@@ -172,7 +168,9 @@
   padding: 12px 16px;
   font-size: 0.95rem;
   font-family: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .form input:focus-visible {

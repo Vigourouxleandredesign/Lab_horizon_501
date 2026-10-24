@@ -73,8 +73,7 @@ export default function NotFoundPage() {
           </form>
 
           <p className={styles.discover}>
-            {t.discoverLead}{' '}
-            <Link to="/categories">{t.categoriesCta}</Link> {t.discoverJoin}{' '}
+            {t.discoverLead} <Link to="/categories">{t.categoriesCta}</Link> {t.discoverJoin}{' '}
             <Link to="/chercheurs">{t.institutesCta}</Link>.
           </p>
           <Link to="/" className={styles.backHome}>

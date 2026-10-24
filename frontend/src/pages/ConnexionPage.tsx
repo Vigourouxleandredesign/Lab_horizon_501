@@ -44,8 +44,7 @@ export default function ConnexionPage() {
       })
       navigate(from, { replace: true })
     } catch (err) {
-      const networkDown =
-        !(err instanceof ApiError) || err.status === 0 || err.status >= 500
+      const networkDown = !(err instanceof ApiError) || err.status === 0 || err.status >= 500
       setError(networkDown ? t.unavailable : t.error)
     } finally {
       setSubmitting(false)
@@ -92,8 +91,7 @@ export default function ConnexionPage() {
         </form>
 
         <p className={styles.footerNote}>
-          {t.noAccount}{' '}
-          <Link to="/inscription">{t.createAccount}</Link>
+          {t.noAccount} <Link to="/inscription">{t.createAccount}</Link>
         </p>
       </div>
 

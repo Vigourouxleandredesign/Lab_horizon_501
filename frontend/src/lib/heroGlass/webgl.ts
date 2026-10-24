@@ -1,6 +1,10 @@
 import { FRAGMENT_SHADER, VERTEX_SHADER } from './shaders'
 
-function compileShader(gl: WebGLRenderingContext, type: number, source: string): WebGLShader | null {
+function compileShader(
+  gl: WebGLRenderingContext,
+  type: number,
+  source: string,
+): WebGLShader | null {
   const shader = gl.createShader(type)
   if (!shader) return null
   gl.shaderSource(shader, source)

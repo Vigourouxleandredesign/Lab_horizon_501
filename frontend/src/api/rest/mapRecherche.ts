@@ -145,9 +145,7 @@ export function resolveFilesUrl(pathOrUrl: string | null | undefined): string | 
  * Format attendu (script extract) :
  * `Test extract — covers: /files/.../a.jpg | /files/.../b.jpg`
  */
-export function parseCoverUrlsFromDescription(
-  description: string | null | undefined,
-): string[] {
+export function parseCoverUrlsFromDescription(description: string | null | undefined): string[] {
   if (!description?.trim()) return []
   const match = description.match(/covers:\s*(.+)$/i)
   if (!match?.[1]) return []
@@ -162,9 +160,7 @@ export function parseCoverUrlsFromDescription(
 
 function pickSourceUrl(recherche: LaravelRecherche): string | null {
   return (
-    recherche.hal_url ??
-    resolveFilesUrl(recherche.pdf_url) ??
-    resolveFilesUrl(recherche.pdf_path)
+    recherche.hal_url ?? resolveFilesUrl(recherche.pdf_url) ?? resolveFilesUrl(recherche.pdf_path)
   )
 }
 
@@ -172,7 +168,10 @@ function pickCoverUrls(recherche: LaravelRecherche): string[] {
   return parseCoverUrlsFromDescription(recherche.description)
 }
 
-function splitResume(resume: string | null | undefined): { lead: string | null; paragraphs: string[] } {
+function splitResume(resume: string | null | undefined): {
+  lead: string | null
+  paragraphs: string[]
+} {
   if (!resume?.trim()) return { lead: null, paragraphs: [] }
   const parts = resume
     .split(/\n\s*\n/)
@@ -226,8 +225,7 @@ export function mapRechercheToSummary(recherche: LaravelRecherche): PublicationS
     // Heuristique V1/V2 : présence de vulgarisations — le back devra exposer
     // un vrai statut PENDING_AI_VALIDATION / review_seen pour remplacer ceci.
     reviewPending:
-      (recherche.vulgarisations_count ?? 0) > 0 ||
-      (recherche.vulgarisations?.length ?? 0) > 0,
+      (recherche.vulgarisations_count ?? 0) > 0 || (recherche.vulgarisations?.length ?? 0) > 0,
   }
 }
 
@@ -238,7 +236,10 @@ export function mapRechercheToDetail(recherche: LaravelRecherche): PublicationDe
   const coverUrls = pickCoverUrls(recherche)
 
   const authorsLabel =
-    recherche.auteurs?.map((a) => a.nom).filter(Boolean).join(', ') || summary.authorName
+    recherche.auteurs
+      ?.map((a) => a.nom)
+      .filter(Boolean)
+      .join(', ') || summary.authorName
 
   return {
     ...summary,

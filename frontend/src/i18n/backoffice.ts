@@ -235,8 +235,7 @@ export const accountSettingsPageCopy = {
     },
     dangerSection: {
       title: 'Suppression du compte',
-      body:
-        'Conformément au RGPD, vous pouvez demander la suppression définitive de votre compte et de vos données personnelles. Cette action est irréversible.',
+      body: 'Conformément au RGPD, vous pouvez demander la suppression définitive de votre compte et de vos données personnelles. Cette action est irréversible.',
       confirmLabel: 'Je comprends que cette action est irréversible.',
       submit: 'Supprimer mon compte',
       confirmPrompt:
@@ -296,12 +295,10 @@ export const accountSettingsPageCopy = {
     },
     dangerSection: {
       title: 'Account deletion',
-      body:
-        'Under GDPR, you can request the permanent deletion of your account and personal data. This action is irreversible.',
+      body: 'Under GDPR, you can request the permanent deletion of your account and personal data. This action is irreversible.',
       confirmLabel: 'I understand this action is irreversible.',
       submit: 'Delete my account',
-      confirmPrompt:
-        'Confirm permanent deletion of your account? This action cannot be undone.',
+      confirmPrompt: 'Confirm permanent deletion of your account? This action cannot be undone.',
     },
   },
 } as const satisfies Record<Locale, Record<string, unknown>>
