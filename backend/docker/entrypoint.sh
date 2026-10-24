@@ -56,9 +56,8 @@ if [ "${APP_ENV:-production}" != "local" ]; then
     php artisan view:cache
 fi
 
+# Le conteneur tourne déjà en www-data (USER du Dockerfile) : tout ce qui est créé ici lui appartient.
 mkdir -p storage/logs
 touch storage/logs/php-fpm.log storage/logs/php-fpm.access.log
-chown -R www-data:www-data storage bootstrap/cache
-chmod -R ug+rwx storage bootstrap/cache
 
 exec "$@"

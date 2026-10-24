@@ -1,15 +1,18 @@
 # Lancer et relancer
 
-Prérequis : Docker Desktop, Git, Node.js 22. PHP et Composer ne sont nécessaires que pour lancer le back **sans** Docker.
+Prérequis : Docker Desktop, Git, Node.js 22. PHP et Composer ne sont nécessaires que pour lancer le back **sans** Docker : les contrôles du back passent par un conteneur si PHP est absent.
 
 ## Premier démarrage
 
 À la racine du dépôt :
 
 ```powershell
+npm install
 copy .env.docker.example .env
 docker compose up -d --build
 ```
+
+`npm install` à la racine installe les hooks Git : les contrôles qualité et sécurité tournent ensuite à chaque commit (voir [04 — Plan de maintenance](./04-plan-maintenance.md)).
 
 Le premier `up` migre la base et exécute les seeders (`RUN_MIGRATIONS` et `RUN_SEED` sont à `true` dans Compose).
 
@@ -97,7 +100,7 @@ Avec la pile Docker allumée :
 npm run gate:full
 ```
 
-Ajoute les tests PHPUnit et les fumées API recherche + auth. Des tests PHPUnit Breeze (`/profile`, manifest Vite Laravel) peuvent échouer sans toucher au site React : le noter, ne pas les confondre avec une régression du catalogue.
+Ajoute les tests PHPUnit, les fumées API recherche + auth et l’audit des dépendances. Tout doit être vert : un échec est une régression à corriger. La CI GitHub rejoue ces contrôles sur les images de prod à chaque pull request.
 
 ## Dépannage court
 

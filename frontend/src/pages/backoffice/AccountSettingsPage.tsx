@@ -7,7 +7,7 @@ import {
   updateAccountOrcid,
   updateAccountPassword,
 } from '../../api/accountRgpd'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../auth/useAuth'
 import { useLocale } from '../../hooks/useLocale'
 import { accountSettingsPageCopy } from '../../i18n/backoffice'
 import type { Locale } from '../../i18n/home'

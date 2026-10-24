@@ -4,23 +4,29 @@ Gestes à faire pour ne pas casser le dépôt. L’objectif de chaque contrôle,
 
 ## Après un changement de code
 
-À la racine :
+Rien à lancer à la main : les contrôles tournent au commit. Une seule condition, une fois par clone, à la racine :
 
 ```powershell
-npm run gate
+npm install
 ```
 
-Ce contrôle ne demande pas Docker : types, lint, secrets, couleurs, contrat des domaines, tests unitaires, build front.
+Cette commande installe les hooks Git. Ensuite :
 
-Avant une remise, avec la pile Docker allumée :
+- `git commit` lance les contrôles liés aux fichiers modifiés (front, back, dépendances, secrets). Prettier remet en forme le front et re-stage les fichiers tout seul. Si un contrôle est rouge, le commit n’est pas créé : corriger, puis recommiter.
+- `git push` relance l’audit des dépendances.
+- La pull request rejoue tout sur GitHub, plus les images Docker de prod. On ne merge sur `main` qu’avec une CI verte.
 
-```powershell
-npm run gate:full
-```
+Ne jamais contourner un hook (`--no-verify`). La CI rejouera le même contrôle et bloquera le merge.
 
-Cela ajoute PHPUnit et les fumées API recherche + auth.
+Pour tout vérifier d’un coup sans commiter : `npm run gate` (sans Docker), `npm run gate:full` (pile Docker allumée), `npm run gate:security` (secrets et dépendances).
 
-Des tests PHPUnit hérités de Laravel Breeze (`/profile`, manifest Vite absent dans `backend/public/build`) peuvent échouer. Ils ne touchent pas le site React. Les noter dans le compte-rendu, ne pas les traiter comme une régression du catalogue.
+Un contrôle rouge se corrige dans le code. Modifier un test, une règle ESLint, un seuil d’audit ou la config d’un scanner pour faire passer un rouge au vert est interdit sans accord explicite, écrit dans la pull request.
+
+## Mettre à jour une dépendance
+
+Dependabot ouvre chaque lundi des pull requests vers `develop` (npm, Composer, actions GitHub, images Docker). Les relire et les merger si la CI est verte. Une faille publiée sur une dépendance déjà installée fait passer la CI au rouge, même sans nouveau commit : la CI tourne aussi chaque nuit.
+
+Si aucune version corrigée n’existe en amont, forcer la sous-dépendance corrigée (`overrides` dans `package.json`) et vérifier que le résultat ne change pas. Exemple déjà en place : `postcss-selector-parser` sous Tailwind 3 côté Blade, CSS produit identique à l’octet.
 
 ## Revue de sécurité
 
@@ -58,7 +64,7 @@ Les images de calque (zindex 1) sont en WebP avec couche alpha. Ne pas les réen
 
 ## Données et secrets
 
-- Ne pas committer `.env`. Le modèle est `.env.docker.example`.
+- Ne pas committer `.env`. Le modèle est `.env.docker.example`. Le hook refuse un `.env`, une clé ou un certificat, et GitHub refuse le push d’un secret connu.
 - `docker compose down` garde MySQL, les PDF uploadés et la config LM Studio. `docker compose down -v` les efface. Ne pas utiliser `-v` sur une base à conserver.
 - Le compte seed `test@labhorizon.nc` / `password` est public dans le dépôt. Le changer avant toute exposition hors machine de dev.
 - La vulgarisation IA reste coupée (`LLM_ENABLED=false`) tant qu’un modèle n’est pas chargé. La passer à `true` sans modèle fait échouer la génération.

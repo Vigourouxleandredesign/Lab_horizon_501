@@ -5,7 +5,7 @@
 ##############################
 # 1) Assets Blade (Vite / Tailwind / Alpine) — pas le front React
 ##############################
-FROM node:20-alpine AS node-build
+FROM node:22-alpine AS node-build
 
 WORKDIR /app
 
@@ -45,7 +45,9 @@ RUN composer dump-autoload --optimize --no-dev \
 ##############################
 FROM php:8.2-fpm-alpine AS final
 
-RUN apk add --no-cache \
+# Patchs de sécurité OS publiés après la sortie de l'image de base (scan Trivy en CI).
+RUN apk upgrade --no-cache \
+    && apk add --no-cache \
         nginx \
         supervisor \
         bash \
@@ -99,7 +101,20 @@ RUN mkdir -p /var/www/html/storage/framework/sessions \
     && chown -R www-data:www-data /var/www/html/storage /var/www/html/bootstrap/cache \
     && chmod -R 775 /var/www/html/storage /var/www/html/bootstrap/cache
 
-EXPOSE 80
+# Le conteneur tourne sans root (www-data) : le code reste à root (lecture seule pour l'appli),
+# seuls .env, storage, bootstrap/cache et les dossiers d'exécution de nginx sont inscriptibles.
+RUN { [ -f .env ] || cp .env.example .env 2>/dev/null || touch .env; } \
+    && chown www-data:www-data .env \
+    && ln -sfn /var/www/html/storage/app/public /var/www/html/public/storage \
+    && mkdir -p /run/nginx /var/lib/nginx/tmp /var/log/nginx \
+    && chown -R www-data:www-data /run/nginx /var/lib/nginx /var/log/nginx
+
+USER www-data
+
+EXPOSE 8080
+
+HEALTHCHECK --interval=10s --timeout=5s --retries=12 --start-period=50s \
+  CMD curl -fsS http://127.0.0.1:8080/up || exit 1
 
 ENTRYPOINT ["entrypoint.sh"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/conf.d/supervisord.conf"]

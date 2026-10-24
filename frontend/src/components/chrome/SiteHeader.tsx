@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { brandLogoSrc } from '../../assets/figmaHomeAssets'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../auth/useAuth'
 import LanguageMenu from './LanguageMenu'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
@@ -31,10 +31,8 @@ export default function SiteHeader({ overlay = false }: Props) {
   const rafRef = useRef(0)
 
   useEffect(() => {
-    if (!isDesktop) {
-      setPill(false)
-      return
-    }
+    // Hors desktop, `pill` est ignoré au rendu (isDesktop && pill) : rien à réinitialiser.
+    if (!isDesktop) return
 
     const update = () => {
       rafRef.current = 0
@@ -45,7 +43,8 @@ export default function SiteHeader({ overlay = false }: Props) {
       rafRef.current = window.requestAnimationFrame(update)
     }
 
-    update()
+    // Mesure initiale (page rechargée déjà scrollée) sur la même frame que les suivantes.
+    rafRef.current = window.requestAnimationFrame(update)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', onScroll)

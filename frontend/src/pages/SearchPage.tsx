@@ -3,7 +3,7 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { searchPublications } from '../api/publications'
 import { searchResearchers } from '../api/researchers'
 import type { PublicationSort } from '../api/types'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import PublicationCard from '../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../components/QueryStates'
 import {
@@ -70,11 +70,13 @@ export default function SearchPage() {
     )
   }, [debouncedInput, urlQuery, setSearchParams])
 
-  useEffect(() => {
-    // Changement d'URL externe (formulaire accueil, lien partagé) : resynchroniser la saisie.
+  // Changement d'URL externe (formulaire accueil, lien partagé) : resynchroniser la saisie.
+  // Ajusté pendant le rendu, uniquement quand l'URL change (pas de setState dans un effet).
+  const [syncedUrlQuery, setSyncedUrlQuery] = useState(urlQuery)
+  if (urlQuery !== syncedUrlQuery) {
+    setSyncedUrlQuery(urlQuery)
     if (urlQuery !== debouncedInput) setInputValue(urlQuery)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- ne réagir qu'à l'URL
-  }, [urlQuery])
+  }
 
   const setParam = (key: string, value: string) => {
     setSearchParams((params) => {

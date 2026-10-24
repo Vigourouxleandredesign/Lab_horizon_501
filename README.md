@@ -9,6 +9,7 @@ Site de valorisation de la recherche de l’UNC (IUT de Nouvelle-Calédonie) : c
 Prérequis : Docker Desktop, Git, Node.js 22.
 
 ```powershell
+npm install
 copy .env.docker.example .env
 docker compose up -d --build
 ```
@@ -34,12 +35,16 @@ Après un `git pull`, reconstruire l’image front, sinon l’écran reste l’a
 | Parcours et écrans visés | `docs/ux/` |
 | Cadrage produit | `docs/cahier_des_charges_v2.md` |
 | Contrat HTTP branché | `docs/api-contract-v1.md` |
-| Anti-régression | `docs/TESTING.md` |
+| Anti-régression et sécurité (CI/CD) | `docs/TESTING.md` |
 | Revue de sécurité avant MEP | Protocole installé localement, hors dépôt |
 
 `docs/project-map.md` et `docs/front-back-status-v1.md` sont historiques (août 2026).
 
 ## Contrôle
+
+Pipeline CI/CD obligatoire. `npm install` à la racine installe les hooks Git : chaque commit est contrôlé (format, lint, types, tests, secrets, dépendances), chaque push relance l’audit des dépendances, et GitHub Actions rejoue tout, images Docker de prod comprises. `main` n’accepte que des pull requests dont la CI est verte. Détail : [docs/TESTING.md](docs/TESTING.md).
+
+Tout vérifier à la main :
 
 ```powershell
 npm run gate

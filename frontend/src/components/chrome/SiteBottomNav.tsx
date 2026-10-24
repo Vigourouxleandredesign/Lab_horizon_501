@@ -1,5 +1,5 @@
 import { NavLink, useLocation } from 'react-router-dom'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../auth/useAuth'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
 import { siteNavCopy, siteNavLabel } from '../../i18n/navigation'

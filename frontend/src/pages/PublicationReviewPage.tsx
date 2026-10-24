@@ -50,16 +50,22 @@ export default function PublicationReviewPage() {
   }, [t.metaTitle])
 
   useEffect(() => {
-    if (!id || query.status !== 'success' || !query.data) return
-    markPublicationReviewSeen(id)
+    if (id && query.status === 'success') markPublicationReviewSeen(id)
+  }, [id, query.status])
+
+  // Préremplissage de l'éditeur une fois par réponse API, pendant le rendu
+  // (motif React « ajuster l'état quand une donnée change », pas de setState dans un effet).
+  const [prefilledFrom, setPrefilledFrom] = useState<typeof query.data>(null)
+  if (query.status === 'success' && query.data && query.data !== prefilledFrom) {
     const title = query.data.vulgarizedTitle
     const lead = query.data.vulgarizedLead
     const body = query.data.vulgarizedParagraphs.join('\n\n')
+    setPrefilledFrom(query.data)
     setEditTitle(title)
     setEditLead(lead)
     setEditBody(body)
     setBaseline({ title, lead, body })
-  }, [id, query.status, query.data])
+  }
 
   const paragraphsFromEdit = () =>
     editBody

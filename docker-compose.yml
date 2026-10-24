@@ -22,7 +22,8 @@
 services:
   lm-studio:
     profiles: ["llm"]
-    image: linuxserver/lm-studio:latest
+    # Version épinglée (reproductible) ; Dependabot propose les mises à jour.
+    image: linuxserver/lm-studio:2026-10-16-ls41
     container_name: lm-studio
     restart: unless-stopped
     environment:
@@ -64,7 +65,7 @@ services:
     container_name: labhorizon-frontend
     restart: unless-stopped
     ports:
-      - "8080:80"
+      - "8080:8080"
     depends_on:
       backend:
         condition: service_healthy
@@ -81,7 +82,7 @@ services:
       - path: .env
         required: false
     ports:
-      - "127.0.0.1:8081:80"
+      - "127.0.0.1:8081:8080"
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
@@ -135,7 +136,7 @@ services:
       redis:
         condition: service_healthy
     healthcheck:
-      test: ["CMD", "curl", "-f", "http://127.0.0.1/up"]
+      test: ["CMD", "curl", "-fsS", "http://127.0.0.1:8080/up"]
       interval: 10s
       timeout: 5s
       retries: 12
