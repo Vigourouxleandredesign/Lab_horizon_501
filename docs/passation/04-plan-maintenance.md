@@ -28,6 +28,18 @@ Dependabot ouvre chaque lundi des pull requests vers `develop` (npm, Composer, a
 
 Si aucune version corrigée n’existe en amont, forcer la sous-dépendance corrigée (`overrides` dans `package.json`) et vérifier que le résultat ne change pas. Exemple déjà en place : `postcss-selector-parser` sous Tailwind 3 côté Blade, CSS produit identique à l’octet.
 
+## Réglages GitHub à reproduire
+
+Une partie de la protection n’est pas dans le dépôt : ce sont des réglages du dépôt GitHub. Un fork, un transfert ou un nouveau dépôt ne les copie pas. Sans eux, la CI tourne mais ne bloque plus rien, et un secret peut être poussé.
+
+| Réglage | Où (Settings) | Valeur |
+|---------|---------------|--------|
+| Protection de `main` | Branches → règle sur `main` | Pull request obligatoire ; contrôles requis : `Front — qualité & tests`, `Back — tests`, `Sécurité — secrets & dépendances`, `Docker — images, config & smoke prod`, `Dépendances — revue de PR` ; branche à jour avant merge ; appliquer aux administrateurs ; force-push et suppression interdits ; conversations résolues |
+| Secret scanning et push protection | Code security | Activés |
+| Alertes Dependabot et mises à jour de sécurité | Code security | Activées (active aussi le graphe de dépendances, requis par la revue de PR) |
+
+Les contrôles requis n’apparaissent dans la liste qu’après un premier passage de la CI sur le nouveau dépôt. Vérification : un `git push` direct sur `main` doit être refusé (`GH006 Protected branch update failed`).
+
 ## Revue de sécurité
 
 Le protocole n’est pas versionné. Sur la machine où il a été installé, il est dans `.cursor/skills/revue-securite-preprod/`. Avant de s’en servir, vérifier qu’il est encore fiable :

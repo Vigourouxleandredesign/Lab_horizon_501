@@ -97,6 +97,18 @@ Documented exceptions (each one targeted, versioned, reviewed in PR):
 
 ---
 
+## GitHub settings (not in the repo — recreate on fork / transfer)
+
+| Setting | Value |
+|---------|-------|
+| Branch protection `main` | PR required; required checks (GitHub Actions app): `Front — qualité & tests`, `Back — tests`, `Sécurité — secrets & dépendances`, `Docker — images, config & smoke prod`, `Dépendances — revue de PR`; strict (up to date); enforce admins; no force-push / deletion; conversation resolution |
+| Secret scanning + push protection | Enabled |
+| Dependabot alerts + security updates | Enabled (also enables the dependency graph needed by dependency review) |
+
+Check: a direct `git push` to `main` must be rejected with `GH006`.
+
+---
+
 ## Suite matrix (what is active when)
 
 | Suite | Status | When |
