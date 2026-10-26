@@ -129,12 +129,15 @@ export async function register(payload: RegisterPayload): Promise<SessionUser> {
 }
 
 /** Mappe les erreurs Laravel (422) vers un message lisible pour l'utilisateur. */
-export function registerErrorMessage(error: unknown, copy: {
-  unavailable: string
-  validationEmail: string
-  validationPassword: string
-  validationGeneric: string
-}): string {
+export function registerErrorMessage(
+  error: unknown,
+  copy: {
+    unavailable: string
+    validationEmail: string
+    validationPassword: string
+    validationGeneric: string
+  },
+): string {
   if (!(error instanceof ApiError)) return copy.unavailable
 
   if (error.status === 422 && error.body?.errors) {

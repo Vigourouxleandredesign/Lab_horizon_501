@@ -1,85 +1,53 @@
 # Lab Horizon — SAE 501
 
-Plateforme de valorisation de la recherche calédonienne (IUT de Nouvelle-Calédonie), avec assistant IA (RAG) et PWA.
+Site de valorisation de la recherche de l’UNC (IUT de Nouvelle-Calédonie) : catalogue public de publications vulgarisées, et espace chercheur `/compte` pour les relire. L’assistant conversationnel (RAG) et la PWA ne sont pas dans cette livraison.
 
-## Structure du dépôt
+**Première lecture pour une équipe nouvelle :** [docs/passation/](docs/passation/README.md).
 
-| Dossier | Rôle |
-|---------|------|
-| `frontend/` | Application React (Vite + TypeScript) |
-| `backend/` | API REST Laravel 12 + MySQL |
-| `docs/` | Cahier des charges, dictionnaire de données, spécifications UX |
-| `docs/archive/` | Livrables historiques (wireframe HTML, export Figma, logos) — référence uniquement |
-| `docker-compose.yml` | Front, back, MySQL 8.4, Redis 7 et LM Studio |
+## Démarrer
 
-## Docker (front + back + LM Studio)
+Prérequis : Docker Desktop, Git, Node.js 22.
 
-Cinq conteneurs communiquent sur le réseau Compose `labhorizon`. Le navigateur n’appelle que le front (`http://localhost:8080`) : Nginx y reverse-proxy `/api`, `/sanctum` et `/files` vers le back. Le back appelle LM Studio via `http://lm-studio:1234/v1` (nom du service Compose, pas `localhost`).
-
-```bash
-cp .env.docker.example .env
-# APP_KEY : optionnel au premier `up` (générée dans le conteneur).
-# Pour la garder d’un redémarrage à l’autre : php artisan key:generate --show
-docker compose up --build
-```
-
-- Site : `http://localhost:8080`
-- API Laravel directe (debug) : `http://localhost:8081`
-- MySQL : `localhost:3306`
-- Interface LM Studio (bureau distant noVNC) : `http://localhost:3001`
-
-Au premier démarrage, Laravel migre puis **seed** le contenu local (17 recherches, chemins PDF vers `public/files/recherches/`). Compte démo : `test@labhorizon.nc` / `password`.
-
-Ne pas committer `.env` (mots de passe, `APP_KEY`).
-
-### LM Studio
-
-Le conteneur `lm-studio` (image `linuxserver/lm-studio`) expose un bureau distant sur `http://localhost:3001` pour gérer les modèles via l'UI. Ses réglages serveur (écoute réseau `0.0.0.0:1234`, CORS) et les modèles téléchargés sont persistés dans le volume `lmstudio-config` — ils survivent à un `docker compose down` / `up`.
-
-Sur une machine neuve (volume vide), après le premier démarrage :
-
-```bash
-docker compose exec lm-studio lms get <nom-du-modele>   # télécharger un modèle
-docker compose exec lm-studio lms load <nom-du-modele>  # le charger en mémoire
-```
-
-Le nom de modèle chargé doit correspondre à `LLM_MODEL` dans `.env` (ex. `mistral-7b-instruct-v0.3`). Sans modèle chargé, `justInTimeModelLoading` de LM Studio tentera de le charger à la première requête.
-
-## Démarrer le frontend (sans Docker)
-
-```bash
-cd frontend
+```powershell
 npm install
-npm run dev        # http://localhost:5173
+copy .env.docker.example .env
+docker compose up -d --build
 ```
 
-Autres scripts : `npm run build` (production), `npm run lint`, `npm run preview`.
+| Adresse | Service |
+|---------|---------|
+| http://localhost:8080 | Site (entrée unique) |
+| http://localhost:8081 | API Laravel, dépannage |
+| localhost:3307 | MySQL (le 3306 de l’hôte reste libre) |
 
-Les scripts sont aussi disponibles depuis la racine : `npm run dev`, `npm run build`, `npm run preview`.
+Compte seed : `test@labhorizon.nc` / `password`. À changer avant toute exposition hors machine de dev.
 
-## Documents de référence (ordre d'autorité)
+LM Studio est un profil à part (`docker compose --profile llm up -d lm-studio`). Par défaut `LLM_ENABLED=false` : le catalogue fonctionne sans modèle. Détail : [docs/passation/02-lancer-et-relancer.md](docs/passation/02-lancer-et-relancer.md).
 
-1. `docs/data-dictionary-v1.md` — modèle de données
-2. `docs/ux/` — parcours, écrans, composants
-3. `docs/cahier_des_charges_v2.md` — cadrage produit, contraintes, calendrier
+Après un `git pull`, reconstruire l’image front, sinon l’écran reste l’ancienne version : `docker compose up -d --build frontend`.
 
-## Déploiement démo (Netlify)
+## Documents qui font foi
 
-- Config versionnée : `frontend/netlify.toml` (build + redirect SPA React Router).
-- Déploiement manuel depuis `frontend/` : `netlify deploy --prod --dir=dist` (après `npm run build`).
-- URL production : https://labhorizon.netlify.app
-- Le dossier `frontend/.netlify/` (lien CLI local) est **ignoré par Git** — voir `.gitignore`.
+| Sujet | Document |
+|-------|----------|
+| Reprendre, lancer, maintenir | `docs/passation/` |
+| Modèle de données visé | `docs/data-dictionary-v1.md` |
+| Parcours et écrans visés | `docs/ux/` |
+| Cadrage produit | `docs/cahier_des_charges_v2.md` |
+| Contrat HTTP branché | `docs/api-contract-v1.md` |
+| Anti-régression et sécurité (CI/CD) | `docs/TESTING.md` |
+| Revue de sécurité avant MEP | Protocole installé localement, hors dépôt |
 
-## Git & secrets
+`docs/project-map.md` et `docs/front-back-status-v1.md` sont historiques (août 2026).
 
-- Politique complète : `.gitignore` à la racine (frontend, backend Laravel, `.env`, bases SQLite, etc.).
-- **`.cursor/rules/`** est versionné (charte projet) ; **`.cursor/mcp.json`** est ignoré (config locale).
-- Ne jamais committer `.env` — modèles : `frontend/.env.example`, `backend/.env.example`, `.env.docker.example`.
+## Contrôle
 
-## État du projet
+Pipeline CI/CD obligatoire. `npm install` à la racine installe les hooks Git : chaque commit est contrôlé (format, lint, types, tests, secrets, dépendances), chaque push relance l’audit des dépendances, et GitHub Actions rejoue tout, images Docker de prod comprises. `main` n’accepte que des pull requests dont la CI est verte. Détail : [docs/TESTING.md](docs/TESTING.md).
 
-- Frontend : pages publiques + espace chercheur, couche API (`frontend/src/api/`)
-- Backend : Laravel 12, API REST, MySQL (SQLite possible en local hors Docker)
-- Docker : `docker compose up --build` (front, back, MySQL, Redis)
-- PWA : à venir (manifest, service worker)
-- Rôles V1 : visiteur public (sans compte) + chercheur (connecté)
+Tout vérifier à la main :
+
+```powershell
+npm run gate
+```
+
+Ne pas committer `.env`. Modèles : `.env.docker.example`, `frontend/.env.example`, `backend/.env.example`.

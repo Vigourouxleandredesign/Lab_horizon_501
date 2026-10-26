@@ -9,6 +9,9 @@ export type CategorySlug =
   | 'histoire-archeologie'
   | 'societes-langues-cultures-oceaniennes'
   | 'informatique'
+  | 'mathematiques'
+  | 'physique'
+  | 'chimie'
 
 export type UncCategory = {
   slug: CategorySlug
@@ -56,6 +59,21 @@ export const UNC_CATEGORIES: UncCategory[] = [
     slug: 'informatique',
     labelFr: 'Informatique',
     labelEn: 'Computer Science',
+  },
+  {
+    slug: 'mathematiques',
+    labelFr: 'Mathématiques',
+    labelEn: 'Mathematics',
+  },
+  {
+    slug: 'physique',
+    labelFr: 'Physique',
+    labelEn: 'Physics',
+  },
+  {
+    slug: 'chimie',
+    labelFr: 'Chimie',
+    labelEn: 'Chemistry',
   },
 ]
 

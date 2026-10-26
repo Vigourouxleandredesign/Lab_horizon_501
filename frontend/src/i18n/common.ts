@@ -10,8 +10,7 @@ export const commonCopy = {
       privacy: 'Confidentialité',
       cookies: 'Cookies',
     },
-    langToggle: (current: Locale) =>
-      current === 'fr' ? 'Passer en anglais' : 'Switch to French',
+    langToggle: (current: Locale) => (current === 'fr' ? 'Passer en anglais' : 'Switch to French'),
     langMenuLabel: 'Langue',
     langFr: 'Français',
     langEn: 'English',
@@ -26,8 +25,7 @@ export const commonCopy = {
       privacy: 'Privacy',
       cookies: 'Cookies',
     },
-    langToggle: (current: Locale) =>
-      current === 'fr' ? 'Passer en anglais' : 'Switch to French',
+    langToggle: (current: Locale) => (current === 'fr' ? 'Passer en anglais' : 'Switch to French'),
     langMenuLabel: 'Language',
     langFr: 'Français',
     langEn: 'English',

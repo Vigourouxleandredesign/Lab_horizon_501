@@ -1,0 +1,68 @@
+# =============================================================================
+# Hooks Git de l'équipe — Lab Horizon
+# Installés automatiquement par `npm install` à la racine (script "prepare").
+# Mêmes scripts que la CI (.github/workflows/ci.yml) : vert en local = vert en CI.
+# Doc : docs/TESTING.md
+#
+# Contourner (LEFTHOOK=0, --no-verify) ne sert à rien : la CI rejoue tout
+# et main n'accepte que des commits dont la CI est verte (branch protection).
+# =============================================================================
+min_version: 2.2.1
+glob_matcher: doublestar
+no_tty: true
+
+# --- pre-commit : déterministe, hors réseau, limité à ce qui est stagé -------
+pre-commit:
+  piped: true # le formatage doit finir (et re-stager) avant les contrôles
+  jobs:
+    - name: format
+      root: frontend/
+      glob: "frontend/**/*.{ts,tsx,js,mjs,cjs,css,json}"
+      run: npx prettier --write --ignore-unknown {staged_files}
+      stage_fixed: true
+
+    - name: checks
+      group:
+        parallel: true
+        jobs:
+          # A3 — toujours : nom de fichier interdit (.env, clés…) + contenu (secretlint)
+          - name: secrets
+            run: node scripts/ci/check-secrets.mjs {staged_files}
+
+          - name: secrets-selftest
+            glob: ["scripts/ci/check-secrets*.mjs", ".secretlintrc.json", ".secretlintignore"]
+            run: npm run test:secrets
+
+          - name: front-lint
+            glob: "frontend/**"
+            run: npm run lint --prefix frontend
+
+          - name: front-unit
+            glob: "frontend/**"
+            run: npm run test --prefix frontend
+
+          - name: front-contracts
+            glob: ["frontend/**", "scripts/check-domain-contract.mjs"]
+            run: npm run check:colors --prefix frontend && node scripts/check-domain-contract.mjs
+
+          # tsc -b + vite build : couvre aussi le typecheck
+          - name: front-build
+            glob: "frontend/**"
+            run: npm run build --prefix frontend
+
+          # assets Blade construits + .env, comme en prod — puis PHPUnit
+          - name: back-tests
+            glob: ["backend/**/*.php", "backend/resources/**", "backend/phpunit.xml", "backend/composer.{json,lock}", "backend/package*.json"]
+            run: node scripts/ci/backend-test.mjs
+
+          # Nouvelle dépendance = nouveau risque : audit au moment où on l'introduit
+          - name: deps-audit
+            glob: ["package*.json", "frontend/package*.json", "backend/package*.json", "backend/composer.{json,lock}"]
+            run: node scripts/ci/audit.mjs
+
+# --- pre-push : contrôles dépendant du réseau / de la date ------------------
+# Les advisories sont publiées chaque jour : un lockfile vert hier peut être rouge aujourd'hui.
+pre-push:
+  jobs:
+    - name: deps-audit
+      run: node scripts/ci/audit.mjs

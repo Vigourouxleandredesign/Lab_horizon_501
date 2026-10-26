@@ -24,9 +24,7 @@ export default function BackofficeSidebar() {
               to={item.to}
               end={item.end}
               className={({ isActive }) =>
-                isActive
-                  ? `${styles.sidebarLink} ${styles.sidebarLinkActive}`
-                  : styles.sidebarLink
+                isActive ? `${styles.sidebarLink} ${styles.sidebarLinkActive}` : styles.sidebarLink
               }
             >
               <img src={BACKOFFICE_NAV_ICONS[item.id]} alt="" width={20} height={20} />

@@ -174,7 +174,9 @@
   box-shadow: 0 1px 3px var(--lh-src-card-shadow);
   text-decoration: none;
   color: inherit;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .researcherCard:hover {
@@ -194,10 +196,7 @@
    filtres lisibles (domaine pleine largeur, année + tri en ligne). */
 @media (max-width: 899px) {
   .page {
-    padding:
-      calc(24px + env(safe-area-inset-top, 0px))
-      18px
-      var(--lh-mobile-bottom-stack);
+    padding: calc(24px + env(safe-area-inset-top, 0px)) 18px var(--lh-mobile-bottom-stack);
   }
 
   .searchSection {

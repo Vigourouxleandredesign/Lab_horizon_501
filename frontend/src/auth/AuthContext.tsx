@@ -2,33 +2,14 @@
  * Contexte d'authentification — état de session unique pour toute l'app.
  *
  * L'état est hydraté au montage via `fetchSessionUser` (cookie httpOnly côté
- * Laravel, sessionStorage en démo). Les pages consomment `useAuth()` et ne
+ * Laravel, sessionStorage en démo). Les pages consomment `useAuth()` (./useAuth) et ne
  * parlent jamais directement à l'API d'auth.
  */
 
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
 import * as authApi from '../api/auth'
 import type { LoginPayload, RegisterPayload, SessionUser } from '../api/types'
-
-type AuthStatus = 'loading' | 'authenticated' | 'anonymous'
-
-type AuthContextValue = {
-  status: AuthStatus
-  user: SessionUser | null
-  login: (payload: LoginPayload) => Promise<SessionUser>
-  register: (payload: RegisterPayload) => Promise<SessionUser>
-  logout: () => Promise<void>
-}
-
-const AuthContext = createContext<AuthContextValue | null>(null)
+import { AuthContext, type AuthStatus } from './useAuth'
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [status, setStatus] = useState<AuthStatus>('loading')
@@ -76,12 +57,4 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   )
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>
-}
-
-export function useAuth(): AuthContextValue {
-  const ctx = useContext(AuthContext)
-  if (!ctx) {
-    throw new Error('useAuth doit être utilisé sous <AuthProvider>.')
-  }
-  return ctx
 }

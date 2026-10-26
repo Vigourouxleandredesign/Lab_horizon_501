@@ -13,6 +13,14 @@ export type ApiQueryState<T> =
   | { status: 'success'; data: T; error: null }
   | { status: 'error'; data: null; error: Error }
 
+type Settled<T> = Exclude<ApiQueryState<T>, { status: 'loading' }>
+
+const LOADING = { status: 'loading', data: null, error: null } as const
+
+function sameDeps(a: readonly unknown[], b: readonly unknown[]): boolean {
+  return a.length === b.length && a.every((value, i) => Object.is(value, b[i]))
+}
+
 /**
  * @param fetcher fonction de la façade API — DOIT être stable ou dépendre de `deps`.
  * @param deps    valeurs qui relancent la requête (query, filtres, id de route…).
@@ -21,28 +29,28 @@ export function useApiQuery<T>(
   fetcher: (signal: AbortSignal) => Promise<T>,
   deps: readonly unknown[],
 ): ApiQueryState<T> {
-  const [state, setState] = useState<ApiQueryState<T>>({
-    status: 'loading',
-    data: null,
-    error: null,
-  })
+  // Résultat + deps qui l'ont produit : « loading » se déduit au rendu quand les deps changent,
+  // sans setState synchrone dans l'effet (et sans afficher les données de la requête précédente).
+  const [result, setResult] = useState<{ deps: readonly unknown[]; state: Settled<T> } | null>(null)
 
   useEffect(() => {
     const controller = new AbortController()
-    setState({ status: 'loading', data: null, error: null })
 
     fetcher(controller.signal)
       .then((data) => {
         if (!controller.signal.aborted) {
-          setState({ status: 'success', data, error: null })
+          setResult({ deps, state: { status: 'success', data, error: null } })
         }
       })
       .catch((error: unknown) => {
         if (!controller.signal.aborted) {
-          setState({
-            status: 'error',
-            data: null,
-            error: error instanceof Error ? error : new Error(String(error)),
+          setResult({
+            deps,
+            state: {
+              status: 'error',
+              data: null,
+              error: error instanceof Error ? error : new Error(String(error)),
+            },
           })
         }
       })
@@ -51,5 +59,5 @@ export function useApiQuery<T>(
     // eslint-disable-next-line react-hooks/exhaustive-deps -- deps portées par l'appelant
   }, deps)
 
-  return state
+  return result && sameDeps(result.deps, deps) ? result.state : LOADING
 }

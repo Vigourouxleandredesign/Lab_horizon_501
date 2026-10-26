@@ -3,7 +3,7 @@ import { Link, Navigate, useLocation, useNavigate } from 'react-router-dom'
 import { ApiError } from '../api/http'
 import { DEMO_EMAIL } from '../api/auth'
 import PasswordField from '../components/PasswordField'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import { useLocale } from '../hooks/useLocale'
 import { connexionCopy } from '../i18n/connexion'
 import { isDemoAuth } from '../lib/config'
@@ -44,8 +44,7 @@ export default function ConnexionPage() {
       })
       navigate(from, { replace: true })
     } catch (err) {
-      const networkDown =
-        !(err instanceof ApiError) || err.status === 0 || err.status >= 500
+      const networkDown = !(err instanceof ApiError) || err.status === 0 || err.status >= 500
       setError(networkDown ? t.unavailable : t.error)
     } finally {
       setSubmitting(false)
@@ -92,8 +91,7 @@ export default function ConnexionPage() {
         </form>
 
         <p className={styles.footerNote}>
-          {t.noAccount}{' '}
-          <Link to="/inscription">{t.createAccount}</Link>
+          {t.noAccount} <Link to="/inscription">{t.createAccount}</Link>
         </p>
       </div>
 

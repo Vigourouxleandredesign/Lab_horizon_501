@@ -1,0 +1,8 @@
+# Gitleaks (CI, job "security") — règles par défaut + faux positifs documentés.
+[extend]
+useDefault = true
+
+[[allowlists]]
+description = "Identifiants de documents (champ « key ») dans le jeu de test d'extraction PDF"
+targetRules = ["generic-api-key"]
+paths = ['''^scripts/pdf-extract-test-data\.json$''']

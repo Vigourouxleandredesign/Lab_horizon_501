@@ -13,12 +13,7 @@ type Props = {
   disabled?: boolean
 }
 
-export default function Magnetic({
-  children,
-  strength = 0.3,
-  className,
-  disabled = false,
-}: Props) {
+export default function Magnetic({ children, strength = 0.3, className, disabled = false }: Props) {
   const ref = useRef<HTMLDivElement>(null)
   const xTo = useRef<gsap.QuickToFunc | null>(null)
   const yTo = useRef<gsap.QuickToFunc | null>(null)

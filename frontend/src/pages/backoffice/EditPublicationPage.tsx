@@ -71,7 +71,13 @@ export default function EditPublicationPage() {
       <form className={styles.form} onSubmit={handleSubmit}>
         <label>
           {t.fields.titre}
-          <input type="text" name="titre" maxLength={255} defaultValue={query.data.titre} required />
+          <input
+            type="text"
+            name="titre"
+            maxLength={255}
+            defaultValue={query.data.titre}
+            required
+          />
         </label>
         <label>
           {t.fields.description}

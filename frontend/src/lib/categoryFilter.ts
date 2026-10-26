@@ -25,6 +25,10 @@ const API_CATEGORY_LABEL_BY_SLUG: Partial<Record<CategorySlug, string>> = {
   'biodiversite-environnement-sante': 'Biodiversité, environnement, santé',
   geosciences: 'Géosciences',
   informatique: 'Informatique',
+  // Alignés sur labels HAL / table `domaines` (physique : prêt pour seed back 0.phys)
+  mathematiques: 'Mathématiques',
+  physique: 'Physique',
+  chimie: 'Chimie',
 }
 
 /** Paramètre `category` pour `GET /api/recherches` (matching normalisé côté Laravel). */

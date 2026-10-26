@@ -57,6 +57,10 @@ const DOMAIN_PILL_BY_SLUG: Record<string, string> = {
   'histoire-archeologie': 'pillules/Histoire.webp',
   'societes-langues-cultures-oceaniennes': 'pillules/Culture.webp',
   informatique: 'pillules/Informatique.webp',
+  // Placeholders temporaires tant que la DA n’a pas livré les pastilles dédiées
+  mathematiques: 'pillules/Mathematiques.webp',
+  physique: 'pillules/Physique.webp',
+  chimie: 'pillules/Chimie.webp',
 }
 
 const pillFallback = publicUrl(DOMAIN_PILL_BY_SLUG['biodiversite-environnement-sante'])
@@ -119,6 +123,18 @@ const DOMAIN_HERO_BY_SLUG: Record<string, { background: string; layer: string }>
   informatique: {
     background: 'Informatique zindex0.jpg',
     layer: 'Informatique zindex1.webp',
+  },
+  mathematiques: {
+    background: 'Mathematiques zindex0.webp',
+    layer: 'Mathematiques zindex1.webp',
+  },
+  physique: {
+    background: 'Physique zindex0.webp',
+    layer: 'Physique zindex1.webp',
+  },
+  chimie: {
+    background: 'Chimie zindex0.webp',
+    layer: 'Chimie zindex1.webp',
   },
 }
 

@@ -43,11 +43,7 @@ export default function HomePage() {
       />
 
       <main className={styles.main}>
-        <section
-          ref={searchRef}
-          className={styles.searchWrap}
-          aria-label={t.search.sectionLabel}
-        >
+        <section ref={searchRef} className={styles.searchWrap} aria-label={t.search.sectionLabel}>
           <form className={styles.searchPill} action="/recherche" method="get" role="search">
             <label htmlFor="q" className="visually-hidden">
               {t.search.placeholder}
@@ -77,8 +73,7 @@ export default function HomePage() {
           <div className={styles.sectionHead}>
             <h2 id="domain-heading">{t.categories.title}</h2>
             <Link to="/categories" className={styles.seeAll}>
-              {t.categories.seeAll}{' '}
-              <img src={A.seeAllArrow} alt="" width={16} height={16} />
+              {t.categories.seeAll} <img src={A.seeAllArrow} alt="" width={16} height={16} />
             </Link>
           </div>
           <div className={styles.domainCarousel}>
@@ -127,8 +122,7 @@ export default function HomePage() {
           <div className={styles.sectionHead}>
             <h2 id="unc-teams-heading">{t.uncTeams.title}</h2>
             <Link to="/chercheurs" className={styles.seeAll}>
-              {t.uncTeams.cta}{' '}
-              <img src={A.researcherChevron} alt="" width={16} height={16} />
+              {t.uncTeams.cta} <img src={A.researcherChevron} alt="" width={16} height={16} />
             </Link>
           </div>
           <div className={styles.researcherGrid}>
@@ -167,8 +161,7 @@ export default function HomePage() {
             <h2 id="mission-title">{t.mission.title}</h2>
             <p>{t.mission.body}</p>
             <Link to="/a-propos" className={styles.missionCta}>
-              {t.mission.cta}{' '}
-              <img src={A.missionCtaArrow} alt="" width={16} height={16} />
+              {t.mission.cta} <img src={A.missionCtaArrow} alt="" width={16} height={16} />
             </Link>
           </div>
         </section>

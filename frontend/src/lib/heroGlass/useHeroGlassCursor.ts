@@ -159,15 +159,7 @@ export function useHeroGlassCursor(
 
               for (let i = 0; i < count; i++) {
                 const lag = (glass.splashLagPx + i * glass.splashLagSpread) * lagScale
-                emit(
-                  e.clientX - dirX * lag,
-                  e.clientY - dirY * lag,
-                  dirX,
-                  dirY,
-                  speed,
-                  size,
-                  life,
-                )
+                emit(e.clientX - dirX * lag, e.clientY - dirY * lag, dirX, dirY, speed, size, life)
               }
 
               lastFullEmitAt = now
@@ -189,15 +181,7 @@ export function useHeroGlassCursor(
                 glass.splashLife * glass.splashMicroLifeScale * (0.8 + Math.random() * 0.35)
               const size = glass.splashMicroSize * (0.88 + t * 0.18)
 
-              emit(
-                e.clientX - dirX * lag,
-                e.clientY - dirY * lag,
-                dirX,
-                dirY,
-                speed,
-                size,
-                life,
-              )
+              emit(e.clientX - dirX * lag, e.clientY - dirY * lag, dirX, dirY, speed, size, life)
 
               lastMicroEmitAt = now
               lastMicroEmitPos = { x: e.clientX, y: e.clientY }

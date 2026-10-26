@@ -33,8 +33,7 @@ export const homeCopy = {
     mission: {
       badge: 'NOTRE MISSION',
       title: 'Valoriser la recherche calédonienne',
-      body:
-        'Lab Horizon met en lumière les travaux des chercheurs affiliés à l’Université de la Nouvelle-Calédonie et de leurs partenaires, à travers les publications, la vulgarisation et une veille organisée par domaine scientifique.',
+      body: 'Lab Horizon met en lumière les travaux des chercheurs affiliés à l’Université de la Nouvelle-Calédonie et de leurs partenaires, à travers les publications, la vulgarisation et une veille organisée par domaine scientifique.',
       cta: 'Découvrir qui nous sommes',
     },
     footer: {
@@ -72,8 +71,7 @@ export const homeCopy = {
     mission: {
       badge: 'OUR MISSION',
       title: 'Showcase New Caledonian research',
-      body:
-        'Lab Horizon highlights the work of researchers affiliated with the University of New Caledonia and their partners, through publications, plain-language summaries and field-based watchlists.',
+      body: 'Lab Horizon highlights the work of researchers affiliated with the University of New Caledonia and their partners, through publications, plain-language summaries and field-based watchlists.',
       cta: 'Discover who we are',
     },
     footer: {

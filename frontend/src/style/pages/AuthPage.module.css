@@ -117,7 +117,9 @@
   font-size: 0.95rem;
   font-family: inherit;
   background: var(--lh-bg);
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .form input:focus-visible {
@@ -154,7 +156,9 @@
   background: transparent;
   color: var(--lh-body-gray);
   cursor: pointer;
-  transition: color 0.15s, background 0.15s;
+  transition:
+    color 0.15s,
+    background 0.15s;
 }
 
 .passwordToggle:hover {

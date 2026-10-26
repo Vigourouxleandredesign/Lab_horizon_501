@@ -6,8 +6,7 @@ export const aboutCopy = {
     metaTitle: 'À propos, Lab Horizon',
     badge: 'Université de la Nouvelle-Calédonie',
     title: 'Un horizon pour la recherche calédonienne',
-    lead:
-      'Lab Horizon est né d’une idée simple : que les travaux menés ici trouvent enfin un lieu où l’on peut les découvrir, les comprendre, et y revenir.',
+    lead: 'Lab Horizon est né d’une idée simple : que les travaux menés ici trouvent enfin un lieu où l’on peut les découvrir, les comprendre, et y revenir.',
     exploreCta: 'Explorer le catalogue',
     projectTitle: 'Le projet',
     projectBody: [
@@ -50,8 +49,7 @@ export const aboutCopy = {
     metaTitle: 'About, Lab Horizon',
     badge: 'University of New Caledonia',
     title: 'A horizon for New Caledonian research',
-    lead:
-      'Lab Horizon started from a simple idea: that work done here should have a place where people can find it, understand it, and come back to it.',
+    lead: 'Lab Horizon started from a simple idea: that work done here should have a place where people can find it, understand it, and come back to it.',
     exploreCta: 'Explore the catalogue',
     projectTitle: 'The project',
     projectBody: [
@@ -76,8 +74,7 @@ export const aboutCopy = {
       },
     ],
     teamTitle: 'The team',
-    teamLead:
-      'Designed and built by a student team, supervised by the IUT of New Caledonia.',
+    teamLead: 'Designed and built by a student team, supervised by the IUT of New Caledonia.',
     roles: {
       loann: 'Project lead, communication and design',
       joshua: 'Back-end developer',

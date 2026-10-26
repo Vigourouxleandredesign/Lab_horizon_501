@@ -31,12 +31,7 @@ export default function PublicationCard({ publication }: Props) {
     <>
       {publication.coverUrl && (
         <div className={styles.media}>
-          <img
-            src={publication.coverUrl}
-            alt=""
-            className={styles.cover}
-            loading="lazy"
-          />
+          <img src={publication.coverUrl} alt="" className={styles.cover} loading="lazy" />
         </div>
       )}
       <div className={styles.body}>
@@ -75,9 +70,7 @@ export default function PublicationCard({ publication }: Props) {
             ))}
           </div>
         )}
-        <span className={styles.cta}>
-          {openExternal ? t.openDocument : t.viewDetail}
-        </span>
+        <span className={styles.cta}>{openExternal ? t.openDocument : t.viewDetail}</span>
       </div>
     </>
   )

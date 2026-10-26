@@ -103,7 +103,9 @@
   text-decoration: none;
   font-size: 0.88rem;
   font-weight: 500;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
 
 .sidebarLink:hover {
@@ -142,7 +144,9 @@
   border-radius: 32px;
   border: 0.8px solid var(--lh-src-white-010);
   background: linear-gradient(180deg, var(--lh-src-navy-bar-t) 0%, var(--lh-src-navy-bar-b) 100%);
-  box-shadow: var(--lh-shadow-bottom-nav), inset 0 1px 0 var(--lh-src-white-006);
+  box-shadow:
+    var(--lh-shadow-bottom-nav),
+    inset 0 1px 0 var(--lh-src-white-006);
   box-sizing: border-box;
 }
 

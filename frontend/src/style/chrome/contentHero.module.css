@@ -91,7 +91,9 @@
   font-size: 0.875rem;
   text-decoration: none;
   pointer-events: auto;
-  transition: filter 0.15s, transform 0.15s;
+  transition:
+    filter 0.15s,
+    transform 0.15s;
 }
 
 .cta:hover {
@@ -112,10 +114,7 @@
 
   .content {
     /* Safe-area haut (encoche) + air bas avant les cartes */
-    padding:
-      calc(12px + env(safe-area-inset-top, 0px))
-      18px
-      28px;
+    padding: calc(12px + env(safe-area-inset-top, 0px)) 18px 28px;
   }
 
   .title {

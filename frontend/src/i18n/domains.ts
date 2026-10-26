@@ -61,6 +61,18 @@ export const domainDescriptions: DomainDescriptionMap = {
     fr: 'L’informatique à l’UNC couvre la science des données, l’intelligence artificielle, le traitement d’images et la modélisation de systèmes complexes, avec des applications concrètes aux enjeux calédoniens en environnement, en santé et dans le domaine des langues. À l’ISEA, les équipes associent recherche fondamentale et développements logiciels pour outiller les autres disciplines et accompagner la transformation numérique du territoire.',
     en: 'Computer science at UNC spans data science, artificial intelligence, image processing and modelling of complex systems, with concrete applications to New Caledonian challenges in environment, health and languages. At ISEA, teams combine fundamental research and software development to support other disciplines and the territory’s digital transformation.',
   },
+  mathematiques: {
+    fr: 'Les mathématiques à l’UNC couvrent l’analyse, l’algèbre, les probabilités et la modélisation, au service des sciences de l’environnement, de la santé et du numérique. Les travaux menés à l’ISEA articulent formalisation théorique et applications concrètes aux systèmes tropicaux et aux données du territoire, pour outiller les autres disciplines et soutenir la formation scientifique en Nouvelle-Calédonie.',
+    en: 'Mathematics at UNC spans analysis, algebra, probability and modelling, in support of environmental science, health and digital research. Work at ISEA links theoretical formalisation with concrete applications to tropical systems and local data, to equip other disciplines and strengthen scientific training in New Caledonia.',
+  },
+  physique: {
+    fr: 'La physique à l’UNC couvre l’étude de la matière, de l’énergie et des phénomènes naturels, de la physique de l’environnement et des matériaux aux mesures et à l’instrumentation. À l’ISEA, discipline citée aux côtés des mathématiques, de l’informatique et de la chimie, elle contribue à l’observation et à la compréhension des systèmes tropicaux, en lien avec les enjeux calédoniens d’environnement et de ressources.',
+    en: 'Physics at UNC covers the study of matter, energy and natural phenomena, from environmental and materials physics to measurement and instrumentation. At ISEA, where it is listed alongside mathematics, computer science and chemistry, it contributes to observing and understanding tropical systems, in connection with New Caledonian environmental and resource challenges.',
+  },
+  chimie: {
+    fr: 'La chimie à l’UNC explore la matière et ses transformations, de la chimie des matériaux et des ressources minières à la chimie du vivant et à l’environnement marin et terrestre. À l’ISEA, les équipes croisent analyses de laboratoire et enjeux calédoniens (nickel, biomolécules, polluants) pour produire des connaissances utiles à la gestion durable des ressources et à la santé environnementale.',
+    en: 'Chemistry at UNC explores matter and its transformations, from materials and mineral resources chemistry to chemistry of life and marine and terrestrial environments. At ISEA, teams combine laboratory analysis with New Caledonian challenges (nickel, biomolecules, pollutants) to produce knowledge useful for sustainable resource management and environmental health.',
+  },
 }
 
 export function domainDescription(slug: CategorySlug, locale: Locale): string {

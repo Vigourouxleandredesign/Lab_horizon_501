@@ -48,7 +48,9 @@
   font-family: inherit;
   background: var(--lh-bg);
   resize: vertical;
-  transition: border-color 0.15s, box-shadow 0.15s;
+  transition:
+    border-color 0.15s,
+    box-shadow 0.15s;
 }
 
 .form input:focus-visible,
@@ -86,7 +88,9 @@
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: background 0.15s, border-color 0.15s;
+  transition:
+    background 0.15s,
+    border-color 0.15s;
 }
 
 .cancelBtn:hover:not(:disabled) {

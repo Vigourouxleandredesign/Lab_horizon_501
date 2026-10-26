@@ -12,11 +12,7 @@
 
 import { apiRequest, ApiError } from '../http'
 import type { PublicationSummary } from '../types'
-import {
-  mapRechercheToSummary,
-  type LaravelPaginator,
-  type LaravelRecherche,
-} from './mapRecherche'
+import { mapRechercheToSummary, type LaravelPaginator, type LaravelRecherche } from './mapRecherche'
 
 const MINE_SCAN_PAGE_SIZE = 50
 

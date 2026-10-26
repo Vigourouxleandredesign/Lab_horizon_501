@@ -1,0 +1,5 @@
+# Commits de formatage pur, ignorés par git blame (GitHub les ignore automatiquement).
+# En local : git config blame.ignoreRevsFile .git-blame-ignore-revs
+
+# style(front): formatage Prettier initial du front
+1c5bde6527b92ae6919d0708d5f53be2620a0145

@@ -1,8 +1,38 @@
 {
   "private": true,
   "scripts": {
+    "prepare": "lefthook install",
     "dev": "npm run dev --prefix frontend",
     "build": "npm run build --prefix frontend",
-    "preview": "npm run preview --prefix frontend"
+    "preview": "npm run preview --prefix frontend",
+    "typecheck": "npm run typecheck --prefix frontend",
+    "lint": "npm run lint --prefix frontend",
+    "format": "npm run format --prefix frontend",
+    "format:check": "npm run format:check --prefix frontend",
+    "test": "npm run test --prefix frontend",
+    "check:secrets": "node scripts/ci/check-secrets.mjs",
+    "test:secrets": "node --test \"scripts/ci/*.test.mjs\"",
+    "check:colors": "npm run check:colors --prefix frontend",
+    "check:domains": "node scripts/check-domain-contract.mjs",
+    "audit": "node scripts/ci/audit.mjs",
+    "test:api": "npm run test:search-api --prefix frontend && npm run test:auth-api --prefix frontend",
+    "test:backend": "node scripts/ci/backend-test.mjs",
+    "gate": "node scripts/gate.mjs",
+    "gate:full": "node scripts/gate.mjs --full",
+    "gate:security": "node scripts/gate.mjs --security",
+    "gate:llm": "node scripts/llm-gate.mjs",
+    "gate:llm:l0": "node scripts/llm-gate.mjs --static",
+    "gate:llm:l1": "node scripts/llm-gate.mjs --with-backend --skip-api",
+    "gate:llm:l2": "npm run test:api",
+    "gate:llm:full": "node scripts/llm-gate.mjs --full"
+  },
+  "devDependencies": {
+    "@secretlint/secretlint-rule-pattern": "13.0.7",
+    "@secretlint/secretlint-rule-preset-recommend": "13.0.7",
+    "lefthook": "2.2.1",
+    "secretlint": "13.0.7"
+  },
+  "engines": {
+    "node": ">=22"
   }
 }

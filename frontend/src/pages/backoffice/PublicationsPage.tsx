@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { deleteRecherche, listMyRecherches } from '../../api/rest/myRecherches'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../auth/useAuth'
 import PublicationCard from '../../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../../components/QueryStates'
 import { useApiQuery } from '../../hooks/useApiQuery'
