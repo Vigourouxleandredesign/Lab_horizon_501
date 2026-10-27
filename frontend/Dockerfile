@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Front React (Vite) servi par Nginx en HTTPS, qui reverse-proxy /api /sanctum /files vers le back.
 
-FROM node:22-alpine AS build
+FROM node:26-alpine AS build
 
 WORKDIR /app
 
