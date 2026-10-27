@@ -423,11 +423,7 @@
   margin-top: 48px;
   padding: 28px 16px var(--lh-mobile-bottom-stack);
   border-top: 0.8px solid var(--lh-src-white-005);
-  background: linear-gradient(
-    174.7deg,
-    var(--lh-src-navy-900) 0%,
-    var(--lh-src-navy-800) 100%
-  );
+  background: linear-gradient(174.7deg, var(--lh-src-navy-900) 0%, var(--lh-src-navy-800) 100%);
   color: var(--lh-src-white-072);
 }
 
@@ -561,11 +557,7 @@
   padding: 6px 6px;
   border-radius: 32px;
   border: 0.8px solid var(--lh-src-white-010);
-  background: linear-gradient(
-    180deg,
-    var(--lh-src-navy-bar-t) 0%,
-    var(--lh-src-navy-bar-b) 100%
-  );
+  background: linear-gradient(180deg, var(--lh-src-navy-bar-t) 0%, var(--lh-src-navy-bar-b) 100%);
   box-shadow:
     var(--lh-shadow-bottom-nav),
     inset 0 1px 0 var(--lh-src-white-006);
@@ -602,11 +594,7 @@
 
 .bottomNavActive {
   color: var(--lh-src-gold);
-  background: linear-gradient(
-    148.64deg,
-    var(--lh-src-gold-022) 0%,
-    var(--lh-src-gold-010) 100%
-  );
+  background: linear-gradient(148.64deg, var(--lh-src-gold-022) 0%, var(--lh-src-gold-010) 100%);
 }
 
 .bottomNavActive img {

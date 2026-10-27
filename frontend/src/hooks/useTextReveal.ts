@@ -14,13 +14,7 @@ type Options = {
 
 export function useTextReveal(
   ref: RefObject<HTMLElement | null>,
-  {
-    active = true,
-    playOnMount = false,
-    delay = 0,
-    stagger,
-    contentKey,
-  }: Options = {},
+  { active = true, playOnMount = false, delay = 0, stagger, contentKey }: Options = {},
 ): void {
   useEffect(() => {
     if (!active) return

@@ -4,12 +4,15 @@
 
 Ce fichier est conservé pour les liens historiques. Toute la matrice A–F, les commandes (`npm run gate`, `npm run gate:full`) et les obligations agent sont dans **TESTING.md**.
 
-## Rappel rapide
+## Ce qui a changé
 
-| Situation | Commande |
-|-----------|----------|
-| Après chaque modification (humain / LLM) | `npm run gate` |
-| Avant PR / merge `main` (Docker + PHP) | `npm run gate:full` |
-| Machine UI sans API | `$env:GATE_SKIP_API = "1"` puis `npm run gate` *(C2 skip documenté)* |
+La gate lancée par le LLM (ou à la main) est devenue une pipeline CI/CD : hook pre-commit et pre-push (`lefthook.yml`), GitHub Actions (`.github/workflows/ci.yml`), merge sur `main` conditionné à une CI verte. Les contrôles tournent sur des machines et ne dépendent plus de la bonne volonté de l’agent.
+
+| Situation | Ce qui se passe |
+|-----------|-----------------|
+| `git commit` | Hook pre-commit, automatique (après `npm install` à la racine) |
+| `git push` | Audit des dépendances, automatique |
+| Pull request | CI complète, obligatoire pour merger sur `main` |
+| Vérifier à la main | `npm run gate` / `npm run gate:full` / `npm run gate:security` |
 
 Les anciens scripts `gate:llm*` restent des alias de compatibilité vers `gate` / `gate:full`.

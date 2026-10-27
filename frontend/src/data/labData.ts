@@ -28,7 +28,8 @@ export const researchers: Researcher[] = [
     domain: 'Ecologie marine et biodiversite',
     category: 'Biodiversité, environnement et santé',
     available: true,
-    photo: 'https://images.unsplash.com/photo-1659353887272-703de19bec9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1659353887272-703de19bec9a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
   {
     id: '2',
@@ -37,7 +38,8 @@ export const researchers: Researcher[] = [
     domain: 'Geosciences appliquees',
     category: 'Géosciences (sciences de la Terre)',
     available: false,
-    photo: 'https://images.unsplash.com/photo-1574687175332-dd01d500359e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1574687175332-dd01d500359e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
   {
     id: '3',
@@ -46,7 +48,8 @@ export const researchers: Researcher[] = [
     domain: 'Droit public et institutions',
     category: 'Droit & sciences politiques',
     available: true,
-    photo: 'https://images.unsplash.com/photo-1659355894391-a86ee16e10c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1659355894391-a86ee16e10c4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
   {
     id: '4',
@@ -55,7 +58,8 @@ export const researchers: Researcher[] = [
     domain: 'Didactique et formation',
     category: 'Éducation & Santé',
     available: false,
-    photo: 'https://images.unsplash.com/photo-1758685848406-c737a196f682?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1758685848406-c737a196f682?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
   {
     id: '5',
@@ -64,7 +68,8 @@ export const researchers: Researcher[] = [
     domain: 'Economie territoriale',
     category: 'Économie & gestion',
     available: true,
-    photo: 'https://images.unsplash.com/photo-1631816290138-9f0f79cada3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1631816290138-9f0f79cada3b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
   {
     id: '6',
@@ -73,7 +78,8 @@ export const researchers: Researcher[] = [
     domain: 'Patrimoine et archeologie du Pacifique',
     category: 'Histoire & Archéologie',
     available: true,
-    photo: 'https://images.unsplash.com/photo-1758685734414-951a86561065?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
+    photo:
+      'https://images.unsplash.com/photo-1758685734414-951a86561065?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&w=400',
   },
 ]
 

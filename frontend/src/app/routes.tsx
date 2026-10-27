@@ -1,33 +1,30 @@
-import { lazy, Suspense, type ReactNode } from 'react'
+import { Suspense, type ReactNode } from 'react'
 import { createBrowserRouter, Navigate } from 'react-router-dom'
 import RequireAuth from '../auth/RequireAuth'
 import AppFrame from '../components/AppFrame'
 import BackofficeLayout from '../components/backoffice/BackofficeLayout'
-import { LoadingState } from '../components/QueryStates'
 import DomainPage from '../pages/DomainPage'
 import HomePage from '../pages/HomePage'
 import PublicationPage from '../pages/PublicationPage'
 import SearchPage from '../pages/SearchPage'
-
-const AboutPage = lazy(() => import('../pages/AboutPage'))
-const CategoriesPage = lazy(() => import('../pages/CategoriesPage'))
-const ConnexionPage = lazy(() => import('../pages/ConnexionPage'))
-const InscriptionPage = lazy(() => import('../pages/InscriptionPage'))
-const LegalPage = lazy(() => import('../pages/LegalPage'))
-const NotFoundPage = lazy(() => import('../pages/NotFoundPage'))
-const UncResearchPage = lazy(() => import('../pages/UncResearchPage'))
-const PublicationReviewPage = lazy(() => import('../pages/PublicationReviewPage'))
-const ResearcherPage = lazy(() => import('../pages/ResearcherPage'))
-const NouveautesPage = lazy(() => import('../pages/backoffice/NouveautesPage'))
-const BackofficeSearchPage = lazy(() => import('../pages/backoffice/BackofficeSearchPage'))
-const PublicationsPage = lazy(() => import('../pages/backoffice/PublicationsPage'))
-const NewPublicationPage = lazy(() => import('../pages/backoffice/NewPublicationPage'))
-const EditPublicationPage = lazy(() => import('../pages/backoffice/EditPublicationPage'))
-const AccountSettingsPage = lazy(() => import('../pages/backoffice/AccountSettingsPage'))
-
-function PageFallback() {
-  return <LoadingState label="…" />
-}
+import {
+  AboutPage,
+  CategoriesPage,
+  ConnexionPage,
+  InscriptionPage,
+  LegalPage,
+  NotFoundPage,
+  UncResearchPage,
+  PublicationReviewPage,
+  ResearcherPage,
+  NouveautesPage,
+  BackofficeSearchPage,
+  PublicationsPage,
+  NewPublicationPage,
+  EditPublicationPage,
+  AccountSettingsPage,
+  PageFallback,
+} from './lazyPages'
 
 function withSuspense(element: ReactNode) {
   return <Suspense fallback={<PageFallback />}>{element}</Suspense>

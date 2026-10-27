@@ -77,7 +77,9 @@ function totalOf(json) {
 function hasTitleContaining(json, needle) {
   const lower = needle.toLowerCase()
   return (json.data ?? []).some((item) =>
-    String(item.titre ?? '').toLowerCase().includes(lower),
+    String(item.titre ?? '')
+      .toLowerCase()
+      .includes(lower),
   )
 }
 

@@ -1,0 +1,221 @@
+# =============================================================================
+# CI/CD Lab Horizon — rejoue sur une machine propre ce que le hook pre-commit
+# (lefthook.yml) vérifie, plus les contrôles sécurité avant prod.
+# Obligatoire pour merger sur main (branch protection) : main = prod.
+# Doc : docs/TESTING.md
+#
+# Actions et images épinglées par SHA / digest (attaques supply-chain sur les tags).
+# Dependabot (.github/dependabot.yml) propose leurs mises à jour.
+# =============================================================================
+name: CI
+
+on:
+  push:
+    branches: [main, develop, env-prod]
+  pull_request:
+  schedule:
+    # Chaque nuit (05:00 Nouméa) : de nouvelles CVE sortent même sans nouveau commit.
+    - cron: "0 18 * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  PHP_VERSION: "8.2" # = image de prod (backend/Dockerfile)
+  TRIVY_IMAGE: aquasec/trivy:0.75.0@sha256:af6acf9a6b85dfe389a1941505c0ce9efef52a4719635e1a962f022a3d855daa
+  GITLEAKS_IMAGE: zricethezav/gitleaks:v8.30.1@sha256:c00b6bd0aeb3071cbcb79009cb16a60dd9e0a7c60e2be9ab65d25e6bc8abbb7f
+  ACTIONLINT_IMAGE: rhysd/actionlint:1.7.12@sha256:b1934ee5f1c509618f2508e6eb47ee0d3520686341fec936f3b79331f9315667
+
+jobs:
+  # ---------------------------------------------------------------------------
+  frontend:
+    name: Front — qualité & tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    defaults:
+      run:
+        working-directory: frontend
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: frontend/package-lock.json
+      - run: npm ci --no-audit --no-fund
+      - name: A — format (Prettier)
+        run: npm run format:check
+      - name: A — lint (ESLint, 0 warning)
+        run: npm run lint
+      - name: A — typecheck
+        run: npm run typecheck
+      - name: A — couleurs (tokens CSS)
+        run: npm run check:colors
+      - name: C1 — contrat domaines
+        run: node ../scripts/check-domain-contract.mjs
+      - name: B — tests unitaires
+        run: npm run test
+      - name: A — build de production
+        run: npm run build
+
+  # ---------------------------------------------------------------------------
+  backend:
+    name: Back — tests
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: backend/package-lock.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          extensions: mbstring, pdo_sqlite, sqlite3, intl, gd, zip, bcmath
+          coverage: none
+          tools: composer:v2
+      - name: Cache Composer
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir --working-dir=backend)" >> "$GITHUB_OUTPUT"
+      - uses: actions/cache@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: composer-${{ hashFiles('backend/composer.lock') }}
+      - name: composer install
+        run: composer install --working-dir=backend --no-interaction --no-progress --prefer-dist
+      - name: C3 — PHPUnit (assets Blade construits + .env, comme en prod)
+        run: node scripts/ci/backend-test.mjs
+
+  # ---------------------------------------------------------------------------
+  security:
+    name: Sécurité — secrets & dépendances
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          fetch-depth: 0 # gitleaks scanne tout l'historique
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+          cache-dependency-path: package-lock.json
+      - uses: shivammathur/setup-php@eb7c497e18156a6bbabfef1d3a82760b9eda3962 # 2.40.0
+        with:
+          php-version: ${{ env.PHP_VERSION }}
+          coverage: none
+          tools: composer:v2
+      - run: npm ci --no-audit --no-fund
+      - name: A3 — le scanner de secrets détecte bien (auto-test)
+        run: npm run test:secrets
+      - name: A3 — aucun secret ni fichier sensible versionné
+        run: npm run check:secrets
+      - name: A3 — gitleaks (tout l'historique Git)
+        run: >-
+          docker run --rm --user "$(id -u):$(id -g)" -v "$PWD:/repo" "$GITLEAKS_IMAGE"
+          git /repo --config /repo/.gitleaks.toml --redact --no-banner --exit-code 1
+      - name: A5 — audit dépendances (npm front + back, Composer) — toute sévérité
+        run: node scripts/ci/audit.mjs
+      - name: A6 — configuration de la CI elle-même (actionlint + shellcheck)
+        run: docker run --rm -v "$PWD:/repo:ro" -w /repo "$ACTIONLINT_IMAGE" -color
+
+  # ---------------------------------------------------------------------------
+  dependency-review:
+    name: Dépendances — revue de PR
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/dependency-review-action@a1d282b36b6f3519aa1f3fc636f609c47dddb294 # v5.0.0
+        with:
+          fail-on-severity: low
+
+  # ---------------------------------------------------------------------------
+  docker:
+    name: Docker — images, config & smoke prod
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    env:
+      COMPOSE_PROJECT_NAME: labhorizon
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
+        with:
+          node-version-file: .nvmrc
+
+      - name: .env éphémère (secrets aléatoires, jamais réutilisés)
+        run: |
+          cp .env.docker.example .env
+          rnd() { openssl rand -hex 24; }
+          sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$(rnd)|; s|^DB_ROOT_PASSWORD=.*|DB_ROOT_PASSWORD=$(rnd)|; s|^APP_BOOT_PASSWORD=.*|APP_BOOT_PASSWORD=$(rnd)|" .env
+
+      - name: Config — Dockerfiles (Trivy, toute sévérité)
+        run: >-
+          docker run --rm -v "$PWD:/src:ro" "$TRIVY_IMAGE"
+          config --exit-code 1 --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL /src
+
+      - name: Build des images de prod
+        run: docker compose build frontend backend
+
+      - name: Vulnérabilités des images (Trivy) — bloquant si un correctif existe
+        run: |
+          for img in labhorizon-backend labhorizon-frontend; do
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache "$TRIVY_IMAGE" \
+              image --exit-code 1 --ignore-unfixed --severity UNKNOWN,LOW,MEDIUM,HIGH,CRITICAL "$img"
+          done
+
+      - name: Vulnérabilités sans correctif amont (rapport, non bloquant)
+        run: |
+          for img in labhorizon-backend labhorizon-frontend; do
+            docker run --rm -v /var/run/docker.sock:/var/run/docker.sock -v trivy-cache:/root/.cache "$TRIVY_IMAGE" \
+              image --exit-code 0 --severity HIGH,CRITICAL "$img"
+          done
+
+      - name: Démarrage de la stack de prod (healthchecks)
+        run: docker compose up -d --wait --wait-timeout 300 frontend backend mysql redis
+
+      - name: Conteneurs sans root
+        run: |
+          for c in labhorizon-frontend labhorizon-backend; do
+            uid=$(docker exec "$c" id -u)
+            echo "$c uid=$uid"
+            test "$uid" != "0"
+          done
+
+      - name: Smoke — site et santé via le front (port 8080)
+        run: |
+          curl -fsS -o /dev/null http://127.0.0.1:8080/
+          curl -fsS http://127.0.0.1:8080/up -o /dev/null
+          curl -fsS "http://127.0.0.1:8080/api/recherches?page=1&pageSize=1" -o /dev/null
+
+      - name: C2 — smoke API recherche + auth (gate:full)
+        env:
+          API_BASE_URL: http://127.0.0.1:8081
+        run: |
+          node frontend/scripts/test-search-api.mjs
+          node frontend/scripts/test-auth-api.mjs
+
+      - name: Journaux des conteneurs (en cas d'échec)
+        if: failure()
+        run: docker compose logs --no-color --tail 200
+
+      - name: Arrêt
+        if: always()
+        run: docker compose down -v

@@ -27,14 +27,7 @@ type Props = {
  * Héro de page de contenu (catégories, recherche UNC, à propos).
  * Fond image + effet vague WebGL partagé, titres en text reveal (norme héro).
  */
-export default function ContentHero({
-  title,
-  subtitle,
-  imageSrc,
-  badge,
-  cta,
-  localeKey,
-}: Props) {
+export default function ContentHero({ title, subtitle, imageSrc, badge, cta, localeKey }: Props) {
   const heroRef = useRef<HTMLElement>(null)
   const titleRef = useRef<HTMLHeadingElement>(null)
   const subtitleRef = useRef<HTMLParagraphElement>(null)

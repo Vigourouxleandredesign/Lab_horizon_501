@@ -8,8 +8,10 @@
 | `backend/` | API Laravel 12, auth Sanctum, fichiers PDF, jobs de vulgarisation. | Les données et les droits ne vivent pas dans le navigateur. |
 | `docker-compose.yml` | Front Nginx, back, MySQL 8.4, Redis 7, LM Studio en option. | Une commande pour tout relancer ensemble. |
 | `.env.docker.example` | Modèle de `.env` racine lu par Compose. | Les secrets ne sont pas dans Git. |
-| `package.json` | Scripts du monorepo : `dev`, `gate`, `gate:full`. | Un seul endroit pour lancer les contrôles. |
-| `scripts/` | Gate anti-régression, contrats domaines, imports PDF locaux. | Les contrôles ne dépendent pas d’un outil installé au hasard. |
+| `package.json` | Scripts du monorepo : `dev`, `gate`, `gate:full`. `npm install` y installe les hooks Git. | Un seul endroit pour lancer les contrôles. |
+| `lefthook.yml` | Hooks Git : contrôles au commit et au push. | Une erreur est arrêtée avant d’entrer dans l’historique. |
+| `.github/` | Pipeline CI/CD (GitHub Actions) et Dependabot. | Rien n’arrive sur `main` sans contrôles verts sur une machine propre. |
+| `scripts/` | Gate anti-régression, contrôles de la CI (`scripts/ci/` : secrets, audit, tests back), contrats domaines, imports PDF locaux. | Les contrôles ne dépendent pas d’un outil installé au hasard. |
 | `docs/` | Cahier des charges, UX, contrat API, passation. | Le produit se comprend sans lire tout le code. |
 | `docs/passation/` | Ce dossier. | Première lecture d’une équipe nouvelle. |
 | `Ressources/` | PDF sources utilisés pour remplir la démo. | Matière de test, pas le site publié. |

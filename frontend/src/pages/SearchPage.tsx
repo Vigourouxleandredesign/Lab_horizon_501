@@ -3,10 +3,15 @@ import { Link, useSearchParams } from 'react-router-dom'
 import { searchPublications } from '../api/publications'
 import { searchResearchers } from '../api/researchers'
 import type { PublicationSort } from '../api/types'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import PublicationCard from '../components/PublicationCard'
 import { EmptyState, ErrorState, LoadingState } from '../components/QueryStates'
-import { categoryOptions, categorySlugFromDomain, parseCategorySlug, toApiCategoryParam } from '../lib/categoryFilter'
+import {
+  categoryOptions,
+  categorySlugFromDomain,
+  parseCategorySlug,
+  toApiCategoryParam,
+} from '../lib/categoryFilter'
 import { useApiQuery } from '../hooks/useApiQuery'
 import { useAvailableYears } from '../hooks/useAvailableYears'
 import { useDebouncedValue } from '../hooks/useDebouncedValue'
@@ -43,9 +48,7 @@ export default function SearchPage() {
   const availableYears = useAvailableYears()
   const canSeeResearchers = authStatus === 'authenticated'
   const tab: Tab =
-    canSeeResearchers && searchParams.get('tab') === 'chercheurs'
-      ? 'chercheurs'
-      : 'publications'
+    canSeeResearchers && searchParams.get('tab') === 'chercheurs' ? 'chercheurs' : 'publications'
 
   // Saisie immédiate à l'écran, requête (et URL) retardées.
   const [inputValue, setInputValue] = useState(urlQuery)
@@ -67,11 +70,13 @@ export default function SearchPage() {
     )
   }, [debouncedInput, urlQuery, setSearchParams])
 
-  useEffect(() => {
-    // Changement d'URL externe (formulaire accueil, lien partagé) : resynchroniser la saisie.
+  // Changement d'URL externe (formulaire accueil, lien partagé) : resynchroniser la saisie.
+  // Ajusté pendant le rendu, uniquement quand l'URL change (pas de setState dans un effet).
+  const [syncedUrlQuery, setSyncedUrlQuery] = useState(urlQuery)
+  if (urlQuery !== syncedUrlQuery) {
+    setSyncedUrlQuery(urlQuery)
     if (urlQuery !== debouncedInput) setInputValue(urlQuery)
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- ne réagir qu'à l'URL
-  }, [urlQuery])
+  }
 
   const setParam = (key: string, value: string) => {
     setSearchParams((params) => {
@@ -96,11 +101,7 @@ export default function SearchPage() {
   }
 
   const publicationsQuery = useApiQuery(
-    (signal) =>
-      searchPublications(
-        { query: urlQuery, category: apiCategory, year, sort },
-        signal,
-      ),
+    (signal) => searchPublications({ query: urlQuery, category: apiCategory, year, sort }, signal),
     [urlQuery, apiCategory, year, sort],
   )
 

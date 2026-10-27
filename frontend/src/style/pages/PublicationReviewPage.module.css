@@ -131,7 +131,9 @@
   font-weight: 600;
   font-family: inherit;
   cursor: pointer;
-  transition: filter 0.15s, background 0.15s;
+  transition:
+    filter 0.15s,
+    background 0.15s;
 }
 
 .primaryBtn {

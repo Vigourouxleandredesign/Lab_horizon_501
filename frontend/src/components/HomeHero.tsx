@@ -57,9 +57,7 @@ export default function HomeHero({
       <div className={styles.homeHeroOverlay} aria-hidden />
 
       <div ref={titleWrapRef} className={styles.homeHeroTitleWrap}>
-        {platformBadge && (
-          <p className={styles.homeHeroBadge}>{platformBadge}</p>
-        )}
+        {platformBadge && <p className={styles.homeHeroBadge}>{platformBadge}</p>}
         <h1
           key={titleKey}
           id="home-hero-title"

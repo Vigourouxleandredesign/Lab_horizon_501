@@ -1,23 +1,8 @@
-import {
-  createContext,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react'
+import { useCallback, useEffect, useMemo, useState, type ReactNode } from 'react'
+import { LocaleContext } from '../hooks/useLocale'
 import type { Locale } from './home'
 
 const STORAGE_KEY = 'lab-horizon-locale'
-
-type LocaleContextValue = {
-  locale: Locale
-  setLocale: (next: Locale) => void
-  toggleLocale: () => void
-}
-
-const LocaleContext = createContext<LocaleContextValue | null>(null)
 
 function readStoredLocale(): Locale {
   try {
@@ -55,12 +40,4 @@ export function LocaleProvider({ children }: { children: ReactNode }) {
   )
 
   return <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
-}
-
-export function useLocaleContext(): LocaleContextValue {
-  const ctx = useContext(LocaleContext)
-  if (!ctx) {
-    throw new Error('useLocaleContext must be used within LocaleProvider')
-  }
-  return ctx
 }

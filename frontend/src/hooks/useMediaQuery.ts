@@ -1,18 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useCallback, useSyncExternalStore } from 'react'
 
+/** Abonnement à une media query — useSyncExternalStore : pas de setState dans un effet. */
 export function useMediaQuery(query: string): boolean {
-  const [matches, setMatches] = useState(() => {
-    if (typeof window === 'undefined') return false
-    return window.matchMedia(query).matches
-  })
+  const subscribe = useCallback(
+    (onChange: () => void) => {
+      const mq = window.matchMedia(query)
+      mq.addEventListener('change', onChange)
+      return () => mq.removeEventListener('change', onChange)
+    },
+    [query],
+  )
 
-  useEffect(() => {
-    const mq = window.matchMedia(query)
-    const onChange = () => setMatches(mq.matches)
-    mq.addEventListener('change', onChange)
-    queueMicrotask(() => setMatches(mq.matches))
-    return () => mq.removeEventListener('change', onChange)
-  }, [query])
-
-  return matches
+  return useSyncExternalStore(
+    subscribe,
+    () => window.matchMedia(query).matches,
+    () => false,
+  )
 }

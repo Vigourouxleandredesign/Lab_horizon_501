@@ -25,7 +25,9 @@
   border: 1px solid var(--lh-card-border);
   background: var(--lh-bg);
   box-shadow: 0 4px 12px var(--lh-src-card-hover-shadow);
-  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  transition:
+    transform 0.15s ease,
+    box-shadow 0.15s ease;
 }
 
 .card:hover {
@@ -91,7 +93,9 @@
   font-size: 0.78rem;
   font-weight: 600;
   text-decoration: none;
-  transition: filter 0.15s ease, background-color 0.15s ease;
+  transition:
+    filter 0.15s ease,
+    background-color 0.15s ease;
 }
 
 .cardBtnPrimary {
@@ -197,10 +201,7 @@
 
 @media (max-width: 899px) {
   .page {
-    padding:
-      1.5rem
-      18px
-      var(--lh-mobile-bottom-stack);
+    padding: 1.5rem 18px var(--lh-mobile-bottom-stack);
   }
 
   .grid {

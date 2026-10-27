@@ -31,18 +31,8 @@
   z-index: 0;
   width: min(340px, 78vw);
   pointer-events: none;
-  mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 38%,
-    transparent 72%
-  );
-  -webkit-mask-image: linear-gradient(
-    to bottom,
-    black 0%,
-    black 38%,
-    transparent 72%
-  );
+  mask-image: linear-gradient(to bottom, black 0%, black 38%, transparent 72%);
+  -webkit-mask-image: linear-gradient(to bottom, black 0%, black 38%, transparent 72%);
 }
 
 .logo {
@@ -60,11 +50,7 @@
   align-items: center;
   margin-top: clamp(-200px, -36vw, -130px);
   padding: 56px 8px 0;
-  background: linear-gradient(
-    to bottom,
-    transparent 0%,
-    var(--lh-not-found-bg) 36%
-  );
+  background: linear-gradient(to bottom, transparent 0%, var(--lh-not-found-bg) 36%);
 }
 
 .title {
@@ -156,11 +142,7 @@
   font-size: 0.875rem;
   cursor: pointer;
   font-family: inherit;
-  background: linear-gradient(
-    162.71deg,
-    var(--lh-src-navy-900) 0%,
-    var(--lh-src-indigo-600) 100%
-  );
+  background: linear-gradient(162.71deg, var(--lh-src-navy-900) 0%, var(--lh-src-indigo-600) 100%);
   box-shadow: var(--lh-shadow-search-submit);
 }
 

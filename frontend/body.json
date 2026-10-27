@@ -1,1 +1,6 @@
-﻿{"name":"Test User","email":"test@test.com","password":"password123","password_confirmation":"password123"}
+﻿{
+  "name": "Test User",
+  "email": "test@test.com",
+  "password": "password123",
+  "password_confirmation": "password123"
+}

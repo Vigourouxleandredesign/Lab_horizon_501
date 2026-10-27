@@ -17,10 +17,7 @@ export default function PublicationPage() {
   const { locale } = useLocale()
   const t = publicationPageCopy[locale]
 
-  const query = useApiQuery(
-    (signal) => getPublication(id ?? '', signal),
-    [id],
-  )
+  const query = useApiQuery((signal) => getPublication(id ?? '', signal), [id])
 
   useEffect(() => {
     if (query.status === 'success' && query.data) {
@@ -75,9 +72,7 @@ export default function PublicationPage() {
   return (
     <main className={styles.page}>
       <header className={styles.header}>
-        {publication.category && (
-          <p className={styles.eyebrow}>{publication.category}</p>
-        )}
+        {publication.category && <p className={styles.eyebrow}>{publication.category}</p>}
         <h1 className={styles.title}>{publication.title}</h1>
         <p className={styles.byline}>
           {publication.authorName}

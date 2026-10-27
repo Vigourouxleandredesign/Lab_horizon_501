@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { NavLink } from 'react-router-dom'
 import { brandLogoSrc } from '../../assets/figmaHomeAssets'
-import { useAuth } from '../../auth/AuthContext'
+import { useAuth } from '../../auth/useAuth'
 import LanguageMenu from './LanguageMenu'
 import { useSiteNavigation } from '../../hooks/useSiteNavigation'
 import { useLocale } from '../../hooks/useLocale'
@@ -31,10 +31,8 @@ export default function SiteHeader({ overlay = false }: Props) {
   const rafRef = useRef(0)
 
   useEffect(() => {
-    if (!isDesktop) {
-      setPill(false)
-      return
-    }
+    // Hors desktop, `pill` est ignoré au rendu (isDesktop && pill) : rien à réinitialiser.
+    if (!isDesktop) return
 
     const update = () => {
       rafRef.current = 0
@@ -45,7 +43,8 @@ export default function SiteHeader({ overlay = false }: Props) {
       rafRef.current = window.requestAnimationFrame(update)
     }
 
-    update()
+    // Mesure initiale (page rechargée déjà scrollée) sur la même frame que les suivantes.
+    rafRef.current = window.requestAnimationFrame(update)
     window.addEventListener('scroll', onScroll, { passive: true })
     return () => {
       window.removeEventListener('scroll', onScroll)
@@ -66,41 +65,43 @@ export default function SiteHeader({ overlay = false }: Props) {
   return (
     <>
       <div className={zoneClass}>
-      <div className={chrome.headerStack}>
-        <header className={chrome.headerBar}>
-          <div className={chrome.headerInner}>
-          <NavLink to="/" className={chrome.logo}>
-            <img src={brandLogoSrc} alt="" className={chrome.logoImg} width={42} height={42} />
-            <span className={chrome.logoText}>Lab Horizon</span>
-          </NavLink>
-          <nav className={chrome.navCenter} aria-label={t.aria.mainNav}>
-            {mainNavItems.map((item) => (
-              <NavLink
-                key={item.id}
-                to={item.to}
-                end={item.end}
-                className={({ isActive }) => (isActive ? chrome.navCenterLinkActive : undefined)}
-              >
-                {item.label}
+        <div className={chrome.headerStack}>
+          <header className={chrome.headerBar}>
+            <div className={chrome.headerInner}>
+              <NavLink to="/" className={chrome.logo}>
+                <img src={brandLogoSrc} alt="" className={chrome.logoImg} width={42} height={42} />
+                <span className={chrome.logoText}>Lab Horizon</span>
               </NavLink>
-            ))}
-          </nav>
-          <div className={chrome.headerActions}>
-            {status !== 'authenticated' ? (
-              <NavLink
-                to="/connexion"
-                className={chrome.researcherBtn}
-                aria-label={t.aria.researchersAccess}
-              >
-                {t.researchersAccess}
-              </NavLink>
-            ) : null}
-            <LanguageMenu />
-          </div>
+              <nav className={chrome.navCenter} aria-label={t.aria.mainNav}>
+                {mainNavItems.map((item) => (
+                  <NavLink
+                    key={item.id}
+                    to={item.to}
+                    end={item.end}
+                    className={({ isActive }) =>
+                      isActive ? chrome.navCenterLinkActive : undefined
+                    }
+                  >
+                    {item.label}
+                  </NavLink>
+                ))}
+              </nav>
+              <div className={chrome.headerActions}>
+                {status !== 'authenticated' ? (
+                  <NavLink
+                    to="/connexion"
+                    className={chrome.researcherBtn}
+                    aria-label={t.aria.researchersAccess}
+                  >
+                    {t.researchersAccess}
+                  </NavLink>
+                ) : null}
+                <LanguageMenu />
+              </div>
+            </div>
+          </header>
         </div>
-        </header>
       </div>
-    </div>
       {/* Réserve la hauteur du header fixe (desktop, hors pages à héro plein écran). */}
       {!overlay ? <div className={chrome.headerSpacerDesktop} aria-hidden="true" /> : null}
     </>

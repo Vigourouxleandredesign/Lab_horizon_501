@@ -1,6 +1,6 @@
 import { useMemo } from 'react'
 import { getSiteNavItems, type NavSurface } from '../data/siteNavigation'
-import { useAuth } from '../auth/AuthContext'
+import { useAuth } from '../auth/useAuth'
 import { useLocale } from './useLocale'
 
 /** Entrées de navigation — « Compte » masqué tant que non connecté (doc 07 §9). */

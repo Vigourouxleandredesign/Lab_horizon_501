@@ -101,16 +101,12 @@ function shortestLogicalDelta(fromLogical: number, toLogical: number, len: numbe
 }
 
 const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
-  function DomainFieldCarousel(
-    { slides, pillImageForId, pubsCountLabel, onCenterChange },
-    ref,
-  ) {
+  function DomainFieldCarousel({ slides, pillImageForId, pubsCountLabel, onCenterChange }, ref) {
     const navigate = useNavigate()
     const isNarrow = useMediaQuery('(max-width: 639px)')
     const spacing = isNarrow ? SPACING_MOBILE : SPACING_DESKTOP
     const slotOffsets = useMemo(
-      () =>
-        buildSlotOffsets(isNarrow ? SLOT_COUNT_MOBILE : SLOT_COUNT_DESKTOP),
+      () => buildSlotOffsets(isNarrow ? SLOT_COUNT_MOBILE : SLOT_COUNT_DESKTOP),
       [isNarrow],
     )
     const stageHeight = isNarrow ? HEIGHT_MOBILE : HEIGHT_DESKTOP
@@ -154,10 +150,7 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
       })
     }, [cancelSpring, setDrag])
 
-    const getCat = useCallback(
-      (vi: number): DomainSlide => slides[mod(vi, len)],
-      [slides, len],
-    )
+    const getCat = useCallback((vi: number): DomainSlide => slides[mod(vi, len)], [slides, len])
 
     /** Anime le décalage jusqu’à ce que la pillule au slot `slotOffset` soit au centre, puis avance `virtualCenter`. */
     const animateSnapBySlotOffset = useCallback(
@@ -208,12 +201,7 @@ const DomainFieldCarousel = forwardRef<DomainFieldCarouselHandle, Props>(
         const d = shortestLogicalDelta(logicalCenter, safe, len)
         animateSnapByLogicalDelta(d)
       },
-      [
-        animateSnapByLogicalDelta,
-        cancelSpring,
-        len,
-        logicalCenter,
-      ],
+      [animateSnapByLogicalDelta, cancelSpring, len, logicalCenter],
     )
 
     useImperativeHandle(

@@ -10,7 +10,7 @@ Ce qui est remis avec le dépôt, ce qui ne l’est pas, et les limites à conna
 | Orchestration | `docker-compose.yml`, `.env.docker.example` |
 | Catalogue de démo et compte chercheur | seeders Laravel, au premier `docker compose up` |
 | Documentation qui fait foi | `docs/passation/`, `docs/data-dictionary-v1.md`, `docs/ux/`, `docs/cahier_des_charges_v2.md`, `docs/api-contract-v1.md`, `docs/TESTING.md` |
-| Contrôle anti-régression | `npm run gate` à la racine. Objectif : [06 — Contrôles qualité](./06-controles-qualite.md) |
+| Contrôle anti-régression et sécurité | Pipeline CI/CD : hooks Git (`lefthook.yml`), GitHub Actions (`.github/workflows/ci.yml`), `main` protégée. Objectif : [06 — Contrôles qualité](./06-controles-qualite.md) |
 | Version Word du dossier | `docs/passation/Lab-Horizon-dossier-de-passation.docx` |
 
 Première lecture : [README de la passation](./README.md).
@@ -31,7 +31,7 @@ Première lecture : [README de la passation](./README.md).
 - Pas d’assistant conversationnel (RAG). Pas de PWA.
 - Le domaine Physique s’affiche. La table `domaines` ne contient pas `0.phys` tant que le seeder n’est pas étendu. Mathématiques et Chimie, elles, sont dans `DomainesSeeder`.
 - `docs/project-map.md` et `docs/front-back-status-v1.md` datent d’août 2026 (SQLite, inscription absente). Ils décrivent un état dépassé. Le chemin nominal est le monorepo Docker, et `POST /api/register` existe.
-- `npm run gate:full` peut remonter des échecs PHPUnit Breeze (`/profile`, manifest Vite Laravel). Ils ne décrivent pas l’état du catalogue React.
+- Le style du code PHP (Pint) n’est pas contrôlé : l’appliquer reformaterait 23 fichiers du back, décision laissée au développeur back.
 
 ## Compte de démonstration
 

@@ -5,7 +5,12 @@ import { publicUrl } from '../lib/publicAsset'
  * Exactement 4 entrées, partagées par la sidebar desktop et la barre basse
  * mobile — pas de 5e item, cf. plan refonte backoffice.
  */
-export const BACKOFFICE_NAV_ITEM_IDS = ['nouveautes', 'recherche', 'publications', 'profil'] as const
+export const BACKOFFICE_NAV_ITEM_IDS = [
+  'nouveautes',
+  'recherche',
+  'publications',
+  'profil',
+] as const
 
 export type BackofficeNavItemId = (typeof BACKOFFICE_NAV_ITEM_IDS)[number]
 

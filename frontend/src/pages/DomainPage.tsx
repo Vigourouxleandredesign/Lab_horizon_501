@@ -22,8 +22,7 @@ export default function DomainPage() {
   const descriptionRef = useRef<HTMLParagraphElement>(null)
   const category = categoryBySlug(slug)
   const typedSlug = category?.slug as CategorySlug | undefined
-  const description =
-    typedSlug !== undefined ? domainDescription(typedSlug, locale) : ''
+  const description = typedSlug !== undefined ? domainDescription(typedSlug, locale) : ''
   const descriptionKey = `${locale}:${typedSlug ?? ''}`
 
   useTextReveal(descriptionRef, {
