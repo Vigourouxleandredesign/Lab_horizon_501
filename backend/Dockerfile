@@ -5,7 +5,7 @@
 ##############################
 # 1) Assets Blade (Vite / Tailwind / Alpine) — pas le front React
 ##############################
-FROM node:22-alpine AS node-build
+FROM node:26-alpine AS node-build
 
 WORKDIR /app
 
