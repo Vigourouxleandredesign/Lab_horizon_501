@@ -53,7 +53,7 @@ PHP is optional on the machine: backend checks use local PHP 8.2+ if present, ot
 | C1 | Domain / asset contract | ✓ | | ✓ | `npm run check:domains` |
 | C2 | API smoke search + auth | | | ✓ (prod stack) | `npm run test:api` |
 | C3 | PHPUnit (Blade assets built + `.env`, like prod) | when `backend/` changes | | ✓ | `npm run test:backend` |
-| D-docker | Production stack boots healthy, containers non-root, site + `/up` + API answer through the front | | | ✓ | — |
+| D-docker | Production stack boots healthy, containers non-root, HTTP → HTTPS redirect, TLS ≤ 1.1 refused, session cookies `Secure` + `HttpOnly`, site + `/up` + API (and C2) through HTTPS, certificate verified (never `curl -k`) | | | ✓ | — |
 | R | Dependency review (new deps in a PR) | | | ✓ (PR) | — |
 
 Files: [`lefthook.yml`](../lefthook.yml) (hooks) · [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (CI) · [`.github/dependabot.yml`](../.github/dependabot.yml) (update PRs).
@@ -88,6 +88,7 @@ Hooks and CI call **the same scripts**: green locally = green in CI.
 | No known vulnerable dependency in production | A5 blocks at **any** severity. No upstream fix → `overrides` / targeted update (example: `postcss-selector-parser` forced to 7.1.x under Tailwind 3, CSS output checked byte-identical) |
 | No vulnerable OS package in the images | `apk upgrade` at build + A8 blocks every CVE that has a fix. CVEs without any upstream fix are listed in the CI log (non-blocking: no remediation exists) |
 | No root container, no missing healthcheck | A7 + D-docker (`id -u` ≠ 0) |
+| HTTPS only, no cleartext session cookie | Front Nginx terminates TLS (self-signed if no cert is mounted), HTTP only redirects, `SESSION_SECURE_COOKIE=true` by default; checked by D-docker |
 | Reproducible pipeline | Actions pinned by commit SHA, scanner images by digest, tools by lockfile, Prettier exact version, LF line endings (`.gitattributes`) |
 | Stay patched | Dependabot weekly PRs (npm, Composer, Actions, Docker, Compose, 7-day cooldown) + nightly CI |
 

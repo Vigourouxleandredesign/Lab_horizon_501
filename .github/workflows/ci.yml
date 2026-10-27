@@ -199,15 +199,35 @@ jobs:
             test "$uid" != "0"
           done
 
-      - name: Smoke — site et santé via le front (port 8080)
-        run: |
-          curl -fsS -o /dev/null http://127.0.0.1:8080/
-          curl -fsS http://127.0.0.1:8080/up -o /dev/null
-          curl -fsS "http://127.0.0.1:8080/api/recherches?page=1&pageSize=1" -o /dev/null
+      - name: Certificat TLS du front (auto-signé, vérifié ensuite — jamais curl -k)
+        run: docker compose cp frontend:/etc/nginx/certs/tls.crt "$RUNNER_TEMP/tls.crt"
 
-      - name: C2 — smoke API recherche + auth (gate:full)
+      - name: Smoke — HTTPS via le front (redirection, TLS, en-têtes, site, santé, API)
+        run: |
+          ca=(--cacert "$RUNNER_TEMP/tls.crt")
+          redirect=$(curl -s -o /dev/null -w '%{http_code} %{redirect_url}' "http://127.0.0.1:8080/recherche?q=x")
+          echo "HTTP → $redirect"
+          test "$redirect" = "301 https://127.0.0.1:8443/recherche?q=x"
+          if curl -s "${ca[@]}" --tls-max 1.1 -o /dev/null https://127.0.0.1:8443/; then
+            echo "TLS 1.1 accepté"; exit 1
+          fi
+          curl -fsS "${ca[@]}" -D - -o /dev/null https://127.0.0.1:8443/ | grep -qi '^strict-transport-security:'
+          curl -fsS "${ca[@]}" -o /dev/null https://127.0.0.1:8443/
+          curl -fsS "${ca[@]}" -o /dev/null https://127.0.0.1:8443/up
+          curl -fsS "${ca[@]}" -o /dev/null "https://127.0.0.1:8443/api/recherches?page=1&pageSize=1"
+
+      - name: Cookies de session — Secure et HttpOnly
+        run: |
+          cookies=$(curl -fsS --cacert "$RUNNER_TEMP/tls.crt" -D - -o /dev/null https://127.0.0.1:8443/sanctum/csrf-cookie | grep -i '^set-cookie:' || true)
+          echo "$cookies" | sed -E 's/=[^;]+;/=…;/'
+          test -n "$cookies"
+          if echo "$cookies" | grep -vqi '; *secure'; then echo "cookie sans Secure"; exit 1; fi
+          echo "$cookies" | grep -i 'session' | grep -qi '; *httponly'
+
+      - name: C2 — smoke API recherche + auth à travers HTTPS (gate:full)
         env:
-          API_BASE_URL: http://127.0.0.1:8081
+          API_BASE_URL: https://127.0.0.1:8443
+          NODE_EXTRA_CA_CERTS: ${{ runner.temp }}/tls.crt
         run: |
           node frontend/scripts/test-search-api.mjs
           node frontend/scripts/test-auth-api.mjs

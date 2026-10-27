@@ -34,7 +34,7 @@ Règle : un contrôle rouge se corrige dans le code, les dépendances ou l’env
 | Build | Le site de production se construit | Qu’il répond une fois déployé |
 | PHPUnit | Les tests Laravel passent, vues Blade comprises, dans un environnement construit comme la prod | Le site React |
 | Images Docker | Aucun conteneur en root, un healthcheck présent, aucune faille corrigeable dans les paquets système | Les failles sans correctif publié (listées dans le journal CI) |
-| Stack de prod | Les images de prod démarrent, le site, `/up` et l’API répondent à travers le front, la recherche et la connexion fonctionnent | Tous les cas d’erreur |
+| Stack de prod | Les images de prod démarrent ; le HTTP redirige vers HTTPS ; TLS 1.1 et inférieur sont refusés ; les cookies de session sont `Secure` et `HttpOnly` ; le site, `/up` et l’API répondent, la recherche et la connexion fonctionnent | Que le certificat soit reconnu par le navigateur (auto-signé sans domaine) |
 | Configuration de la CI | Le fichier de pipeline lui-même est valide | — |
 
 Une pipeline verte signifie : le socle est cohérent, livrable, et sans faille connue au moment du contrôle. Il ne signifie pas que chaque écran a été rejoué à la main, ni qu’un audit de sécurité a eu lieu. Les parcours automatisés dans un navigateur (Playwright) sont prévus dans `docs/TESTING.md` et ne sont pas encore installés.
