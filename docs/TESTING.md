@@ -53,7 +53,7 @@ PHP is optional on the machine: backend checks use local PHP 8.2+ if present, ot
 | C1 | Domain / asset contract | ✓ | | ✓ | `npm run check:domains` |
 | C2 | API smoke search + auth | | | ✓ (prod stack) | `npm run test:api` |
 | C3 | PHPUnit (Blade assets built + `.env`, like prod) | when `backend/` changes | | ✓ | `npm run test:backend` |
-| D-docker | Production stack boots healthy, containers non-root, HTTP → HTTPS redirect, TLS ≤ 1.1 refused, session cookies `Secure` + `HttpOnly`, site + `/up` + API (and C2) through HTTPS, certificate verified (never `curl -k`) | | | ✓ | — |
+| D-docker | Production stack boots healthy, containers non-root, HTTP → HTTPS redirect, TLS ≤ 1.1 refused, session cookies `Secure` + `HttpOnly`, site + `/up` + API (and C2) through HTTPS, certificate verified (never `curl -k`); `.env` created by `scripts/deploy/init-env.sh`, compose refuses an unfilled `.env`, no hard-coded origin in the front bundle, log rotation, a regular user's session survives a backend restart, backup → damage → restore round trip | | | ✓ | — |
 | R | Dependency review (new deps in a PR) | | | ✓ (PR) | — |
 
 Files: [`lefthook.yml`](../lefthook.yml) (hooks) · [`.github/workflows/ci.yml`](../.github/workflows/ci.yml) (CI) · [`.github/dependabot.yml`](../.github/dependabot.yml) (update PRs).
@@ -162,6 +162,11 @@ scripts/
     check-secrets.test.mjs      # A3t
     audit.mjs                   # A5
     backend-test.mjs            # C3 (Blade assets + .env + composer test)
+    smoke-session.mjs           # D-docker: session survives a backend restart
+  deploy/                       # used by the DSI and replayed by the CI
+    init-env.sh / .ps1          # creates .env, generates secrets, sets the server address
+    backup.sh / .ps1            # MySQL dump + uploaded files → backups/*.tar.gz
+    restore.sh / .ps1           # restores an archive (asks for confirmation)
     php.mjs                     # PHP local, else container
 frontend/
   scripts/

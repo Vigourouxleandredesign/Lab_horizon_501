@@ -45,8 +45,8 @@ Les contrôles requis n’apparaissent dans la liste qu’après un premier pass
 Sans domaine, le certificat auto-signé suffit (voir [02 — Lancer et relancer](./02-lancer-et-relancer.md)). Avec un domaine :
 
 1. Obtenir `tls.crt` (chaîne complète) et `tls.key` pour ce domaine, par exemple avec Let’s Encrypt.
-2. Les déposer dans le volume `frontend-certs`, ou monter un dossier du serveur sur `/etc/nginx/certs` à la place du volume. Le conteneur les utilise tels quels et ne génère plus rien.
-3. Dans `.env` : `APP_URL`, `SANCTUM_STATEFUL_DOMAINS`, `CORS_ALLOWED_ORIGINS` sur le domaine, `HTTPS_PORT=443`, `HTTP_PORT=80`, puis `HSTS_MAX_AGE=31536000`.
+2. Les déposer dans le volume `labhorizon_frontend-certs`, ou monter un dossier du serveur sur `/etc/nginx/certs` à la place du volume. Le conteneur les utilise tels quels et ne génère plus rien.
+3. `sh scripts/deploy/init-env.sh https://<domaine>` (Windows : `init-env.ps1`) règle l’adresse, les ports 80/443, Sanctum et CORS. Puis `HSTS_MAX_AGE=31536000` dans `.env`.
 4. `docker compose up -d --build`.
 
 HSTS reste à 0 tant que le certificat n’est pas reconnu : il oblige le navigateur à refuser le HTTP pour ce nom pendant un an.
@@ -63,13 +63,36 @@ Un échec interdit de lancer la revue. La revue elle-même ne démarre que lorsq
 
 ## Après un git pull
 
-L’image Nginx du front ne relit pas le dépôt. Sans reconstruction, l’écran reste l’ancienne version.
-
-```powershell
-docker compose up -d --build frontend
+```
+sh scripts/deploy/backup.sh          # Windows : scripts\deploy\backup.ps1
+git pull
+docker compose up -d --build
 ```
 
-Si `backend/`, un Dockerfile ou `docker-compose.yml` a changé : `docker compose up -d --build`.
+Les images ne relisent pas le dépôt : sans `--build`, le site reste l’ancienne version. Les migrations de base s’appliquent seules au démarrage, d’où la sauvegarde juste avant.
+
+## Sauvegarder et restaurer
+
+Une sauvegarde est une archive unique `backups/labhorizon-AAAAMMJJ-HHMMSS.tar.gz` : la base MySQL complète et les fichiers uploadés (PDF). La stack doit être démarrée. Aucun mot de passe n’est tapé : le script utilise ceux des conteneurs.
+
+| Action | Linux | Windows (PowerShell) |
+|--------|-------|----------------------|
+| Sauvegarder | `sh scripts/deploy/backup.sh` | `powershell -ExecutionPolicy Bypass -File scripts\deploy\backup.ps1` |
+| Restaurer | `sh scripts/deploy/restore.sh backups/labhorizon-<date>.tar.gz` | `powershell -ExecutionPolicy Bypass -File scripts\deploy\restore.ps1 backups\labhorizon-<date>.tar.gz` |
+
+- Les 14 dernières sauvegardes sont gardées (`BACKUP_KEEP=30` sous Linux, `-Keep 30` sous Windows pour changer).
+- La restauration **remplace** la base par celle de l’archive et demande de taper `OUI` (`--yes` / `-Yes` pour l’automatiser). Les fichiers uploadés de l’archive sont remis en place ; ceux ajoutés depuis restent. Le back redémarre à la fin : le mot de passe du compte de démo redevient celui du `.env` actuel, et les migrations s’appliquent si l’archive vient d’une version plus ancienne.
+- `backups/` est hors Git. Les archives contiennent les comptes (hash des mots de passe) : les copier hors de la machine (disque externe, autre serveur), jamais dans un dépôt.
+- Changer de serveur : sauvegarder, copier l’archive, déployer sur le nouveau serveur (chapitre 02), restaurer.
+
+Planifier une sauvegarde chaque nuit :
+
+| Système | Commande, à adapter au chemin du clone |
+|---------|----------------------------------------|
+| Linux (`crontab -e`) | `0 2 * * * cd /opt/Lab_horizon_501 && sh scripts/deploy/backup.sh >> backups/sauvegarde.log 2>&1` |
+| Windows | `schtasks /Create /TN "LabHorizon-Sauvegarde" /SC DAILY /ST 02:00 /TR "powershell -NoProfile -ExecutionPolicy Bypass -File C:\LabHorizon\scripts\deploy\backup.ps1"` — tourne quand la session qui l’a créée est ouverte, comme Docker Desktop |
+
+Tester une restauration de temps en temps : une sauvegarde jamais restaurée n’est pas une sauvegarde.
 
 ## Ajouter un domaine
 
@@ -88,8 +111,10 @@ Les images de calque (zindex 1) sont en WebP avec couche alpha. Ne pas les réen
 ## Données et secrets
 
 - Ne pas committer `.env`. Le modèle est `.env.docker.example`. Le hook refuse un `.env`, une clé ou un certificat, et GitHub refuse le push d’un secret connu.
-- Le certificat TLS et sa clé vivent dans le volume `frontend-certs`, jamais dans le dépôt.
+- Garder une copie du `.env` hors du serveur, à part des sauvegardes. Sans lui, la base existante n’est plus accessible ; une sauvegarde se restaure en revanche sur une installation neuve.
+- Le certificat TLS et sa clé vivent dans le volume `labhorizon_frontend-certs`, jamais dans le dépôt.
+- `APP_KEY` ne se change pas après la mise en service : la changer déconnecte tous les utilisateurs.
 - Ne pas passer `SESSION_SECURE_COOKIE=false` en production : les cookies de session partiraient en clair.
-- `docker compose down` garde MySQL, les PDF uploadés et la config LM Studio. `docker compose down -v` les efface. Ne pas utiliser `-v` sur une base à conserver.
-- Le compte seed `test@labhorizon.nc` / `password` est public dans le dépôt. Le changer avant toute exposition hors machine de dev.
+- `docker compose down` garde MySQL, les PDF uploadés et la config LM Studio. `docker compose down -v` les efface. Ne pas utiliser `-v` sur une base à conserver, et sauvegarder avant.
+- Le compte de démonstration `test@labhorizon.nc` est créé par le seed avec un mot de passe public (`password`), puis remplacé à chaque démarrage par `APP_BOOT_PASSWORD` (`.env`). C’est ce mot de passe qui sert à se connecter.
 - La vulgarisation IA reste coupée (`LLM_ENABLED=false`) tant qu’un modèle n’est pas chargé. La passer à `true` sans modèle fait échouer la génération.

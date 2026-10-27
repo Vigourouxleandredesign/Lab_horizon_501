@@ -37,8 +37,8 @@ RUN composer install \
 
 COPY . .
 
-RUN composer dump-autoload --optimize --no-dev \
-    && composer run-script post-autoload-dump --no-interaction || true
+# dump-autoload lance aussi les scripts Composer (package:discover) : une erreur fait échouer le build.
+RUN composer dump-autoload --optimize --no-dev --no-interaction
 
 ##############################
 # 3) Image finale PHP-FPM + Nginx
@@ -46,24 +46,30 @@ RUN composer dump-autoload --optimize --no-dev \
 FROM php:8.2-fpm-alpine AS final
 
 # Patchs de sécurité OS publiés après la sortie de l'image de base (scan Trivy en CI).
+# Bibliothèques d'exécution seules dans l'image finale ; les en-têtes -dev ne servent qu'à
+# compiler les extensions et partent avec .build-deps. mbstring est déjà inclus dans l'image PHP.
 RUN apk upgrade --no-cache \
     && apk add --no-cache \
         nginx \
         supervisor \
         bash \
         curl \
+        mysql-client \
+        libzip \
+        libpng \
+        libjpeg-turbo \
+        freetype \
+        icu-libs \
+    && apk add --no-cache --virtual .build-deps \
+        $PHPIZE_DEPS \
         libzip-dev \
         libpng-dev \
         libjpeg-turbo-dev \
         freetype-dev \
         icu-dev \
-        oniguruma-dev \
-        mysql-client \
-    && apk add --no-cache --virtual .build-deps $PHPIZE_DEPS \
     && docker-php-ext-configure gd --with-freetype --with-jpeg \
     && docker-php-ext-install -j$(nproc) \
         pdo_mysql \
-        mbstring \
         exif \
         pcntl \
         bcmath \
@@ -73,6 +79,7 @@ RUN apk upgrade --no-cache \
         opcache \
     && pecl install redis \
     && docker-php-ext-enable redis \
+    && rm -rf /tmp/pear \
     && apk del .build-deps
 
 RUN { \

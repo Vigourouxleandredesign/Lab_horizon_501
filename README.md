@@ -6,27 +6,30 @@ Site de valorisation de la recherche de l’UNC (IUT de Nouvelle-Calédonie) : c
 
 ## Démarrer
 
-Prérequis : Docker Desktop, Git, Node.js 22.
+Prérequis : Docker (Engine + Compose 2.24 ou plus sous Linux, Docker Desktop sous Windows) et Git. Node.js 22 seulement pour développer.
 
-```powershell
-npm install
-copy .env.docker.example .env
+```
+git clone https://github.com/Vigourouxleandredesign/Lab_horizon_501.git
+cd Lab_horizon_501
+sh scripts/deploy/init-env.sh        # Windows : powershell -ExecutionPolicy Bypass -File scripts\deploy\init-env.ps1
 docker compose up -d --build
 ```
+
+`init-env` crée `.env` et génère les secrets ; avec une adresse (`init-env.sh https://192.168.1.20`), il prépare aussi un serveur. Procédure complète, Linux et Windows, sauvegardes : [docs/passation/02-lancer-et-relancer.md](docs/passation/02-lancer-et-relancer.md).
 
 | Adresse | Service |
 |---------|---------|
 | https://localhost:8443 | Site (entrée unique). `http://localhost:8080` y redirige |
-| http://localhost:8081 | API Laravel, dépannage |
-| localhost:3307 | MySQL (le 3306 de l’hôte reste libre) |
+| http://localhost:8081 | API Laravel, dépannage (machine seulement) |
+| localhost:3307 | MySQL, machine seulement (le 3306 de l’hôte reste libre) |
 
 Le site est servi en HTTPS avec un certificat auto-signé généré au premier démarrage : le navigateur affiche une alerte, à accepter une fois. Détail et vrai certificat : [docs/passation/02-lancer-et-relancer.md](docs/passation/02-lancer-et-relancer.md).
 
-Compte seed : `test@labhorizon.nc` / `password`. À changer avant toute exposition hors machine de dev.
+Compte de démonstration : `test@labhorizon.nc`, mot de passe = `APP_BOOT_PASSWORD` du `.env` (généré par `init-env`, affiché à la fin du script).
 
 LM Studio est un profil à part (`docker compose --profile llm up -d lm-studio`). Par défaut `LLM_ENABLED=false` : le catalogue fonctionne sans modèle. Détail : [docs/passation/02-lancer-et-relancer.md](docs/passation/02-lancer-et-relancer.md).
 
-Après un `git pull`, reconstruire l’image front, sinon l’écran reste l’ancienne version : `docker compose up -d --build frontend`.
+Après un `git pull` : sauvegarder (`scripts/deploy/backup.sh`), puis `docker compose up -d --build`. Sans `--build`, le site reste l’ancienne version.
 
 ## Documents qui font foi
 
