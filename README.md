@@ -16,9 +16,11 @@ docker compose up -d --build
 
 | Adresse | Service |
 |---------|---------|
-| http://localhost:8080 | Site (entrée unique) |
+| https://localhost:8443 | Site (entrée unique). `http://localhost:8080` y redirige |
 | http://localhost:8081 | API Laravel, dépannage |
 | localhost:3307 | MySQL (le 3306 de l’hôte reste libre) |
+
+Le site est servi en HTTPS avec un certificat auto-signé généré au premier démarrage : le navigateur affiche une alerte, à accepter une fois. Détail et vrai certificat : [docs/passation/02-lancer-et-relancer.md](docs/passation/02-lancer-et-relancer.md).
 
 Compte seed : `test@labhorizon.nc` / `password`. À changer avant toute exposition hors machine de dev.
 

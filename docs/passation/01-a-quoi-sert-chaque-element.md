@@ -63,7 +63,7 @@ Le mode données se choisit avec `VITE_DATA_SOURCE` (`rest` dans l’image Docke
 
 ## Docker — qui parle à qui
 
-Le navigateur n’ouvre que `http://localhost:8080`. Nginx, dans l’image front, transmet `/api`, `/sanctum` et `/files` au back. Le back parle à MySQL et Redis par leur nom de service (`mysql`, `redis`), jamais par `localhost`. LM Studio, s’il est lancé, est `http://lm-studio:1234/v1` depuis le back.
+Le navigateur n’ouvre que `https://localhost:8443` (`http://localhost:8080` y redirige). Nginx, dans l’image front, porte le certificat TLS et transmet `/api`, `/sanctum` et `/files` au back. Le back parle à MySQL et Redis par leur nom de service (`mysql`, `redis`), jamais par `localhost`. LM Studio, s’il est lancé, est `http://lm-studio:1234/v1` depuis le back.
 
 MySQL est publié sur le port **hôte 3307** (le 3306 est souvent déjà pris par un MySQL Windows). À l’intérieur du réseau Docker, le port reste 3306.
 
