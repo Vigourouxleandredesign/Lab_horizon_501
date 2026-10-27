@@ -1,4 +1,5 @@
 # Lab Horizon — front React + back Laravel + MySQL + Redis (+ LM Studio optionnel)
+# Site : https://localhost:8443 (http://localhost:8080 redirige). Certificat auto-signé par défaut.
 # Stack back reprise du Docker.zip (php-fpm/nginx, MySQL 8.4, Redis 7).
 # Usage : copier .env.docker.example vers .env, renseigner APP_KEY, puis
 #   docker compose up --build
@@ -61,11 +62,22 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_DATA_SOURCE: rest
-        VITE_API_BASE_URL: ${APP_URL:-http://localhost:8080}
+        VITE_API_BASE_URL: ${APP_URL:-https://localhost:8443}
     container_name: labhorizon-frontend
     restart: unless-stopped
+    environment:
+      # Port HTTPS vu par le navigateur (redirection HTTP → HTTPS). 443 sur un serveur.
+      HTTPS_PORT: ${HTTPS_PORT:-8443}
+      # 31536000 seulement avec un vrai certificat (HSTS épingle le nom de domaine).
+      HSTS_MAX_AGE: ${HSTS_MAX_AGE:-0}
+      # Noms/IP ajoutés au certificat auto-signé, ex. IP:192.168.1.20,DNS:labhorizon.local
+      TLS_SAN: ${TLS_SAN:-}
     ports:
-      - "8080:8080"
+      - "${HTTP_PORT:-8080}:8080"
+      - "${HTTPS_PORT:-8443}:8443"
+    volumes:
+      # Certificat : auto-signé conservé ici, ou remplacé par tls.crt + tls.key du serveur.
+      - frontend-certs:/etc/nginx/certs
     depends_on:
       backend:
         condition: service_healthy
@@ -86,7 +98,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: ${APP_URL:-http://localhost:8080}
+      APP_URL: ${APP_URL:-https://localhost:8443}
       APP_TIMEZONE: Pacific/Noumea
       APP_LOCALE: fr
 
@@ -99,7 +111,8 @@ services:
       APP_BOOT_PASSWORD: ${APP_BOOT_PASSWORD:?APP_BOOT_PASSWORD manquant dans .env}
 
       SESSION_DRIVER: database
-      SESSION_SECURE_COOKIE: "false"
+      # Cookies de session envoyés uniquement en HTTPS. false seulement pour un back sans TLS en dev.
+      SESSION_SECURE_COOKIE: ${SESSION_SECURE_COOKIE:-true}
       QUEUE_CONNECTION: redis
       CACHE_STORE: database
 
@@ -119,8 +132,8 @@ services:
       LLM_MODEL: ${LLM_MODEL:-mistral-7b-instruct-v0.3}
       LLM_TIMEOUT: ${LLM_TIMEOUT:-240}
 
-      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost:8080,127.0.0.1:8080,localhost:5173,127.0.0.1:5173}
-      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-http://localhost:8080,http://127.0.0.1:8080,http://localhost:5173,http://127.0.0.1:5173}
+      SANCTUM_STATEFUL_DOMAINS: ${SANCTUM_STATEFUL_DOMAINS:-localhost:8443,127.0.0.1:8443,localhost:5173,127.0.0.1:5173}
+      CORS_ALLOWED_ORIGINS: ${CORS_ALLOWED_ORIGINS:-https://localhost:8443,https://127.0.0.1:8443,http://localhost:5173,http://127.0.0.1:5173}
 
       LOG_CHANNEL: stderr
       # info : trace les étapes de la vulgarisation IA (requête, durée, sauvegarde).
@@ -184,6 +197,7 @@ services:
       - labhorizon
 
 volumes:
+  frontend-certs:
   lh-mysql-data:
   redis-data:
   storage-data:

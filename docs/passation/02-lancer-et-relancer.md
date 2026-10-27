@@ -18,7 +18,7 @@ Le premier `up` migre la base et exécute les seeders (`RUN_MIGRATIONS` et `RUN_
 
 | Adresse | Service |
 |---------|---------|
-| http://localhost:8080 | Site (entrée unique) |
+| https://localhost:8443 | Site (entrée unique). `http://localhost:8080` y redirige |
 | http://localhost:8081 | API Laravel directe, dépannage |
 | localhost:3307 | MySQL (utilisateur et mot de passe du `.env`) |
 | http://localhost:3001 | Bureau LM Studio, seulement si le profil `llm` est lancé |
@@ -32,6 +32,25 @@ docker compose exec backend php artisan key:generate --show
 ```
 
 Coller la valeur dans `.env`, puis `docker compose up -d`.
+
+## HTTPS
+
+Le site n’est servi qu’en HTTPS, même sans nom de domaine. Le Nginx du front porte le certificat ; le HTTP ne fait que rediriger. Les cookies de session sont marqués `Secure` et `HttpOnly` : le navigateur ne les envoie jamais en clair.
+
+Sans certificat fourni, le conteneur en génère un auto-signé au premier démarrage et le garde dans le volume `frontend-certs`. Le navigateur affiche une alerte « connexion non privée » : c’est attendu, l’accepter une fois. Le chiffrement est réel, seule l’identité du serveur n’est pas garantie par une autorité.
+
+Pour joindre le site par l’adresse du serveur (ex. `https://192.168.1.20`), l’ajouter au certificat avant le premier démarrage :
+
+```
+TLS_SAN=IP:192.168.1.20
+HTTPS_PORT=443
+HTTP_PORT=80
+APP_URL=https://192.168.1.20
+```
+
+Puis reporter cette origine dans `SANCTUM_STATEFUL_DOMAINS` et `CORS_ALLOWED_ORIGINS`. Si le certificat existe déjà, le régénérer : `docker compose down`, `docker volume rm <projet>_frontend-certs`, `docker compose up -d`.
+
+Le jour où un nom de domaine existe, voir « Mettre un vrai certificat » dans [04 — Plan de maintenance](./04-plan-maintenance.md).
 
 ## Après un git pull
 
@@ -108,6 +127,8 @@ Ajoute les tests PHPUnit, les fumées API recherche + auth et l’audit des dép
 |----------|-----------------|--------|
 | Page ancienne après un pull | Image front non reconstruite | `docker compose up -d --build frontend` |
 | Login impossible depuis le téléphone | Isolation des clients Wi-Fi, ou origine CORS absente | Rester sur la machine hôte, ou ajouter l’origine dans `CORS_ALLOWED_ORIGINS` et `SANCTUM_STATEFUL_DOMAINS` |
+| Alerte « connexion non privée » | Certificat auto-signé | Attendu sans domaine : accepter l’alerte une fois |
+| Alerte persistante via l’IP du serveur | IP absente du certificat | Renseigner `TLS_SAN`, régénérer le certificat (section HTTPS) |
 | MySQL « port already allocated » | Un MySQL Windows tient le 3306 | Le compose publie déjà **3307** |
 | Vulgarisation en erreur | `LLM_ENABLED=true` sans modèle chargé | Charger le modèle, ou repasser `LLM_ENABLED=false` |
 | Domaine Physique vide | Le front l’affiche, le seeder ne l’insère pas | Attendu tant que `0.phys` n’est pas ajouté côté back |

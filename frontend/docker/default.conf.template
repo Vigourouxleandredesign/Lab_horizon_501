@@ -1,26 +1,51 @@
+# Gabarit nginx du front. Au démarrage, l'entrypoint de l'image remplace ${HTTPS_PORT}
+# et ${HSTS_MAX_AGE} par les variables d'environnement du conteneur (envsubst).
+
+# HTTP : aucune page servie, uniquement une redirection vers HTTPS.
 server {
     listen 8080;
+    server_name _;
+    return 301 https://$host:${HTTPS_PORT}$request_uri;
+}
+
+server {
+    listen 8443 ssl;
+    http2 on;
     server_name _;
     root /usr/share/nginx/html;
     index index.html;
 
     client_max_body_size 20M;
 
+    # Certificat monté par le serveur, sinon auto-signé (docker/15-tls-cert.sh).
+    ssl_certificate     /etc/nginx/certs/tls.crt;
+    ssl_certificate_key /etc/nginx/certs/tls.key;
+    # Profil « intermediate » de Mozilla.
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_prefer_server_ciphers off;
+    ssl_session_cache shared:TLS:10m;
+    ssl_session_timeout 1d;
+    ssl_session_tickets off;
+
     # DNS interne Compose : le nom "backend" peut changer d'IP au recreate.
     resolver 127.0.0.11 valid=10s ipv6=off;
 
+    # HSTS à 0 par défaut : un certificat auto-signé ou localhost ne doit pas être épinglé.
+    # Passer HSTS_MAX_AGE=31536000 avec un vrai certificat.
+    add_header Strict-Transport-Security "max-age=${HSTS_MAX_AGE}" always;
     add_header X-Content-Type-Options "nosniff" always;
     add_header X-Frame-Options "SAMEORIGIN" always;
 
+    # $http_host transmet au back l’hôte et le port vus par le navigateur.
     location /api/ {
         set $backend_upstream http://backend:8080;
         proxy_pass $backend_upstream;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Host $http_host;
         proxy_set_header Cookie $http_cookie;
         proxy_pass_header Set-Cookie;
         proxy_read_timeout 120s;
@@ -30,11 +55,11 @@ server {
         set $backend_upstream http://backend:8080;
         proxy_pass $backend_upstream;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Host $host;
+        proxy_set_header X-Forwarded-Host $http_host;
         proxy_set_header Cookie $http_cookie;
         proxy_pass_header Set-Cookie;
     }
@@ -43,7 +68,7 @@ server {
         set $backend_upstream http://backend:8080;
         proxy_pass $backend_upstream;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
@@ -54,7 +79,8 @@ server {
         set $backend_upstream http://backend:8080;
         proxy_pass $backend_upstream/up;
         proxy_http_version 1.1;
-        proxy_set_header Host $host;
+        proxy_set_header Host $http_host;
+        proxy_set_header X-Forwarded-Proto $scheme;
     }
 
     location / {

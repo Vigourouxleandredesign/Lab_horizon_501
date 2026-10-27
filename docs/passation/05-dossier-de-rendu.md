@@ -31,6 +31,7 @@ Première lecture : [README de la passation](./README.md).
 - Pas d’assistant conversationnel (RAG). Pas de PWA.
 - Le domaine Physique s’affiche. La table `domaines` ne contient pas `0.phys` tant que le seeder n’est pas étendu. Mathématiques et Chimie, elles, sont dans `DomainesSeeder`.
 - `docs/project-map.md` et `docs/front-back-status-v1.md` datent d’août 2026 (SQLite, inscription absente). Ils décrivent un état dépassé. Le chemin nominal est le monorepo Docker, et `POST /api/register` existe.
+- Le certificat HTTPS est auto-signé tant que le projet n’a pas de nom de domaine : chiffrement réel, alerte du navigateur à accepter.
 - Le style du code PHP (Pint) n’est pas contrôlé : l’appliquer reformaterait 23 fichiers du back, décision laissée au développeur back.
 
 ## Compte de démonstration

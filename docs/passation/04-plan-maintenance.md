@@ -40,6 +40,17 @@ Une partie de la protection n’est pas dans le dépôt : ce sont des réglages 
 
 Les contrôles requis n’apparaissent dans la liste qu’après un premier passage de la CI sur le nouveau dépôt. Vérification : un `git push` direct sur `main` doit être refusé (`GH006 Protected branch update failed`).
 
+## Mettre un vrai certificat
+
+Sans domaine, le certificat auto-signé suffit (voir [02 — Lancer et relancer](./02-lancer-et-relancer.md)). Avec un domaine :
+
+1. Obtenir `tls.crt` (chaîne complète) et `tls.key` pour ce domaine, par exemple avec Let’s Encrypt.
+2. Les déposer dans le volume `frontend-certs`, ou monter un dossier du serveur sur `/etc/nginx/certs` à la place du volume. Le conteneur les utilise tels quels et ne génère plus rien.
+3. Dans `.env` : `APP_URL`, `SANCTUM_STATEFUL_DOMAINS`, `CORS_ALLOWED_ORIGINS` sur le domaine, `HTTPS_PORT=443`, `HTTP_PORT=80`, puis `HSTS_MAX_AGE=31536000`.
+4. `docker compose up -d --build`.
+
+HSTS reste à 0 tant que le certificat n’est pas reconnu : il oblige le navigateur à refuser le HTTP pour ce nom pendant un an.
+
 ## Revue de sécurité
 
 Le protocole n’est pas versionné. Sur la machine où il a été installé, il est dans `.cursor/skills/revue-securite-preprod/`. Avant de s’en servir, vérifier qu’il est encore fiable :
@@ -77,6 +88,8 @@ Les images de calque (zindex 1) sont en WebP avec couche alpha. Ne pas les réen
 ## Données et secrets
 
 - Ne pas committer `.env`. Le modèle est `.env.docker.example`. Le hook refuse un `.env`, une clé ou un certificat, et GitHub refuse le push d’un secret connu.
+- Le certificat TLS et sa clé vivent dans le volume `frontend-certs`, jamais dans le dépôt.
+- Ne pas passer `SESSION_SECURE_COOKIE=false` en production : les cookies de session partiraient en clair.
 - `docker compose down` garde MySQL, les PDF uploadés et la config LM Studio. `docker compose down -v` les efface. Ne pas utiliser `-v` sur une base à conserver.
 - Le compte seed `test@labhorizon.nc` / `password` est public dans le dépôt. Le changer avant toute exposition hors machine de dev.
 - La vulgarisation IA reste coupée (`LLM_ENABLED=false`) tant qu’un modèle n’est pas chargé. La passer à `true` sans modèle fait échouer la génération.
