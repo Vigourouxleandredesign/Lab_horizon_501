@@ -11,7 +11,7 @@
 | `package.json` | Scripts du monorepo : `dev`, `gate`, `gate:full`. `npm install` y installe les hooks Git. | Un seul endroit pour lancer les contrôles. |
 | `lefthook.yml` | Hooks Git : contrôles au commit et au push. | Une erreur est arrêtée avant d’entrer dans l’historique. |
 | `.github/` | Pipeline CI/CD (GitHub Actions) et Dependabot. | Rien n’arrive sur `main` sans contrôles verts sur une machine propre. |
-| `scripts/` | Gate anti-régression, contrôles de la CI (`scripts/ci/` : secrets, audit, tests back), contrats domaines, imports PDF locaux. | Les contrôles ne dépendent pas d’un outil installé au hasard. |
+| `scripts/` | Déploiement (`scripts/deploy/` : création du `.env`, sauvegarde, restauration, Linux et Windows), gate anti-régression, contrôles de la CI (`scripts/ci/` : secrets, audit, tests back), contrats domaines, imports PDF locaux. | Les contrôles ne dépendent pas d’un outil installé au hasard. |
 | `docs/` | Cahier des charges, UX, contrat API, passation. | Le produit se comprend sans lire tout le code. |
 | `docs/passation/` | Ce dossier. | Première lecture d’une équipe nouvelle. |
 | `Ressources/` | PDF sources utilisés pour remplir la démo. | Matière de test, pas le site publié. |

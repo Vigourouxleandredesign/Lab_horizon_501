@@ -1,12 +1,10 @@
 # Lab Horizon — front React + back Laravel + MySQL + Redis (+ LM Studio optionnel)
 # Site : https://localhost:8443 (http://localhost:8080 redirige). Certificat auto-signé par défaut.
 # Stack back reprise du Docker.zip (php-fpm/nginx, MySQL 8.4, Redis 7).
-# Usage : copier .env.docker.example vers .env, renseigner APP_KEY, puis
-#   docker compose up --build
 #
-# Sans LLM (machine légère) : front + back + mysql + redis uniquement —
-#   docker compose build frontend backend
-#   docker compose up -d frontend backend mysql redis
+# Déploiement (procédure complète : docs/passation/02-lancer-et-relancer.md) :
+#   1. sh scripts/deploy/init-env.sh   (Windows : scripts\deploy\init-env.ps1) → crée .env
+#   2. docker compose up -d --build
 #
 # LM Studio (image lourde, ~plusieurs Go) — profil optionnel :
 #   docker compose --profile llm up -d lm-studio
@@ -20,6 +18,17 @@
 # via `docker compose exec lm-studio lms get <model>` ou l'UI — `lms load`
 # ne fait que charger un modele deja present sur le volume lmstudio-config).
 
+# Nom fixe : volumes et conteneurs identiques quel que soit le dossier du clone
+# (labhorizon_lh-mysql-data, labhorizon_frontend-certs…).
+name: labhorizon
+
+# Journaux Docker limités à 3 × 10 Mo par service : sans limite, ils remplissent le disque.
+x-logging: &logging
+  driver: json-file
+  options:
+    max-size: "10m"
+    max-file: "3"
+
 services:
   lm-studio:
     profiles: ["llm"]
@@ -27,6 +36,7 @@ services:
     image: linuxserver/lm-studio:2026-10-16-ls41
     container_name: lm-studio
     restart: unless-stopped
+    logging: *logging
     environment:
       TITLE: LM Studio
       # Même valeur que LLM_MODEL côté backend (chargé par le healthcheck).
@@ -34,9 +44,10 @@ services:
     volumes:
       - lmstudio-config:/config
     ports:
-      - "3001:3000" # UI (noVNC, http) — http://localhost:3001
-      - "3000:3001" # UI (noVNC, https)
-      - "1234:1234" # API LM Studio (OpenAI-compatible) — http://localhost:1234
+      # Joignables depuis cette machine seulement : l'API et le bureau n'ont pas d'authentification.
+      - "127.0.0.1:3001:3000" # UI (noVNC, http) — http://localhost:3001
+      - "127.0.0.1:3000:3001" # UI (noVNC, https)
+      - "127.0.0.1:1234:1234" # API LM Studio (OpenAI-compatible) — http://localhost:1234
     healthcheck:
       # Le conteneur ne relance pas l'appli LM Studio tout seul au boot :
       # si le serveur/modele n'est pas pret, on (re)demarre le serveur et on
@@ -62,9 +73,11 @@ services:
       dockerfile: Dockerfile
       args:
         VITE_DATA_SOURCE: rest
-        VITE_API_BASE_URL: ${APP_URL:-https://localhost:8443}
+        # API appelée sur l'adresse de la page : l'image ne dépend pas d'APP_URL.
+        VITE_API_BASE_URL: same-origin
     container_name: labhorizon-frontend
     restart: unless-stopped
+    logging: *logging
     environment:
       # Port HTTPS vu par le navigateur (redirection HTTP → HTTPS). 443 sur un serveur.
       HTTPS_PORT: ${HTTPS_PORT:-8443}
@@ -90,6 +103,7 @@ services:
       dockerfile: Dockerfile
     container_name: labhorizon-backend
     restart: unless-stopped
+    logging: *logging
     env_file:
       - path: .env
         required: false
@@ -98,6 +112,9 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
+      # Obligatoire et stable : vide, l'entrypoint en générerait une nouvelle à chaque
+      # démarrage et tous les utilisateurs seraient déconnectés.
+      APP_KEY: ${APP_KEY:?APP_KEY manquant dans .env — lancer scripts/deploy/init-env}
       APP_URL: ${APP_URL:-https://localhost:8443}
       APP_TIMEZONE: Pacific/Noumea
       APP_LOCALE: fr
@@ -107,8 +124,8 @@ services:
       DB_PORT: 3306
       DB_DATABASE: ${DB_DATABASE:?DB_DATABASE manquant dans .env}
       DB_USERNAME: ${DB_USERNAME:?DB_USERNAME manquant dans .env}
-      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD manquant dans .env}
-      APP_BOOT_PASSWORD: ${APP_BOOT_PASSWORD:?APP_BOOT_PASSWORD manquant dans .env}
+      DB_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD manquant dans .env — lancer scripts/deploy/init-env}
+      APP_BOOT_PASSWORD: ${APP_BOOT_PASSWORD:?APP_BOOT_PASSWORD manquant dans .env — lancer scripts/deploy/init-env}
 
       SESSION_DRIVER: database
       # Cookies de session envoyés uniquement en HTTPS. false seulement pour un back sans TLS en dev.
@@ -161,6 +178,7 @@ services:
     image: redis:7-alpine
     container_name: labhorizon-redis
     restart: unless-stopped
+    logging: *logging
     command: ["redis-server", "--save", "60", "1", "--loglevel", "warning"]
     volumes:
       - redis-data:/data
@@ -176,19 +194,21 @@ services:
     image: mysql:8.4
     container_name: labhorizon-mysql
     restart: unless-stopped
+    logging: *logging
     environment:
       MYSQL_DATABASE: ${DB_DATABASE:?DB_DATABASE manquant dans .env}
       MYSQL_USER: ${DB_USERNAME:?DB_USERNAME manquant dans .env}
-      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD manquant dans .env}
-      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD manquant dans .env}
+      MYSQL_PASSWORD: ${DB_PASSWORD:?DB_PASSWORD manquant dans .env — lancer scripts/deploy/init-env}
+      MYSQL_ROOT_PASSWORD: ${DB_ROOT_PASSWORD:?DB_ROOT_PASSWORD manquant dans .env — lancer scripts/deploy/init-env}
     volumes:
       - lh-mysql-data:/var/lib/mysql
     ports:
       - "127.0.0.1:3307:3306" # joignable seulement depuis cette machine ; 3306 hôte déjà pris par un MySQL natif
     healthcheck:
-      # 127.0.0.1 force le TCP (pas le socket Unix) : mysqladmin ping via socket
-      # peut renvoyer 0 même si le mot de passe est faux.
-      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-u", "root", "-p${DB_ROOT_PASSWORD}"]
+      # 127.0.0.1 force le TCP : le serveur accepte réellement les connexions réseau.
+      # Mot de passe lu dans l'environnement du conteneur (MYSQL_PWD), pas écrit dans la
+      # commande : il n'apparaît pas dans docker inspect.
+      test: ["CMD-SHELL", "MYSQL_PWD=\"$$MYSQL_ROOT_PASSWORD\" mysqladmin ping -h 127.0.0.1 -u root --silent"]
       interval: 5s
       timeout: 5s
       retries: 20

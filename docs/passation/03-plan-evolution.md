@@ -11,7 +11,7 @@ La feuille de route produit est [docs/ux/07-pages-roles-roadmap.md](../ux/07-pag
 | Catalogue public (accueil, recherche, fiche, domaines, annuaire) | `frontend/src/pages/`, routes dans `app/routes.tsx` | — |
 | 11 domaines affichés, dont Mathématiques, Physique, Chimie | `frontend/src/data/categories.ts`, `i18n/domains.ts`, `public/pillules/`, `public/hero/` | Physique n’a pas de ligne en base |
 | Espace chercheur `/compte` (nouveautés, recherche, publications, profil, relecture) | `frontend/src/pages/backoffice/` | — |
-| Auth Sanctum (inscription, connexion, session) | `backend/routes/api.php`, `frontend/src/auth/` | Compte démo `test@labhorizon.nc` / `password` |
+| Auth Sanctum (inscription, connexion, session) | `backend/routes/api.php`, `frontend/src/auth/` | Compte démo `test@labhorizon.nc`, mot de passe `APP_BOOT_PASSWORD` (`.env`) |
 | Seed Docker (catalogue de démo, domaines, mots-clés) | `LocalContentSeeder`, `DomainesSeeder`, `MotsClesSeeder` | `DomainesSeeder` n’insère que `0.chim` et `0.math` |
 | Vulgarisation par modèle local | `LlmService`, jobs Laravel, profil Compose `llm` | Inactive par défaut : `LLM_ENABLED=false` |
 
@@ -31,6 +31,7 @@ Le CDC v2 §3.3 plaçait en V1 l’assistant conversationnel (RAG), la PWA et un
 | Admin de contenu | Changer le statut d’une publication, gérer les catégories, journaliser les actions. Aujourd’hui l’admin Laravel est un outil d’exploitation, pas une UI de maintenance pour non-devs. |
 | Rôle Pro et messagerie | Hors de cette remise. Les entités du dictionnaire de données restent une référence, pas une obligation. |
 | Inscription | Mécanisme de validation (e-mail ou admin) si on le retire du libre accès actuel. |
+| Déploiement continu (CD) | Une fois le serveur choisi : GitHub Actions construit et publie les images (GitHub Container Registry) après une CI verte sur `main`, le serveur les récupère. Mise à jour sans build sur le serveur, retour arrière en une commande. |
 
 ## V3
 

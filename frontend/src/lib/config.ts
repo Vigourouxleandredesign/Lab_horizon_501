@@ -19,10 +19,20 @@ function readDataSource(): DataSource {
   return 'mock'
 }
 
+/**
+ * `same-origin` (image Docker) : l'API est servie par le même Nginx que le site, on prend
+ * l'origine de la page. Une même image fonctionne ainsi à n'importe quelle adresse
+ * (localhost, IP du serveur, domaine) sans être reconstruite.
+ */
+export function resolveApiBaseUrl(raw: string | undefined, pageOrigin: string | undefined): string {
+  if (raw === 'same-origin') return pageOrigin ?? ''
+  return raw ?? ''
+}
+
 export const appConfig = {
   dataSource: readDataSource(),
   /** Base API Laravel — requis en mode 'rest', ignoré sinon. */
-  apiBaseUrl: import.meta.env.VITE_API_BASE_URL ?? '',
+  apiBaseUrl: resolveApiBaseUrl(import.meta.env.VITE_API_BASE_URL, globalThis.location?.origin),
   /** API publique HAL (recherche ouverte, lecture seule). */
   halApiUrl: 'https://api.archives-ouvertes.fr/search/',
 } as const

@@ -34,4 +34,4 @@ Version Word de l’ensemble, pour les évaluateurs : [Lab-Horizon-dossier-de-pa
 
 ## Compte de démonstration
 
-`test@labhorizon.nc` / `password` — créé par le seed Docker. À changer avant toute exposition hors machine de dev.
+`test@labhorizon.nc`, créé par le seed Docker. Son mot de passe est `APP_BOOT_PASSWORD` dans `.env`, généré par `scripts/deploy/init-env` et réappliqué à chaque démarrage du back.

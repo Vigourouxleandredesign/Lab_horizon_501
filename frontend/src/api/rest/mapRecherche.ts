@@ -5,7 +5,7 @@
  * Les pages consomment uniquement les DTO camelCase de `types.ts`.
  *
  * Contournements front (tant que le back n'expose pas `pdf_url` / `covers`) :
- * - URL PDF construite depuis `pdf_path` + `VITE_API_BASE_URL`
+ * - URL PDF construite depuis `pdf_path` + la base API (`appConfig.apiBaseUrl`)
  * - covers parsées depuis `description` (format produit par le script d'extract)
  */
 

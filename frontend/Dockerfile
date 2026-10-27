@@ -11,7 +11,8 @@ RUN npm ci
 COPY . .
 
 ARG VITE_DATA_SOURCE=rest
-ARG VITE_API_BASE_URL=https://localhost:8443
+# same-origin : l’API est appelée sur l’adresse de la page → une seule image pour toutes les adresses.
+ARG VITE_API_BASE_URL=same-origin
 ENV VITE_DATA_SOURCE=$VITE_DATA_SOURCE
 ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 
