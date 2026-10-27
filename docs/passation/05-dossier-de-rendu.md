@@ -22,9 +22,7 @@ Première lecture : [README de la passation](./README.md).
 | `.env` et secrets (`APP_KEY`, mots de passe MySQL) | Créés sur la machine, absents de Git |
 | Modèles LM Studio | Volume Docker local, profil `llm` optionnel |
 | Base déjà remplie en dehors du seed | Les volumes ne voyagent pas avec le Git |
-| Protocole de revue et archives (`v2.zip`, `v2.1.zip`, `redteam-preprod-audit.zip`) | Installés localement, hors dépôt. Le corpus de test ne voyage pas avec le code |
-| `lab_horizon_501.bundle`, `lab_horizon_501.txt` | Exports ponctuels, hors dépôt |
-| `LEANDRE PPP_3.srt` | Fichier personnel, hors produit |
+| Protocole de revue de sécurité (`.cursor/skills/revue-securite-preprod/`) | Installé localement, non versionné. Son corpus de test ne voyage pas avec le code |
 
 ## Limites connues
 

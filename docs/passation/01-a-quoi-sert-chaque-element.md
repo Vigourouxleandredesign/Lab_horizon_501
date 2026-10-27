@@ -16,15 +16,6 @@
 | `docs/passation/` | Ce dossier. | Première lecture d’une équipe nouvelle. |
 | `Ressources/` | PDF sources utilisés pour remplir la démo. | Matière de test, pas le site publié. |
 
-## À ne pas prendre pour le produit
-
-| Chemin | Nature |
-|--------|--------|
-| `docs/archive/` | Anciennes maquettes et exports. Référence visuelle seulement. |
-| `v2.zip`, `redteam-preprod-audit.zip`, `v2.1.zip`, `lab_horizon_501.bundle`, `lab_horizon_501.txt` | Archives et exports ponctuels. Hors dépôt. Le protocole de revue, s’il est installé, est local et non versionné. |
-| `*.bundle`, `lab_horizon_501.txt` | Archives Git ou exports ponctuels. |
-| `LEANDRE PPP_3.srt` | Sous-titres d’une vidéo personnelle, hors projet. |
-
 ## Frontend — `frontend/src/`
 
 | Chemin | Rôle |
