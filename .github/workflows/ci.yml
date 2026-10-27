@@ -150,8 +150,6 @@ jobs:
     name: Docker — images, config & smoke prod
     runs-on: ubuntu-24.04
     timeout-minutes: 30
-    env:
-      COMPOSE_PROJECT_NAME: labhorizon
     steps:
       - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
@@ -160,11 +158,17 @@ jobs:
         with:
           node-version-file: .nvmrc
 
-      - name: .env éphémère (secrets aléatoires, jamais réutilisés)
+      - name: Le compose refuse de démarrer sans secrets (modèle .env non rempli)
         run: |
           cp .env.docker.example .env
-          rnd() { openssl rand -hex 24; }
-          sed -i "s|^DB_PASSWORD=.*|DB_PASSWORD=$(rnd)|; s|^DB_ROOT_PASSWORD=.*|DB_ROOT_PASSWORD=$(rnd)|; s|^APP_BOOT_PASSWORD=.*|APP_BOOT_PASSWORD=$(rnd)|" .env
+          if docker compose config --quiet 2>/dev/null; then
+            echo "docker compose accepte un .env sans APP_KEY ni mots de passe"; exit 1
+          fi
+          rm .env
+
+      - name: .env créé par scripts/deploy/init-env.sh (procédure DSI, secrets jetables)
+        # Sortie masquée : le script affiche le mot de passe du compte de démo.
+        run: sh scripts/deploy/init-env.sh https://127.0.0.1:8443 > /dev/null
 
       - name: Config — Dockerfiles (Trivy, toute sévérité)
         run: >-
@@ -173,6 +177,11 @@ jobs:
 
       - name: Build des images de prod
         run: docker compose build frontend backend
+
+      - name: Front — aucune adresse figée dans le JavaScript (image valable à toute adresse)
+        run: >-
+          docker run --rm --entrypoint sh labhorizon-frontend -c
+          '! grep -lE "https?://(localhost|127[.]0[.]0[.]1):[0-9]" /usr/share/nginx/html/assets/*.js'
 
       - name: Vulnérabilités des images (Trivy) — bloquant si un correctif existe
         run: |
@@ -190,6 +199,12 @@ jobs:
 
       - name: Démarrage de la stack de prod (healthchecks)
         run: docker compose up -d --wait --wait-timeout 300 frontend backend mysql redis
+
+      - name: Journaux Docker limités (pas de disque plein sur la durée)
+        run: |
+          for c in labhorizon-frontend labhorizon-backend labhorizon-mysql labhorizon-redis; do
+            test "$(docker inspect -f '{{index .HostConfig.LogConfig.Config "max-size"}}' "$c")" = "10m"
+          done
 
       - name: Conteneurs sans root
         run: |
@@ -231,6 +246,30 @@ jobs:
         run: |
           node frontend/scripts/test-search-api.mjs
           node frontend/scripts/test-auth-api.mjs
+
+      - name: Sessions conservées après redémarrage du back (APP_KEY stable)
+        env:
+          NODE_EXTRA_CA_CERTS: ${{ runner.temp }}/tls.crt
+        run: |
+          node scripts/ci/smoke-session.mjs register https://127.0.0.1:8443 "$RUNNER_TEMP/session.json"
+          docker compose restart backend
+          docker compose up -d --wait --wait-timeout 300 backend
+          node scripts/ci/smoke-session.mjs check https://127.0.0.1:8443 "$RUNNER_TEMP/session.json"
+
+      - name: Sauvegarde puis restauration (scripts/deploy/backup.sh + restore.sh)
+        run: |
+          count() {
+            docker compose exec -T mysql bash -c 'MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysql -u root -N -e "select count(*) from recherches" $MYSQL_DATABASE'
+          }
+          before=$(count)
+          sh scripts/deploy/backup.sh
+          # Noms horodatés (AAAAMMJJ-HHMMSS) : l'ordre alphabétique est l'ordre chronologique.
+          archive=$(find backups -name 'labhorizon-*.tar.gz' | sort | tail -n 1)
+          docker compose exec -T mysql bash -c 'MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysql -u root -e "delete from recherches order by id desc limit 3" $MYSQL_DATABASE'
+          test "$(count)" -lt "$before"
+          sh scripts/deploy/restore.sh "$archive" --yes
+          test "$(count)" = "$before"
+          curl -fsS --cacert "$RUNNER_TEMP/tls.crt" -o /dev/null "https://127.0.0.1:8443/api/recherches?page=1&pageSize=1"
 
       - name: Journaux des conteneurs (en cas d'échec)
         if: failure()

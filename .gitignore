@@ -120,3 +120,6 @@ docs/archive/
 # Rapports, reconnaissance et registres produits par une revue.
 /revues/
 /revue-CH-*/
+
+# Sauvegardes de la base et des fichiers (scripts/deploy/backup.*) : données personnelles, jamais dans Git
+/backups/
