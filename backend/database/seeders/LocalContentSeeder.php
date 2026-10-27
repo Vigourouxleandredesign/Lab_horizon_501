@@ -57,10 +57,40 @@ class LocalContentSeeder extends Seeder
 
                     return $row;
                 }, $rows);
+
+                // Pour les users, on insère un par un ou via updateOrInsert sur l'email
+                // afin d'éviter tout conflit sur l'ID déjà généré par UserSeeder
+                foreach ($rows as $userRow) {
+                    $email = $userRow['email'];
+                    unset($userRow['created_at']); // Ne pas écraser created_at si existant
+
+                    // Si un utilisateur avec cet email existe déjà, on ne touche pas à son ID
+                    if (DB::table('users')->where('email', $email)->exists()) {
+                        unset($userRow['id']);
+                        DB::table('users')->where('email', $email)->update($userRow);
+                    } else {
+                        // Si l'id du JSON est déjà pris par un autre compte, on laisse l'auto-incrément
+                        if (isset($userRow['id']) && DB::table('users')->where('id', $userRow['id'])->exists()) {
+                            unset($userRow['id']);
+                        }
+                        DB::table('users')->insert($userRow);
+                    }
+                }
+                continue;
             }
 
+            // Pour toutes les autres tables : par lots de 50
             foreach (array_chunk($rows, 50) as $chunk) {
-                DB::table($table)->insert($chunk);
+                if (str_starts_with($table, 'recherche_')) {
+                    // Tables de liaison N-N sans ID unique auto-incrémenté
+                    DB::table($table)->insertOrIgnore($chunk);
+                } else {
+                    // Tables d'entités avec clé primaire 'id'
+                    $columns = array_keys($chunk[0]);
+                    $updateColumns = array_diff($columns, ['id', 'created_at']);
+
+                    DB::table($table)->upsert($chunk, ['id'], $updateColumns);
+                }
             }
         }
 
