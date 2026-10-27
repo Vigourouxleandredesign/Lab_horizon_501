@@ -60,10 +60,49 @@ class LocalContentSeeder extends Seeder
             }
 
             foreach (array_chunk($rows, 50) as $chunk) {
-                DB::table($table)->insert($chunk);
+                $this->upsertRows($table, $chunk);
             }
         }
 
         Schema::enableForeignKeyConstraints();
+    }
+
+    /**
+     * Insère ou met à jour les données de manière idempotente.
+     *
+     * @param array<int, array<string, mixed>> $chunk
+     */
+    private function upsertRows(string $table, array $chunk): void
+    {
+        // Pour les tables pivots sans clé primaire 'id' unique
+        if (str_starts_with($table, 'recherche_')) {
+            // insertOrIgnore évite les erreurs sur les paires de clés déjà existantes
+            DB::table($table)->insertOrIgnore($chunk);
+            return;
+        }
+
+        $columns = array_keys($chunk[0]);
+
+        // Pour la table 'users', la collision peut venir de l'id OU de l'email
+        if ($table === 'users') {
+            // Colonnes à mettre à jour en cas de conflit
+            $updateColumns = array_diff($columns, ['id', 'email', 'created_at']);
+
+            DB::table($table)->upsert(
+                $chunk,
+                ['email'], // Clé unique de détection du conflit
+                $updateColumns
+            );
+            return;
+        }
+
+        // Pour les autres entités ayant un ID primaire
+        $updateColumns = array_diff($columns, ['id', 'created_at']);
+
+        DB::table($table)->upsert(
+            $chunk,
+            ['id'],
+            $updateColumns
+        );
     }
 }
