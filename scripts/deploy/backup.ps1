@@ -15,6 +15,10 @@ function Invoke-Native {
     if ($LASTEXITCODE -ne 0) { throw "Echec : $($args -join ' ')" }
 }
 
+# tar de Windows (10 1803+), chemin explicite : le tar GNU de Git for Windows, s'il est dans le
+# PATH, prend « C:\… » pour un serveur distant.
+$tar = Join-Path $env:SystemRoot 'System32\tar.exe'
+
 $stamp = Get-Date -Format 'yyyyMMdd-HHmmss'
 $archive = "backups\labhorizon-$stamp.tar.gz"
 $work = "backups\.en-cours-$stamp"
@@ -32,10 +36,10 @@ try {
     Invoke-Native docker compose cp backend:/tmp/storage.tar.gz "$work\storage.tar.gz"
     Invoke-Native docker compose exec -T -u root backend rm -f /tmp/storage.tar.gz
 
-    # tar.exe est fourni par Windows 10 (1803) et suivants.
-    Invoke-Native tar.exe czf $archive -C $work db.sql.gz storage.tar.gz
-    $size = [math]::Round((Get-Item $archive).Length / 1MB, 1)
-    Write-Output "Sauvegarde : $archive ($size Mo)"
+    Invoke-Native $tar czf $archive -C $work db.sql.gz storage.tar.gz
+    $bytes = (Get-Item $archive).Length
+    $size = if ($bytes -ge 1MB) { '{0:N1} Mo' -f ($bytes / 1MB) } else { '{0:N0} Ko' -f [math]::Ceiling($bytes / 1KB) }
+    Write-Output "Sauvegarde : $archive ($size)"
 }
 finally {
     Remove-Item -Recurse -Force $work -ErrorAction SilentlyContinue

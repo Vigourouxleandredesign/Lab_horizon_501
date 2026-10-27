@@ -26,16 +26,16 @@ mkdir "$work"
 trap 'rm -rf "$work"' EXIT
 
 echo "Base MySQL…"
-docker compose exec -T mysql bash -c 'set -o pipefail; MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump -u root --single-transaction --routines --triggers --no-tablespaces --databases $MYSQL_DATABASE | gzip > /tmp/db.sql.gz'
+docker compose exec -T mysql bash -c 'set -o pipefail; MYSQL_PWD=$MYSQL_ROOT_PASSWORD mysqldump -u root --single-transaction --routines --triggers --no-tablespaces --databases $MYSQL_DATABASE | gzip > /tmp/db.sql.gz' < /dev/null
 docker compose cp mysql:/tmp/db.sql.gz "$work/db.sql.gz" > /dev/null
-docker compose exec -T mysql rm -f /tmp/db.sql.gz
+docker compose exec -T mysql rm -f /tmp/db.sql.gz < /dev/null
 
 echo "Fichiers uploadés…"
 # Fichiers temporaires du conteneur manipulés en root : pas de conflit de propriétaire avec
 # une copie docker cp précédente (root) ; la lecture de storage/app reste possible.
-docker compose exec -T -u root backend tar czf /tmp/storage.tar.gz -C /var/www/html/storage/app .
+docker compose exec -T -u root backend tar czf /tmp/storage.tar.gz -C /var/www/html/storage/app . < /dev/null
 docker compose cp backend:/tmp/storage.tar.gz "$work/storage.tar.gz" > /dev/null
-docker compose exec -T -u root backend rm -f /tmp/storage.tar.gz
+docker compose exec -T -u root backend rm -f /tmp/storage.tar.gz < /dev/null
 
 gzip -t "$work/db.sql.gz"
 tar czf "$archive" -C "$work" db.sql.gz storage.tar.gz

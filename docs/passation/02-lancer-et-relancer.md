@@ -91,10 +91,12 @@ Ouvrir l’adresse du site dans un navigateur, accepter l’alerte du certificat
 | `DB_PASSWORD`, `DB_ROOT_PASSWORD` | Mots de passe MySQL | Fixés à la création de la base : les changer ensuite ne change pas la base |
 | `APP_BOOT_PASSWORD` | Mot de passe de `test@labhorizon.nc` | Réappliqué à chaque démarrage. Pour le changer : modifier `.env`, puis `docker compose up -d` |
 | `APP_URL`, `HTTP_PORT`, `HTTPS_PORT` | Adresse et ports du site | Réglés par `init-env` |
-| `SANCTUM_STATEFUL_DOMAINS`, `CORS_ALLOWED_ORIGINS` | Adresses autorisées à se connecter | Mêmes valeurs que `APP_URL` |
+| `SANCTUM_STATEFUL_DOMAINS`, `CORS_ALLOWED_ORIGINS` | Adresses autorisées à se connecter | Mêmes valeurs que `APP_URL`, réglées par `init-env` (qui remplace la liste). Plusieurs adresses (IP et domaine) : les séparer par des virgules, à la main |
 | `TLS_SAN`, `HSTS_MAX_AGE` | Certificat HTTPS | Voir HTTPS |
 
 Si un secret manque, `docker compose` refuse de démarrer et nomme la variable : relancer `init-env`.
+
+**Garder une copie du `.env`** en lieu sûr, hors du serveur : il contient les secrets. Sans lui, la base existante n’est plus accessible (nouveaux mots de passe MySQL). Une sauvegarde, elle, se restaure sur une installation neuve avec un nouveau `.env`.
 
 Changer d’adresse plus tard (passage sur l’IP du serveur, puis sur un domaine) : relancer `init-env` avec la nouvelle adresse, régénérer le certificat (section HTTPS), puis `docker compose up -d`. Aucune reconstruction n’est nécessaire : le site appelle l’API sur l’adresse de la page.
 
@@ -215,6 +217,7 @@ Tout vérifier d’un coup : `npm run gate` (sans Docker : types, lint, secrets,
 | `required variable … is missing a value` au démarrage | `.env` absent ou incomplet | Lancer `init-env` (étape 2) |
 | Connexion refusée avec `password` | Le mot de passe du compte de démo est `APP_BOOT_PASSWORD` | Lire `APP_BOOT_PASSWORD` dans `.env` |
 | `container name … is already in use` | Ancienne installation encore présente | Section « Reprendre une installation antérieure » |
+| `backend` redémarre en boucle, logs `Access denied for user` | `.env` recréé alors que la base existait : nouveaux mots de passe MySQL | Remettre la copie du `.env`. Sans copie : `docker compose down -v` (efface la base), `docker compose up -d`, puis restaurer la dernière sauvegarde |
 | Site arrêté après un redémarrage Windows | Docker Desktop ne démarre qu’à l’ouverture de session | Section « Redémarrage de la machine » |
 | Page ancienne après un pull | Images non reconstruites | `docker compose up -d --build` |
 | Login impossible depuis un autre appareil | Adresse absente de `SANCTUM_STATEFUL_DOMAINS` / `CORS_ALLOWED_ORIGINS`, ou isolation Wi-Fi | Relancer `init-env` avec l’adresse utilisée |

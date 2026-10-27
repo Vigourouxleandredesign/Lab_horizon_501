@@ -81,7 +81,7 @@ Une sauvegarde est une archive unique `backups/labhorizon-AAAAMMJJ-HHMMSS.tar.gz
 | Restaurer | `sh scripts/deploy/restore.sh backups/labhorizon-<date>.tar.gz` | `powershell -ExecutionPolicy Bypass -File scripts\deploy\restore.ps1 backups\labhorizon-<date>.tar.gz` |
 
 - Les 14 dernières sauvegardes sont gardées (`BACKUP_KEEP=30` sous Linux, `-Keep 30` sous Windows pour changer).
-- La restauration **remplace** la base par celle de l’archive et demande de taper `OUI` (`--yes` / `-Yes` pour l’automatiser). Les fichiers uploadés de l’archive sont remis en place ; ceux ajoutés depuis restent.
+- La restauration **remplace** la base par celle de l’archive et demande de taper `OUI` (`--yes` / `-Yes` pour l’automatiser). Les fichiers uploadés de l’archive sont remis en place ; ceux ajoutés depuis restent. Le back redémarre à la fin : le mot de passe du compte de démo redevient celui du `.env` actuel, et les migrations s’appliquent si l’archive vient d’une version plus ancienne.
 - `backups/` est hors Git. Les archives contiennent les comptes (hash des mots de passe) : les copier hors de la machine (disque externe, autre serveur), jamais dans un dépôt.
 - Changer de serveur : sauvegarder, copier l’archive, déployer sur le nouveau serveur (chapitre 02), restaurer.
 
@@ -111,6 +111,7 @@ Les images de calque (zindex 1) sont en WebP avec couche alpha. Ne pas les réen
 ## Données et secrets
 
 - Ne pas committer `.env`. Le modèle est `.env.docker.example`. Le hook refuse un `.env`, une clé ou un certificat, et GitHub refuse le push d’un secret connu.
+- Garder une copie du `.env` hors du serveur, à part des sauvegardes. Sans lui, la base existante n’est plus accessible ; une sauvegarde se restaure en revanche sur une installation neuve.
 - Le certificat TLS et sa clé vivent dans le volume `labhorizon_frontend-certs`, jamais dans le dépôt.
 - `APP_KEY` ne se change pas après la mise en service : la changer déconnecte tous les utilisateurs.
 - Ne pas passer `SESSION_SECURE_COOKIE=false` en production : les cookies de session partiraient en clair.
