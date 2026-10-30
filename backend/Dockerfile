@@ -43,7 +43,7 @@ RUN composer dump-autoload --optimize --no-dev --no-interaction
 ##############################
 # 3) Image finale PHP-FPM + Nginx
 ##############################
-FROM php:8.2-fpm-alpine AS final
+FROM php:8.3-fpm-alpine AS final
 
 # Patchs de sécurité OS publiés après la sortie de l'image de base (scan Trivy en CI).
 # Bibliothèques d'exécution seules dans l'image finale ; les en-têtes -dev ne servent qu'à
