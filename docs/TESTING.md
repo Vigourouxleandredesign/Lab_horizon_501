@@ -29,7 +29,7 @@ npm install          # root: installs lefthook + secretlint and the Git hooks ("
 npm ci --prefix frontend
 ```
 
-PHP is optional on the machine: backend checks use local PHP 8.2+ if present, otherwise a `composer:2.9` container (`scripts/ci/php.mjs`, Docker Desktop required).
+PHP is optional on the machine: backend checks use local PHP 8.3+ if present (CI and production image: PHP 8.4), otherwise a `composer:2.9` container (`scripts/ci/php.mjs`, Docker Desktop required).
 
 ---
 
