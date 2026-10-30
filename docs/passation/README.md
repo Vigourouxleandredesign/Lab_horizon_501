@@ -9,7 +9,18 @@ Point d’entrée pour une équipe qui n’a jamais ouvert ce dépôt. Lire les 
 | 3 | [03 — Plan d’évolution](./03-plan-evolution.md) | Ce qui est livré, ce qui est V2, ce qui est V3 |
 | 4 | [04 — Plan de maintenance](./04-plan-maintenance.md) | Comment ne pas casser le projet au quotidien |
 | 5 | [05 — Dossier de rendu](./05-dossier-de-rendu.md) | Ce qui est remis, ce qui ne l’est pas, limites connues |
-| 6 | [06 — Contrôles qualité](./06-controles-qualite.md) | Objectif des tests en place, et revue de sécurité prévue |
+| 6 | [06 — Contrôles qualité](./06-controles-qualite.md) | Objectif des tests en place, et revues de sécurité menées |
+| 7 | [07 — Démarche et équipe](./07-demarche-et-equipe.md) | Démarche UX, choix techniques, qui a fait quoi, modules externes |
+
+## Par où commencer
+
+| Je suis… | Je lis |
+|----------|--------|
+| Évaluateur | 07 (démarche et équipe), puis 05 (rendu, liens, limites) |
+| DSI, je dois installer le site | 02, sections « Installer Docker sur un PC neuf » puis « Déployer en quatre étapes » |
+| Développeur front | 01, puis 02 « Modifier le front » et « Développer » |
+| Développeur back | 01, puis 02 « Accéder au back » |
+| Je reprends l’exploitation | 04 (mises à jour, sauvegardes, calendrier), puis 06 |
 
 Version Word de l’ensemble, pour les évaluateurs : [Lab-Horizon-dossier-de-passation.docx](./Lab-Horizon-dossier-de-passation.docx).
 

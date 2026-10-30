@@ -2,6 +2,13 @@
 
 Ce qui est remis avec le dépôt, ce qui ne l’est pas, et les limites à connaître avant de le présenter.
 
+## Liens
+
+| Lien | Adresse | À savoir |
+|------|---------|----------|
+| Démonstration en ligne (pour Breau) | https://lab-horizon.netlify.app | Version de démonstration du front, sur données fictives, déployée séparément de ce dépôt. L’espace chercheur se visite avec la connexion de démonstration. Le back et l’IA ne sont pas sur cette version |
+| Code source (GitHub) | https://github.com/Vigourouxleandredesign/Lab_horizon_501 | Dépôt public. Installation complète : [02 — Lancer et relancer](./02-lancer-et-relancer.md) |
+
 ## Remis
 
 | Élément | Où |
@@ -11,6 +18,7 @@ Ce qui est remis avec le dépôt, ce qui ne l’est pas, et les limites à conna
 | Catalogue de démo et compte chercheur | seeders Laravel, au premier `docker compose up` |
 | Documentation qui fait foi | `docs/passation/`, `docs/data-dictionary-v1.md`, `docs/ux/`, `docs/cahier_des_charges_v2.md`, `docs/api-contract-v1.md`, `docs/TESTING.md` |
 | Contrôle anti-régression et sécurité | Pipeline CI/CD : hooks Git (`lefthook.yml`), GitHub Actions (`.github/workflows/ci.yml`), `main` protégée. Objectif : [06 — Contrôles qualité](./06-controles-qualite.md) |
+| Démarche UX, choix techniques, équipe | [07 — Démarche et équipe](./07-demarche-et-equipe.md) |
 | Version Word du dossier | `docs/passation/Lab-Horizon-dossier-de-passation.docx` |
 
 Première lecture : [README de la passation](./README.md).

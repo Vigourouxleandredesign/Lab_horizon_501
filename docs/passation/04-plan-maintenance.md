@@ -28,6 +28,25 @@ Dependabot ouvre chaque lundi des pull requests vers `develop` (npm, Composer, a
 
 Si aucune version corrigée n’existe en amont, forcer la sous-dépendance corrigée (`overrides` dans `package.json`) et vérifier que le résultat ne change pas. Exemple déjà en place : `postcss-selector-parser` sous Tailwind 3 côté Blade, CSS produit identique à l’octet.
 
+## Calendrier des fins de support
+
+Une brique sans correctif de sécurité doit être remplacée avant sa date de fin. PHP et Laravel n’ont pas de version « longue durée » : une montée de version par an garde le projet maintenu. Dates relevées sur endoflife.date en octobre 2026.
+
+| Brique | Version | Fin du support de sécurité | Prochaine action |
+|--------|---------|----------------------------|------------------|
+| PHP (image du back, CI) | 8.4 | 31/12/2028 | Passer en 8.5 courant 2028 |
+| Laravel | 13 | 17/03/2028 | Laravel 14 courant 2027 |
+| PHPUnit | 12 (avec Laravel 13) | Suit la version de Laravel | Avec Laravel |
+| Node.js (build des images, `.nvmrc`) | 22 LTS | 30/04/2027 | Passer en 26 LTS (jusqu’au 30/04/2029) |
+| MySQL | 8.4 LTS | 30/04/2032 | Ne pas changer de version majeure sans sauvegarde et test de restauration |
+| Redis | 7.4 | 01/12/2029 | — |
+| nginx (image du front) | 1.30, branche stable | Remplacée chaque année par la stable suivante | Monter vers la stable suivante au printemps |
+| Alpine (base des images) | 3.24 | 01/06/2028 | Suit les images officielles |
+
+À vérifier au moins une fois par an sur https://endoflife.date. La CI signale déjà chaque nuit toute faille connue dans les dépendances et les images : une exécution nocturne rouge sans nouveau commit signifie qu’une faille a été publiée, pas que quelqu’un a cassé le projet.
+
+Les pull requests Dependabot arrivent chaque lundi sur `develop`. Ne jamais fusionner une version majeure de MySQL ou de PHP sans l’avoir testée sur une copie des données.
+
 ## Réglages GitHub à reproduire
 
 Une partie de la protection n’est pas dans le dépôt : ce sont des réglages du dépôt GitHub. Un fork, un transfert ou un nouveau dépôt ne les copie pas. Sans eux, la CI tourne mais ne bloque plus rien, et un secret peut être poussé.
