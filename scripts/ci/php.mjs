@@ -42,7 +42,7 @@ function exec(bin, binArgs) {
     return spawnSync(bin, binArgs, { cwd: backend, stdio: 'inherit', shell: isWin }).status ?? 1
   }
   if (!available('docker')) {
-    console.error('PHP introuvable et Docker indisponible : installez PHP 8.2+ ou lancez Docker Desktop.')
+    console.error('PHP introuvable et Docker indisponible : installez PHP 8.4 (ou 8.3+) ou lancez Docker Desktop.')
     return 1
   }
   const user = typeof process.getuid === 'function' ? ['--user', `${process.getuid()}:${process.getgid()}`] : []
