@@ -56,4 +56,6 @@ Ce n’est ni un exercice d’attaque, ni un test d’intrusion. C’est une rev
 
 Elle couvre notamment l’autorisation sur les données, l’authentification, les injections, les secrets, les dépendances, Docker, et les écarts de configuration. Le rapport classe chaque constat et dit quoi corriger avant d’ouvrir le service.
 
-La revue n’a pas été jouée sur ce dépôt. Le protocole l’interdit tant que le responsable n’a pas recopié, mot pour mot, la phrase de `templates/charte-engagement.md`, avec l’identifiant de charte et le hash complet du commit. La remise actuelle reste donc couverte par la pipeline CI/CD, pas par un verdict de sécurité.
+Deux revues ont été menées sur Lab Horizon avec la version 2.1 du protocole, avant la mise en production. Elles ont rendu deux verdicts **NO-GO**, chacun avec la liste des corrections à faire avant d’ouvrir le service. Ces corrections ont été réalisées, et les contrôles de la revue ont servi de base à la pipeline CI/CD, qui les rejoue à chaque modification. Les rapports ne sont volontairement pas versionnés : un document listant les failles des versions passées n’a pas sa place dans le dépôt.
+
+Limite : les contre-vérifications ont été faites avec le même outil que la revue. Une relecture par une personne distincte, puis une nouvelle revue sur la version finale, donneraient un avis plus fiable.

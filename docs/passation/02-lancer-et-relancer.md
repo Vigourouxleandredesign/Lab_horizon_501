@@ -11,6 +11,23 @@ Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que D
 
 Machine : 2 cœurs, 4 Go de RAM (environ 1,5 Go utilisés en pic), 10 Go de disque libre. Processeur Intel/AMD ou ARM 64 bits (Raspberry Pi 4/5 en OS 64 bits). Ports libres : 8080 et 8443, ou 80 et 443 sur un serveur.
 
+### Installer Docker sur un PC neuf
+
+**Windows 10 ou 11** (64 bits, 8 Go de RAM conseillés) :
+
+1. Activer la **virtualisation** dans le BIOS (Intel VT-x ou AMD-V). Sans elle, Docker Desktop ne démarre pas. Vérification : Gestionnaire des tâches → Performances → Processeur → « Virtualisation : Activé ».
+2. PowerShell **administrateur** : `wsl --install`, puis redémarrer le PC.
+3. Installer **Docker Desktop** (docker.com) et **Git for Windows** (git-scm.com).
+4. Lancer Docker Desktop et attendre « Engine running ».
+
+**Linux** (Debian, Ubuntu) :
+
+```bash
+curl -fsSL https://get.docker.com | sh       # script officiel : Docker Engine + plugin Compose
+sudo usermod -aG docker $USER                # utiliser docker sans sudo (se reconnecter ensuite)
+sudo apt install -y git
+```
+
 Vérifier la version de Compose avant de commencer :
 
 ```
@@ -125,6 +142,19 @@ Les conteneurs sont en `restart: unless-stopped` : ils repartent seuls si Docker
 | Linux | `sudo systemctl enable docker` |
 | Windows | Docker Desktop → Settings → General → « Start Docker Desktop when you sign in », et une session Windows ouverte automatiquement. Sans session ouverte, Docker Desktop ne démarre pas : le site reste arrêté après une mise à jour Windows. Pour un serveur, préférer Linux |
 
+### Éviter les coupures sur un serveur Windows
+
+Une mise à jour de WSL installée pendant que Docker tourne coupe le site : les conteneurs redémarrent, mais les ports ne répondent plus (erreur 502). Remède immédiat : `docker compose restart frontend`. Pour l’éviter :
+
+| Réglage | Où |
+|---------|-----|
+| Mises à jour automatiques des applications : **désactivées** (WSL se met à jour par le Store) | Microsoft Store → profil → Paramètres |
+| « Recevoir les mises à jour d’autres produits Microsoft » : **désactivé**, mises à jour **suspendues** | Windows Update → Options avancées |
+| Mises à jour automatiques de Docker Desktop : **désactivées** ; Resource Saver : **désactivé** | Docker Desktop → Settings |
+| Veille : jamais ; veille prolongée : `powercfg /h off` (PowerShell admin) | Paramètres → Alimentation |
+
+Faire les mises à jour à la main, à un moment choisi, puis relancer la stack (`docker compose up -d`) et vérifier le site.
+
 ## Mettre à jour après un git pull
 
 ```
@@ -171,6 +201,37 @@ powershell -ExecutionPolicy Bypass -File scripts\deploy\restore.ps1 backups\labh
 ```
 
 Remplacer `projetsae501` par le nom du dossier de l’ancien clone, en minuscules. `docker compose ls` liste les projets présents.
+
+## Accéder au back
+
+Le back n’est joignable que depuis la machine qui l’héberge, jamais depuis Internet.
+
+| Besoin | Comment |
+|--------|---------|
+| **Administration** (publications, import HAL, vulgarisation) | Navigateur sur la machine : `http://localhost:8081/login`, compte `test@labhorizon.nc` + `APP_BOOT_PASSWORD` du `.env`. Puis `http://localhost:8081/moncompte/recherches` |
+| **Base de données** | Client MySQL (DBeaver, HeidiSQL…) sur `localhost:3307`, utilisateur `DB_USERNAME` et mot de passe `DB_PASSWORD` du `.env`, base `DB_DATABASE` |
+| **Commandes Laravel** | `docker compose exec backend php artisan <commande>`, par exemple `migrate:status` ou `tinker` |
+| **Journaux** | `docker compose logs -f backend` (heures en UTC : Nouméa = UTC+11) |
+| **Code du back** | `backend/` : routes dans `backend/routes/api.php` (API du site) et `web.php` (administration), contrôleurs dans `backend/app/Http/Controllers/`. Après une modification : `docker compose up -d --build backend` |
+
+L’espace chercheur du site (`/compte`) passe, lui, par l’adresse publique du site, comme pour un visiteur.
+
+## Modifier le front
+
+| Je veux changer… | Fichier |
+|------------------|---------|
+| Un texte du site (français et anglais) | `frontend/src/i18n/` : un fichier par page (`home.ts`, `search.ts`…), une entrée `fr` et une entrée `en` |
+| Les couleurs de la charte | `frontend/src/style/global.css` : variables `--lh-…`. Ne pas écrire de couleur en dur dans une page : la CI le refuse |
+| Une page | `frontend/src/pages/` (espace chercheur : `pages/backoffice/`) |
+| Une adresse (URL) de page | `frontend/src/app/routes.tsx` |
+| Une image, un logo | `frontend/public/` |
+| Un domaine scientifique | Voir « Ajouter un domaine » dans [04 — Plan de maintenance](./04-plan-maintenance.md) |
+
+Pour voir le résultat :
+
+1. **Pendant le travail** : `npm run dev` dans `frontend/` (section « Développer » ci-dessous), rechargement immédiat sur http://localhost:5173.
+2. **Sur le serveur** : `docker compose up -d --build frontend`.
+3. **Pour l’équipe** : commit (les hooks vérifient), puis pull request vers `main` : la CI doit être verte pour fusionner.
 
 ## Sans le modèle d’IA
 
