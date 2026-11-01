@@ -33,6 +33,6 @@
     "secretlint": "13.0.7"
   },
   "engines": {
-    "node": ">=22"
+    "node": ">=26"
   }
 }
