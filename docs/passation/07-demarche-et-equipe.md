@@ -10,13 +10,14 @@ Le cahier des charges impose une interface bilingue (français, anglais) et vise
 
 ## Équipe
 
-| Membre (identifiant GitHub) | Rôle | Parties réalisées |
-|-----------------------------|------|-------------------|
-| Léandre Vigouroux (`Vigourouxleandredesign`, commits `leandre`) | Cadrage UX, front-end, CI/CD, documentation | Arborescence, wireframes, personas et parcours ; site React (public et espace `/compte`) ; dockerisation et monorepo ; pipeline CI/CD, HTTPS, scripts de déploiement et de sauvegarde ; revues de sécurité ; dossier de passation |
-| Lorenzo (`Lorenzo`) | Intégration du modèle IA de vulgarisation | Génération des vulgarisations (LM Studio, worker de file Redis), suivi de l’état de génération, tests du flux IA, configuration Docker du worker |
-| `greya734` | Back-end : API et base de données | API Laravel, routes, modèles et seeders, écrans d’administration Blade, passage à Laravel 13 |
+| Membre | Rôle | Parties réalisées |
+|--------|------|-------------------|
+| Léandre Vigouroux (`Vigourouxleandredesign`) | Front-end, UI/UX, parcours utilisateur, documentation, sécurité, pipeline CI/CD ; environnement Docker avec Joshua | Arborescence, wireframes, personas et parcours ; site React (public et espace `/compte`) ; HTTPS, scripts de déploiement et de sauvegarde ; revues de sécurité ; pipeline CI/CD ; dossier de passation |
+| Joshua (`greya734`) | Back-end ; environnement Docker avec Léandre | API Laravel, base de données, routes, modèles et seeders, écrans d’administration Blade, passage à Laravel 13 ; dockerisation et monorepo |
+| Lorenzo (`Lorenzo`) | Mise en place du LLM ; création du logo et de la DA avec Loann | Vulgarisation par IA (LM Studio, worker de file Redis, suivi de l’état de génération, tests du flux IA) ; logo et direction artistique |
+| Loann | Communication ; création de la DA avec Lorenzo | Ensemble de la communication du projet ; direction artistique |
 
-Répartition mesurée sur l’historique Git (commits hors fusions) : front et documentation majoritairement Léandre, back majoritairement Lorenzo et `greya734`.
+Loann n’apparaît pas dans l’historique Git : la communication et la direction artistique sont produites hors du code.
 
 ## Démarche UX
 
@@ -34,7 +35,7 @@ Le cadrage UX a précédé le code. Il a servi de référence commune à toute l
 
 Le client voulait voir l’application au plus tôt. Le front a donc été développé d’abord sur des données fictives, puis sur l’API publique HAL, puis branché sur l’API Laravel. Une version de démonstration du front a été mise en ligne sur Netlify dès juillet.
 
-La direction artistique reprend la charte Lab Horizon : bleu marine, beige et teal, police Baloo Chettan 2, et un hibou détective comme mascotte (page 404).
+La direction artistique, créée par Lorenzo et Loann, définit la charte Lab Horizon : logo, bleu marine, beige et teal, police Baloo Chettan 2, et un hibou détective comme mascotte (page 404).
 
 ## Choix techniques
 

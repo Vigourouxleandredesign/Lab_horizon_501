@@ -1,6 +1,6 @@
 # Lancer et relancer
 
-Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que Docker et Git. **Développer** demande en plus Node.js 22 : voir la dernière partie.
+Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que Docker et Git. **Développer** demande en plus Node.js 26 (LTS) : voir la dernière partie.
 
 ## Prérequis pour déployer
 
@@ -251,7 +251,7 @@ Puis dans `.env` : `LLM_ENABLED=true`. Le nom chargé doit être le même que `L
 
 ## Développer
 
-Prérequis en plus de Docker : Node.js 22. PHP et Composer ne sont pas obligatoires : les contrôles du back passent par un conteneur si PHP est absent.
+Prérequis en plus de Docker : Node.js 26 (LTS). PHP et Composer ne sont pas obligatoires : les contrôles du back passent par un conteneur si PHP est absent.
 
 ```
 npm install

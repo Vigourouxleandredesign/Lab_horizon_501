@@ -9,7 +9,7 @@ Site de valorisation de la recherche de l’UNC (IUT de Nouvelle-Calédonie) : c
 
 ## Démarrer
 
-Prérequis : Docker (Engine + Compose 2.24 ou plus sous Linux, Docker Desktop sous Windows) et Git. Node.js 22 seulement pour développer.
+Prérequis : Docker (Engine + Compose 2.24 ou plus sous Linux, Docker Desktop sous Windows) et Git. Node.js 26 (LTS) seulement pour développer.
 
 ```
 git clone https://github.com/Vigourouxleandredesign/Lab_horizon_501.git

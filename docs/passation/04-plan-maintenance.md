@@ -37,9 +37,10 @@ Une brique sans correctif de sécurité doit être remplacée avant sa date de f
 | PHP (image du back, CI) | 8.4 | 31/12/2028 | Passer en 8.5 courant 2028 |
 | Laravel | 13 | 17/03/2028 | Laravel 14 courant 2027 |
 | PHPUnit | 12 (avec Laravel 13) | Suit la version de Laravel | Avec Laravel |
-| Node.js (build des images, `.nvmrc`) | 22 LTS | 30/04/2027 | Passer en 26 LTS (jusqu’au 30/04/2029) |
+| Node.js (build des images, `.nvmrc`) | 26 LTS | 30/04/2029 | Passer à la LTS suivante (28) fin 2028 |
 | MySQL | 8.4 LTS | 30/04/2032 | Ne pas changer de version majeure sans sauvegarde et test de restauration |
 | Redis | 7.4 | 01/12/2029 | — |
+| Tailwind CSS (vues Blade d’administration) | 4 | Version courante | Suivre les versions mineures via Dependabot |
 | nginx (image du front) | 1.30, branche stable | Remplacée chaque année par la stable suivante | Monter vers la stable suivante au printemps |
 | Alpine (base des images) | 3.24 | 01/06/2028 | Suit les images officielles |
 
