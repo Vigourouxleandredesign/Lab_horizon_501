@@ -29,7 +29,7 @@ npm install          # root: installs lefthook + secretlint and the Git hooks ("
 npm ci --prefix frontend
 ```
 
-PHP is optional on the machine: backend checks use local PHP 8.2+ if present, otherwise a `composer:2.9` container (`scripts/ci/php.mjs`, Docker Desktop required).
+PHP is optional on the machine: backend checks use local PHP 8.3+ if present (CI and production image: PHP 8.4), otherwise a `composer:2.9` container (`scripts/ci/php.mjs`, Docker Desktop required).
 
 ---
 
@@ -95,6 +95,7 @@ Hooks and CI call **the same scripts**: green locally = green in CI.
 Documented exceptions (each one targeted, versioned, reviewed in PR):
 
 - `.gitleaks.toml` — `scripts/pdf-extract-test-data.json`, rule `generic-api-key` only: document slugs in a `key` field, not secrets.
+- `frontend/package.json` `overrides.minimatch: ^11.0.1` — GHSA-g3hv-75wg-m249 (11/2026): even the latest ESLint / typescript-eslint still depend on `minimatch` 10. Dev tooling only; checked that ESLint still lints and still reports a real error. Remove the override once ESLint ships `minimatch` ≥ 11.0.1.
 
 ---
 

@@ -5,7 +5,7 @@
 ##############################
 # 1) Assets Blade (Vite / Tailwind / Alpine) — pas le front React
 ##############################
-FROM node:22-alpine AS node-build
+FROM node:26-alpine AS node-build
 
 WORKDIR /app
 
@@ -13,9 +13,8 @@ COPY package.json package-lock.json ./
 RUN npm ci
 
 COPY resources ./resources
-COPY vite.config.* ./
-COPY tailwind.config.* ./
-COPY postcss.config.* ./
+# Tailwind 4 : configuration dans resources/css/app.css, plus de tailwind.config.js.
+COPY vite.config.* postcss.config.* ./
 
 RUN npm run build
 
@@ -43,7 +42,7 @@ RUN composer dump-autoload --optimize --no-dev --no-interaction
 ##############################
 # 3) Image finale PHP-FPM + Nginx
 ##############################
-FROM php:8.2-fpm-alpine AS final
+FROM php:8.4-fpm-alpine AS final
 
 # Patchs de sécurité OS publiés après la sortie de l'image de base (scan Trivy en CI).
 # Bibliothèques d'exécution seules dans l'image finale ; les en-têtes -dev ne servent qu'à
