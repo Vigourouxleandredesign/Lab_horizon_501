@@ -13,22 +13,22 @@
 
     {{-- Messages de statut --}}
     @if(session('status') === 'orcid-verified')
-        <div class="mt-3 p-3 bg-green-100 text-green-700 rounded">
+        <div class="mt-3 p-3 bg-green-100 text-green-700 rounded-sm">
             ✅ ORCID vérifié et lié avec succès.
         </div>
     @elseif(session('status') === 'orcid-saved')
-        <div class="mt-3 p-3 bg-yellow-100 text-yellow-700 rounded">
+        <div class="mt-3 p-3 bg-yellow-100 text-yellow-700 rounded-sm">
             ⚠️ ORCID enregistré mais non trouvé sur ORCID.org — vérifiez le format.
         </div>
     @elseif(session('status') === 'orcid-missing')
-        <div class="mt-3 p-3 bg-red-100 text-red-700 rounded">
+        <div class="mt-3 p-3 bg-red-100 text-red-700 rounded-sm">
             Veuillez d'abord renseigner votre ORCID ci-dessous.
         </div>
     @endif
 
     {{-- ORCID actuel --}}
     @if(auth()->user()->orcid)
-        <div class="mt-4 p-3 bg-gray-100 rounded flex items-center justify-between">
+        <div class="mt-4 p-3 bg-gray-100 rounded-sm flex items-center justify-between">
             <div>
                 <strong>ORCID actuel :</strong>
                 <a href="https://orcid.org/{{ auth()->user()->orcid }}" target="_blank"
