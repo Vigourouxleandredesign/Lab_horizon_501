@@ -109,6 +109,12 @@ Desktop.ini
 /lab_horizon_501.bundle
 /lab_horizon_501.txt
 
+# Rendu SAE (documents de groupe, copies de travail du dossier de passation), hors Git.
+# Le dossier de passation qui fait foi est docs/passation/Lab-Horizon-dossier-de-passation.docx.
+/Document*de*rendu*.docx
+/Documents de rendu*.zip
+/Lab-Horizon-dossier-de-passation.docx
+
 # Verrous Word
 ~$*
 

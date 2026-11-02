@@ -9,7 +9,7 @@ Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que D
 | Linux (recommandé pour un serveur) | Docker Engine 24 ou plus, avec le plugin Compose **2.24 ou plus** ; Git | Utilisateur dans le groupe `docker`, ou commandes précédées de `sudo` |
 | Windows 10 ou 11 | Docker Desktop (moteur WSL 2) ; Git for Windows | Redémarrage automatique : voir « Redémarrage de la machine » |
 
-Machine : 2 cœurs, 4 Go de RAM (environ 1,5 Go utilisés en pic), 10 Go de disque libre. Processeur Intel/AMD ou ARM 64 bits (Raspberry Pi 4/5 en OS 64 bits). Ports libres : 8080 et 8443, ou 80 et 443 sur un serveur.
+Machine : 2 cœurs, 4 Go de RAM (environ 1,5 Go utilisés en pic), 10 Go de disque libre. Processeur Intel/AMD ou ARM 64 bits (Raspberry Pi 4/5 en OS 64 bits). Ports libres : 8080 et 8443, ou 80 et 443 sur un serveur. Ces chiffres couvrent le site sans IA : pour le profil `llm`, voir « Avec LM Studio ».
 
 ### Installer Docker sur un PC neuf
 
@@ -33,6 +33,14 @@ Vérifier la version de Compose avant de commencer :
 ```
 docker compose version
 ```
+
+Docker doit être **démarré**, pas seulement installé : lancer Docker Desktop sous Windows et attendre « Engine running », ou `sudo systemctl start docker` sous Linux. Vérifier :
+
+```
+docker info
+```
+
+Une erreur de connexion (`failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine` sous Windows, `Cannot connect to the Docker daemon` sous Linux) signifie que Docker n’est pas démarré. Ce n’est ni un problème d’installation ni un problème de droits : relancer la même commande ne change rien tant que Docker ne tourne pas.
 
 ## Déployer en quatre étapes
 
@@ -239,7 +247,18 @@ C’est le mode par défaut (`LLM_ENABLED=false`). Le catalogue, la connexion et
 
 ## Avec LM Studio
 
-Image lourde (plusieurs Go), profil séparé :
+LM Studio tourne dans son propre conteneur (image `linuxserver/lm-studio`, plusieurs Go), lancé par le profil Compose `llm`. Rien à installer sur la machine hôte. Le site fonctionne sans lui (`LLM_ENABLED=false`).
+
+Modèle utilisé et testé : `mistral-7b-instruct-v0.3`, valeur par défaut de `LLM_MODEL`. Un autre modèle compatible avec l’API OpenAI fonctionne aussi.
+
+### Ressources nécessaires
+
+Le profil `llm` s’ajoute aux besoins du site (voir « Prérequis pour déployer »). Pour `mistral-7b-instruct-v0.3` :
+
+- **RAM** : le modèle demande environ 4,4 Go de RAM libre au moment du chargement. Prévoir 8 Go de RAM au minimum sur la machine, et vérifier juste avant `lms load` qu’environ 5 Go sont réellement libres (Gestionnaire des tâches sous Windows, `free -h` sous Linux). LM Studio refuse de charger le modèle si la RAM est occupée par d’autres logiciels, navigateurs ou conteneurs, même sur une machine qui en a davantage d’installée.
+- **Disque** : 4 à 8 Go de plus selon le modèle (`mistral-7b-instruct-v0.3` pèse 3,83 Go).
+
+### Installer LM Studio et charger le modèle
 
 ```
 docker compose --profile llm up -d lm-studio
@@ -247,7 +266,38 @@ docker compose exec lm-studio lms get mistral-7b-instruct-v0.3
 docker compose exec lm-studio lms load mistral-7b-instruct-v0.3
 ```
 
-Puis dans `.env` : `LLM_ENABLED=true`. Le nom chargé doit être le même que `LLM_MODEL`. L’UI noVNC est sur http://localhost:3001, joignable depuis la machine seulement : l’API et le bureau LM Studio n’ont pas d’authentification. Le volume `labhorizon_lmstudio-config` conserve le modèle après un `down` sans `-v`.
+`lms get` télécharge le modèle, `lms load` le charge en mémoire. Le téléchargement ne se fait qu’une fois par machine : le modèle reste dans le volume `labhorizon_lmstudio-config` tant que `docker compose down -v` n’est pas utilisé. Sur une machine qui n’a jamais lancé LM Studio, ce volume est vide : refaire ces trois commandes.
+
+Si `lms load` échoue avec « Model loading was stopped due to insufficient system resources » : libérer de la RAM (fermer des applications, arrêter d’autres conteneurs ou machines virtuelles), puis relancer seulement `lms load`, le téléchargement est déjà fait. Le healthcheck du conteneur retente le chargement toutes les 15 s, jusqu’à 20 fois : le laisser tourner sans libérer de RAM ne résout rien et ralentit la machine.
+
+### Régler le projet
+
+Dans le `.env` à la racine :
+
+| Variable | Rôle | Valeur par défaut |
+|----------|------|-------------------|
+| `LLM_ENABLED` | Active la vulgarisation par IA | `false` |
+| `LLM_MODEL` | Nom du modèle, identique à celui chargé dans LM Studio | `mistral-7b-instruct-v0.3` |
+| `LLM_URL` | Adresse de l’API LM Studio, par le nom du service Compose (jamais `localhost` entre conteneurs) | `http://lm-studio:1234/v1` |
+| `LLM_TIMEOUT` | Durée maximale d’une génération en secondes, à garder sous le délai du job (300 s) | `240` |
+
+Passer `LLM_ENABLED=true`, puis `docker compose up -d` pour que le back prenne la valeur.
+
+### Vérifier LM Studio
+
+Le healthcheck du conteneur démarre le serveur d’API (`lms server start --port 1234 --bind 0.0.0.0 --cors`) et charge le modèle `LLM_MODEL` : rien à régler à la main dans le cas courant. Vérifier :
+
+```
+curl http://localhost:1234/v1/models
+```
+
+La réponse doit citer le nom de `LLM_MODEL`. Sinon, ouvrir l’interface noVNC (http://localhost:3001) et vérifier que le serveur local est démarré, le bon modèle chargé et le CORS actif. L’interface et l’API ne sont joignables que depuis la machine : elles n’ont pas d’authentification.
+
+### Changer de modèle
+
+1. `docker compose exec lm-studio lms get <nom-du-modele>` pour télécharger le nouveau modèle.
+2. Modifier `LLM_MODEL` dans `.env`, et `LLM_TIMEOUT` si besoin.
+3. `docker compose --profile llm up -d` : le conteneur `lm-studio` redémarre et son healthcheck charge le nouveau modèle ; le back relit les variables.
 
 ## Développer
 
@@ -275,6 +325,7 @@ Tout vérifier d’un coup : `npm run gate` (sans Docker : types, lint, secrets,
 
 | Symptôme | Cause fréquente | Action |
 |----------|-----------------|--------|
+| `docker` échoue avec une erreur de connexion (`dockerDesktopLinuxEngine`, `Cannot connect to the Docker daemon`) | Docker est installé mais pas démarré | Lancer Docker Desktop (ou `sudo systemctl start docker`), attendre que `docker info` réponde, puis relancer la commande |
 | `required variable … is missing a value` au démarrage | `.env` absent ou incomplet | Lancer `init-env` (étape 2) |
 | Connexion refusée avec `password` | Le mot de passe du compte de démo est `APP_BOOT_PASSWORD` | Lire `APP_BOOT_PASSWORD` dans `.env` |
 | `container name … is already in use` | Ancienne installation encore présente | Section « Reprendre une installation antérieure » |
@@ -288,4 +339,5 @@ Tout vérifier d’un coup : `npm run gate` (sans Docker : types, lint, secrets,
 | `backend` redémarre en boucle après avoir vidé le catalogue | Le seed se relance sur une base sans publication et échoue sur le compte existant (limite connue, côté back) | Restaurer la dernière sauvegarde |
 | MySQL « port already allocated » | Un MySQL Windows tient le 3306 | Le compose publie déjà **3307** |
 | Vulgarisation en erreur | `LLM_ENABLED=true` sans modèle chargé | Charger le modèle, ou repasser `LLM_ENABLED=false` |
+| `lms load` : « Model loading was stopped due to insufficient system resources » | Pas assez de RAM libre au moment du chargement, même si la machine en a plus d’installée | Libérer de la RAM, puis relancer `docker compose exec lm-studio lms load <modèle>` (section « Avec LM Studio ») |
 | Domaine Physique vide | Le front l’affiche, le seeder ne l’insère pas | Attendu tant que `0.phys` n’est pas ajouté côté back |
