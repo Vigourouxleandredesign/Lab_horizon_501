@@ -24,9 +24,19 @@ Un contrôle rouge se corrige dans le code. Modifier un test, une règle ESLint,
 
 ## Mettre à jour une dépendance
 
-Dependabot ouvre chaque lundi des pull requests vers `develop` (npm, Composer, actions GitHub, images Docker). Les relire et les merger si la CI est verte. Une faille publiée sur une dépendance déjà installée fait passer la CI au rouge, même sans nouveau commit : la CI tourne aussi chaque nuit.
+Dependabot ouvre chaque lundi des pull requests vers `develop` (npm, Composer, actions GitHub, images Docker). Une faille publiée sur une dépendance déjà installée fait passer la CI au rouge, même sans nouveau commit : la CI tourne aussi chaque nuit.
 
-Si aucune version corrigée n’existe en amont, forcer la sous-dépendance corrigée (`overrides` dans `package.json`) et vérifier que le résultat ne change pas. Exemple déjà en place : `postcss-selector-parser` sous Tailwind 3 côté Blade, CSS produit identique à l’octet.
+Règle : on ne monte de version que vers une version LTS ou pour corriger une faille de sécurité. Une pull request Dependabot qui ne fait ni l’un ni l’autre est fermée avec un commentaire qui explique pourquoi. Une version corrigée se merge si la CI est verte.
+
+Si aucune version corrigée n’existe en amont, forcer la sous-dépendance corrigée (`overrides` dans `package.json`) et vérifier que le résultat ne change pas. Exemple déjà en place : `minimatch` sous ESLint côté front, exception documentée dans `docs/TESTING.md`.
+
+Montées de version proposées par Dependabot et mises de côté en novembre 2026, à préparer plus tard :
+
+| Pull request | Montée | Pourquoi elle attend |
+|--------------|--------|----------------------|
+| #40 | PHP 8.4 → 8.5 | Le build de l’image du back échoue ; à préparer avec le dev back, courant 2028 (calendrier ci-dessous) |
+| #39 | Redis 7 → 8 | Version majeure, licence modifiée (AGPL) ; Redis 7.4 reste maintenu jusqu’en 2029 |
+| #41 | nginx 1.30 → 1.31 | 1.31 est la branche de développement (mainline) ; attendre la prochaine branche stable (1.32) |
 
 ## Calendrier des fins de support
 
@@ -40,13 +50,13 @@ Une brique sans correctif de sécurité doit être remplacée avant sa date de f
 | Node.js (build des images, `.nvmrc`) | 26 LTS | 30/04/2029 | Passer à la LTS suivante (28) fin 2028 |
 | MySQL | 8.4 LTS | 30/04/2032 | Ne pas changer de version majeure sans sauvegarde et test de restauration |
 | Redis | 7.4 | 01/12/2029 | — |
-| Tailwind CSS (vues Blade d’administration) | 4 | Version courante | Suivre les versions mineures via Dependabot |
+| Tailwind CSS (vues Blade d’administration) | 4 | Version courante | Correctifs de sécurité uniquement |
 | nginx (image du front) | 1.30, branche stable | Remplacée chaque année par la stable suivante | Monter vers la stable suivante au printemps |
 | Alpine (base des images) | 3.24 | 01/06/2028 | Suit les images officielles |
 
 À vérifier au moins une fois par an sur https://endoflife.date. La CI signale déjà chaque nuit toute faille connue dans les dépendances et les images : une exécution nocturne rouge sans nouveau commit signifie qu’une faille a été publiée, pas que quelqu’un a cassé le projet.
 
-Les pull requests Dependabot arrivent chaque lundi sur `develop`. Ne jamais fusionner une version majeure de MySQL ou de PHP sans l’avoir testée sur une copie des données.
+Ne jamais fusionner une version majeure de MySQL ou de PHP sans l’avoir testée sur une copie des données. MySQL reste sur la branche LTS : les versions « Innovation » (comme 26.10) sont refusées.
 
 ## Réglages GitHub à reproduire
 
