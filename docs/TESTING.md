@@ -85,7 +85,7 @@ Hooks and CI call **the same scripts**: green locally = green in CI.
 | Rule | How it is enforced |
 |------|--------------------|
 | No secret reaches GitHub | pre-commit secretlint + forbidden filenames, CI gitleaks on the whole history, GitHub **push protection** server side (works even with `--no-verify`) |
-| No known vulnerable dependency in production | A5 blocks at **any** severity. No upstream fix → `overrides` / targeted update (example: `postcss-selector-parser` forced to 7.1.x under Tailwind 3, CSS output checked byte-identical) |
+| No known vulnerable dependency in production | A5 blocks at **any** severity. No upstream fix → `overrides` / targeted update (example: `minimatch` forced to `^11.0.1` under ESLint, lint verified to still detect errors — see exceptions below) |
 | No vulnerable OS package in the images | `apk upgrade` at build + A8 blocks every CVE that has a fix. CVEs without any upstream fix are listed in the CI log (non-blocking: no remediation exists) |
 | No root container, no missing healthcheck | A7 + D-docker (`id -u` ≠ 0) |
 | HTTPS only, no cleartext session cookie | Front Nginx terminates TLS (self-signed if no cert is mounted), HTTP only redirects, `SESSION_SECURE_COOKIE=true` by default; checked by D-docker |
