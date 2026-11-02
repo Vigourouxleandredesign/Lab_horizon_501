@@ -1,6 +1,6 @@
 # Lancer et relancer
 
-Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que Docker et Git. **Développer** demande en plus Node.js 22 : voir la dernière partie.
+Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que Docker et Git. **Développer** demande en plus Node.js 26 (LTS) : voir la dernière partie.
 
 ## Prérequis pour déployer
 
@@ -9,13 +9,38 @@ Deux usages. **Déployer** le site (DSI, serveur ou PC de test) ne demande que D
 | Linux (recommandé pour un serveur) | Docker Engine 24 ou plus, avec le plugin Compose **2.24 ou plus** ; Git | Utilisateur dans le groupe `docker`, ou commandes précédées de `sudo` |
 | Windows 10 ou 11 | Docker Desktop (moteur WSL 2) ; Git for Windows | Redémarrage automatique : voir « Redémarrage de la machine » |
 
-Machine : 2 cœurs, 4 Go de RAM (environ 1,5 Go utilisés en pic), 10 Go de disque libre. Processeur Intel/AMD ou ARM 64 bits (Raspberry Pi 4/5 en OS 64 bits). Ports libres : 8080 et 8443, ou 80 et 443 sur un serveur.
+Machine : 2 cœurs, 4 Go de RAM (environ 1,5 Go utilisés en pic), 10 Go de disque libre. Processeur Intel/AMD ou ARM 64 bits (Raspberry Pi 4/5 en OS 64 bits). Ports libres : 8080 et 8443, ou 80 et 443 sur un serveur. Ces chiffres couvrent le site sans IA : pour le profil `llm`, voir « Avec LM Studio ».
+
+### Installer Docker sur un PC neuf
+
+**Windows 10 ou 11** (64 bits, 8 Go de RAM conseillés) :
+
+1. Activer la **virtualisation** dans le BIOS (Intel VT-x ou AMD-V). Sans elle, Docker Desktop ne démarre pas. Vérification : Gestionnaire des tâches → Performances → Processeur → « Virtualisation : Activé ».
+2. PowerShell **administrateur** : `wsl --install`, puis redémarrer le PC.
+3. Installer **Docker Desktop** (docker.com) et **Git for Windows** (git-scm.com).
+4. Lancer Docker Desktop et attendre « Engine running ».
+
+**Linux** (Debian, Ubuntu) :
+
+```bash
+curl -fsSL https://get.docker.com | sh       # script officiel : Docker Engine + plugin Compose
+sudo usermod -aG docker $USER                # utiliser docker sans sudo (se reconnecter ensuite)
+sudo apt install -y git
+```
 
 Vérifier la version de Compose avant de commencer :
 
 ```
 docker compose version
 ```
+
+Docker doit être **démarré**, pas seulement installé : lancer Docker Desktop sous Windows et attendre « Engine running », ou `sudo systemctl start docker` sous Linux. Vérifier :
+
+```
+docker info
+```
+
+Une erreur de connexion (`failed to connect to the docker API at npipe:////./pipe/dockerDesktopLinuxEngine` sous Windows, `Cannot connect to the Docker daemon` sous Linux) signifie que Docker n’est pas démarré. Ce n’est ni un problème d’installation ni un problème de droits : relancer la même commande ne change rien tant que Docker ne tourne pas.
 
 ## Déployer en quatre étapes
 
@@ -125,6 +150,19 @@ Les conteneurs sont en `restart: unless-stopped` : ils repartent seuls si Docker
 | Linux | `sudo systemctl enable docker` |
 | Windows | Docker Desktop → Settings → General → « Start Docker Desktop when you sign in », et une session Windows ouverte automatiquement. Sans session ouverte, Docker Desktop ne démarre pas : le site reste arrêté après une mise à jour Windows. Pour un serveur, préférer Linux |
 
+### Éviter les coupures sur un serveur Windows
+
+Une mise à jour de WSL installée pendant que Docker tourne coupe le site : les conteneurs redémarrent, mais les ports ne répondent plus (erreur 502). Remède immédiat : `docker compose restart frontend`. Pour l’éviter :
+
+| Réglage | Où |
+|---------|-----|
+| Mises à jour automatiques des applications : **désactivées** (WSL se met à jour par le Store) | Microsoft Store → profil → Paramètres |
+| « Recevoir les mises à jour d’autres produits Microsoft » : **désactivé**, mises à jour **suspendues** | Windows Update → Options avancées |
+| Mises à jour automatiques de Docker Desktop : **désactivées** ; Resource Saver : **désactivé** | Docker Desktop → Settings |
+| Veille : jamais ; veille prolongée : `powercfg /h off` (PowerShell admin) | Paramètres → Alimentation |
+
+Faire les mises à jour à la main, à un moment choisi, puis relancer la stack (`docker compose up -d`) et vérifier le site.
+
 ## Mettre à jour après un git pull
 
 ```
@@ -172,13 +210,55 @@ powershell -ExecutionPolicy Bypass -File scripts\deploy\restore.ps1 backups\labh
 
 Remplacer `projetsae501` par le nom du dossier de l’ancien clone, en minuscules. `docker compose ls` liste les projets présents.
 
+## Accéder au back
+
+Le back n’est joignable que depuis la machine qui l’héberge, jamais depuis Internet.
+
+| Besoin | Comment |
+|--------|---------|
+| **Administration** (publications, import HAL, vulgarisation) | Navigateur sur la machine : `http://localhost:8081/login`, compte `test@labhorizon.nc` + `APP_BOOT_PASSWORD` du `.env`. Puis `http://localhost:8081/moncompte/recherches` |
+| **Base de données** | Client MySQL (DBeaver, HeidiSQL…) sur `localhost:3307`, utilisateur `DB_USERNAME` et mot de passe `DB_PASSWORD` du `.env`, base `DB_DATABASE` |
+| **Commandes Laravel** | `docker compose exec backend php artisan <commande>`, par exemple `migrate:status` ou `tinker` |
+| **Journaux** | `docker compose logs -f backend` (heures en UTC : Nouméa = UTC+11) |
+| **Code du back** | `backend/` : routes dans `backend/routes/api.php` (API du site) et `web.php` (administration), contrôleurs dans `backend/app/Http/Controllers/`. Après une modification : `docker compose up -d --build backend` |
+
+L’espace chercheur du site (`/compte`) passe, lui, par l’adresse publique du site, comme pour un visiteur.
+
+## Modifier le front
+
+| Je veux changer… | Fichier |
+|------------------|---------|
+| Un texte du site (français et anglais) | `frontend/src/i18n/` : un fichier par page (`home.ts`, `search.ts`…), une entrée `fr` et une entrée `en` |
+| Les couleurs de la charte | `frontend/src/style/global.css` : variables `--lh-…`. Ne pas écrire de couleur en dur dans une page : la CI le refuse |
+| Une page | `frontend/src/pages/` (espace chercheur : `pages/backoffice/`) |
+| Une adresse (URL) de page | `frontend/src/app/routes.tsx` |
+| Une image, un logo | `frontend/public/` |
+| Un domaine scientifique | Voir « Ajouter un domaine » dans [04 — Plan de maintenance](./04-plan-maintenance.md) |
+
+Pour voir le résultat :
+
+1. **Pendant le travail** : `npm run dev` dans `frontend/` (section « Développer » ci-dessous), rechargement immédiat sur http://localhost:5173.
+2. **Sur le serveur** : `docker compose up -d --build frontend`.
+3. **Pour l’équipe** : commit (les hooks vérifient), puis pull request vers `main` : la CI doit être verte pour fusionner.
+
 ## Sans le modèle d’IA
 
 C’est le mode par défaut (`LLM_ENABLED=false`). Le catalogue, la connexion et l’espace chercheur fonctionnent. La génération de vulgarisation répond qu’elle n’est pas disponible.
 
 ## Avec LM Studio
 
-Image lourde (plusieurs Go), profil séparé :
+LM Studio tourne dans son propre conteneur (image `linuxserver/lm-studio`, plusieurs Go), lancé par le profil Compose `llm`. Rien à installer sur la machine hôte. Le site fonctionne sans lui (`LLM_ENABLED=false`).
+
+Modèle utilisé et testé : `mistral-7b-instruct-v0.3`, valeur par défaut de `LLM_MODEL`. Un autre modèle compatible avec l’API OpenAI fonctionne aussi.
+
+### Ressources nécessaires
+
+Le profil `llm` s’ajoute aux besoins du site (voir « Prérequis pour déployer »). Pour `mistral-7b-instruct-v0.3` :
+
+- **RAM** : le modèle demande environ 4,4 Go de RAM libre au moment du chargement. Prévoir 8 Go de RAM au minimum sur la machine, et vérifier juste avant `lms load` qu’environ 5 Go sont réellement libres (Gestionnaire des tâches sous Windows, `free -h` sous Linux). LM Studio refuse de charger le modèle si la RAM est occupée par d’autres logiciels, navigateurs ou conteneurs, même sur une machine qui en a davantage d’installée.
+- **Disque** : 4 à 8 Go de plus selon le modèle (`mistral-7b-instruct-v0.3` pèse 3,83 Go).
+
+### Installer LM Studio et charger le modèle
 
 ```
 docker compose --profile llm up -d lm-studio
@@ -186,11 +266,42 @@ docker compose exec lm-studio lms get mistral-7b-instruct-v0.3
 docker compose exec lm-studio lms load mistral-7b-instruct-v0.3
 ```
 
-Puis dans `.env` : `LLM_ENABLED=true`. Le nom chargé doit être le même que `LLM_MODEL`. L’UI noVNC est sur http://localhost:3001, joignable depuis la machine seulement : l’API et le bureau LM Studio n’ont pas d’authentification. Le volume `labhorizon_lmstudio-config` conserve le modèle après un `down` sans `-v`.
+`lms get` télécharge le modèle, `lms load` le charge en mémoire. Le téléchargement ne se fait qu’une fois par machine : le modèle reste dans le volume `labhorizon_lmstudio-config` tant que `docker compose down -v` n’est pas utilisé. Sur une machine qui n’a jamais lancé LM Studio, ce volume est vide : refaire ces trois commandes.
+
+Si `lms load` échoue avec « Model loading was stopped due to insufficient system resources » : libérer de la RAM (fermer des applications, arrêter d’autres conteneurs ou machines virtuelles), puis relancer seulement `lms load`, le téléchargement est déjà fait. Le healthcheck du conteneur retente le chargement toutes les 15 s, jusqu’à 20 fois : le laisser tourner sans libérer de RAM ne résout rien et ralentit la machine.
+
+### Régler le projet
+
+Dans le `.env` à la racine :
+
+| Variable | Rôle | Valeur par défaut |
+|----------|------|-------------------|
+| `LLM_ENABLED` | Active la vulgarisation par IA | `false` |
+| `LLM_MODEL` | Nom du modèle, identique à celui chargé dans LM Studio | `mistral-7b-instruct-v0.3` |
+| `LLM_URL` | Adresse de l’API LM Studio, par le nom du service Compose (jamais `localhost` entre conteneurs) | `http://lm-studio:1234/v1` |
+| `LLM_TIMEOUT` | Durée maximale d’une génération en secondes, à garder sous le délai du job (300 s) | `240` |
+
+Passer `LLM_ENABLED=true`, puis `docker compose up -d` pour que le back prenne la valeur.
+
+### Vérifier LM Studio
+
+Le healthcheck du conteneur démarre le serveur d’API (`lms server start --port 1234 --bind 0.0.0.0 --cors`) et charge le modèle `LLM_MODEL` : rien à régler à la main dans le cas courant. Vérifier :
+
+```
+curl http://localhost:1234/v1/models
+```
+
+La réponse doit citer le nom de `LLM_MODEL`. Sinon, ouvrir l’interface noVNC (http://localhost:3001) et vérifier que le serveur local est démarré, le bon modèle chargé et le CORS actif. L’interface et l’API ne sont joignables que depuis la machine : elles n’ont pas d’authentification.
+
+### Changer de modèle
+
+1. `docker compose exec lm-studio lms get <nom-du-modele>` pour télécharger le nouveau modèle.
+2. Modifier `LLM_MODEL` dans `.env`, et `LLM_TIMEOUT` si besoin.
+3. `docker compose --profile llm up -d` : le conteneur `lm-studio` redémarre et son healthcheck charge le nouveau modèle ; le back relit les variables.
 
 ## Développer
 
-Prérequis en plus de Docker : Node.js 22. PHP et Composer ne sont pas obligatoires : les contrôles du back passent par un conteneur si PHP est absent.
+Prérequis en plus de Docker : Node.js 26 (LTS). PHP et Composer ne sont pas obligatoires : les contrôles du back passent par un conteneur si PHP est absent.
 
 ```
 npm install
@@ -214,6 +325,7 @@ Tout vérifier d’un coup : `npm run gate` (sans Docker : types, lint, secrets,
 
 | Symptôme | Cause fréquente | Action |
 |----------|-----------------|--------|
+| `docker` échoue avec une erreur de connexion (`dockerDesktopLinuxEngine`, `Cannot connect to the Docker daemon`) | Docker est installé mais pas démarré | Lancer Docker Desktop (ou `sudo systemctl start docker`), attendre que `docker info` réponde, puis relancer la commande |
 | `required variable … is missing a value` au démarrage | `.env` absent ou incomplet | Lancer `init-env` (étape 2) |
 | Connexion refusée avec `password` | Le mot de passe du compte de démo est `APP_BOOT_PASSWORD` | Lire `APP_BOOT_PASSWORD` dans `.env` |
 | `container name … is already in use` | Ancienne installation encore présente | Section « Reprendre une installation antérieure » |
@@ -227,4 +339,5 @@ Tout vérifier d’un coup : `npm run gate` (sans Docker : types, lint, secrets,
 | `backend` redémarre en boucle après avoir vidé le catalogue | Le seed se relance sur une base sans publication et échoue sur le compte existant (limite connue, côté back) | Restaurer la dernière sauvegarde |
 | MySQL « port already allocated » | Un MySQL Windows tient le 3306 | Le compose publie déjà **3307** |
 | Vulgarisation en erreur | `LLM_ENABLED=true` sans modèle chargé | Charger le modèle, ou repasser `LLM_ENABLED=false` |
+| `lms load` : « Model loading was stopped due to insufficient system resources » | Pas assez de RAM libre au moment du chargement, même si la machine en a plus d’installée | Libérer de la RAM, puis relancer `docker compose exec lm-studio lms load <modèle>` (section « Avec LM Studio ») |
 | Domaine Physique vide | Le front l’affiche, le seeder ne l’insère pas | Attendu tant que `0.phys` n’est pas ajouté côté back |

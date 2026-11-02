@@ -4,9 +4,12 @@ Site de valorisation de la recherche de l’UNC (IUT de Nouvelle-Calédonie) : c
 
 **Première lecture pour une équipe nouvelle :** [docs/passation/](docs/passation/README.md).
 
+- Démonstration en ligne du front, sur données fictives : https://lab-horizon.netlify.app
+- Démarche UX, choix techniques et équipe : [docs/passation/07-demarche-et-equipe.md](docs/passation/07-demarche-et-equipe.md)
+
 ## Démarrer
 
-Prérequis : Docker (Engine + Compose 2.24 ou plus sous Linux, Docker Desktop sous Windows) et Git. Node.js 22 seulement pour développer.
+Prérequis : Docker (Engine + Compose 2.24 ou plus sous Linux, Docker Desktop sous Windows) et Git. Node.js 26 (LTS) seulement pour développer.
 
 ```
 git clone https://github.com/Vigourouxleandredesign/Lab_horizon_501.git
