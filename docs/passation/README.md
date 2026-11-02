@@ -4,7 +4,7 @@ Point d’entrée pour une équipe qui n’a jamais ouvert ce dépôt. Lire les 
 
 | Ordre | Document | Question à laquelle il répond |
 |-------|----------|-------------------------------|
-| 1 | [01 — À quoi sert chaque élément](./01-a-quoi-sert-chaque-element.md) | Où est le code, pourquoi ce dossier existe, quels fichiers ignorer |
+| 1 | [01 — À quoi sert chaque élément](./01-a-quoi-sert-chaque-element.md) | Où est le code, pourquoi ce dossier existe |
 | 2 | [02 — Lancer et relancer](./02-lancer-et-relancer.md) | Démarrer, arrêter, reconstruire après un `git pull` |
 | 3 | [03 — Plan d’évolution](./03-plan-evolution.md) | Ce qui est livré, ce qui est V2, ce qui est V3 |
 | 4 | [04 — Plan de maintenance](./04-plan-maintenance.md) | Comment ne pas casser le projet au quotidien |
