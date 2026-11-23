@@ -19,7 +19,7 @@ ENV VITE_API_BASE_URL=$VITE_API_BASE_URL
 RUN npm run build
 
 # Variante officielle sans root (utilisateur nginx, uid 101) : ports 8080 (HTTP → HTTPS) et 8443.
-FROM nginxinc/nginx-unprivileged:1.30-alpine
+FROM nginxinc/nginx-unprivileged:1.31-alpine
 
 # Patchs de sécurité OS publiés après la sortie de l'image de base (scan Trivy en CI).
 # openssl : génération du certificat auto-signé quand le serveur n'en fournit pas.
